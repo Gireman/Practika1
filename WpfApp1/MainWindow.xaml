@@ -22,7 +22,10 @@
                 <Rectangle HorizontalAlignment="Left" Height="4" Margin="513,89,0,0" VerticalAlignment="Top" Width="135" Fill="#100100" RadiusX="2" RadiusY="15"/>
             </Grid>
             <Grid Name="Catalog">
-                <Button Content="" HorizontalAlignment="Left" Margin="123,39,0,0" VerticalAlignment="Top" Width="50" Height="50" Style="{StaticResource MenuButtonStyle}"/>
+                <Button Content="" HorizontalAlignment="Left" Margin="653,41,0,0" VerticalAlignment="Top" Width="122" Height="52" Style="{StaticResource MenuButtonStyle}"/>
+            </Grid>
+            <Grid Name="Korzina">
+                <Button Content="" HorizontalAlignment="Left" Margin="808,41,0,0" VerticalAlignment="Top" Width="122" Height="52" Style="{StaticResource MenuButtonStyle}"/>
             </Grid>
         </Grid>
 
