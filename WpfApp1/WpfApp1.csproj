@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Account Male.png" />
+    <None Remove="Plus Math.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Account Male.png" />
+    <Resource Include="Plus Math.png" />
+  </ItemGroup>
+
+</Project>
