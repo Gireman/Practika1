@@ -1,0 +1,40 @@
+﻿<Window x:Class="WpfApp1.Basket"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="Catalog" Height="1024" Width="1440">
+    <Grid>
+        <!--Аккаунт и регистрация-->
+        <Button x:Name="Acc" Content="" HorizontalAlignment="Left" 
+ Margin="54,39,0,0" VerticalAlignment="Top" Style="{StaticResource AccountButtonStyle}"/>
+        <Image HorizontalAlignment="Left" Height="44" 
+Margin="57,41,0,0" VerticalAlignment="Top" Width="46" Source="/AccountMale.png" IsHitTestVisible="False"/>
+
+        <Button Content="" HorizontalAlignment="Left" 
+ Margin="123,39,0,0" VerticalAlignment="Top" Style="{StaticResource RegistrationButtonStyle}"/>
+        <Image HorizontalAlignment="Left" Height="31.44" 
+Margin="132.13,48.13,0,0" VerticalAlignment="Top" Width="31.44" Source="/PlusMath.png" IsHitTestVisible="False"/>
+
+        <!--Меню-->
+        <Button Content="" HorizontalAlignment="Left" x:Name="MainButton"
+        Margin="505,41,0,0" VerticalAlignment="Top" Style="{StaticResource MenuButtonStyle}" Click="Button_ClickMain"
+        MouseEnter="MainButton_MouseEnter" MouseLeave="MainButton_MouseLeave"/>
+        <TextBlock Margin="513,50,0,0" x:Name="MainTextBlock"
+        Text="Главная" FontSize="28" IsHitTestVisible="False"/>
+
+        <Button Content="" HorizontalAlignment="Left" x:Name="CatalogButton"
+        Margin="653,41,0,0" VerticalAlignment="Top" Style="{StaticResource MenuButtonStyle}" Click="Button_ClickCatalog" 
+        MouseEnter="CatalogButton_MouseEnter" MouseLeave="CatalogButton_MouseLeave"/>
+        <TextBlock Margin="661,50,0,0" x:Name="CatalogTextBlock"
+           Text="Каталог" IsHitTestVisible="False" FontSize="28"/>
+
+        <TextBlock Margin="813,50,0,0" x:Name="BasketTextBlock"
+        Text="Корзина" IsHitTestVisible="False" FontSize="28"/>
+        <Rectangle HorizontalAlignment="Left" Height="4" 
+        Margin="813,89,0,0" VerticalAlignment="Top" Width="111" Fill="#100100" RadiusX="2" RadiusY="15"/>
+
+    </Grid>
+</Window>

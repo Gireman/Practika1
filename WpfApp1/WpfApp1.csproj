@@ -10,12 +10,70 @@
 
   <ItemGroup>
     <None Remove="Account Male.png" />
+    <None Remove="AccountMale.png" />
+    <None Remove="assets\fonts\Roboto-Bold.ttf" />
+    <None Remove="Group1.png" />
+    <None Remove="Group6.png" />
+    <None Remove="image2.png" />
+    <None Remove="img\AccountMale.png" />
+    <None Remove="img\Group1.png" />
+    <None Remove="img\Group6.png" />
+    <None Remove="img\image2.png" />
+    <None Remove="img\PlusMath.png" />
+    <None Remove="img\Rectangle17.png" />
+    <None Remove="img\Rectangle29.png" />
     <None Remove="Plus Math.png" />
+    <None Remove="PlusMath.png" />
+    <None Remove="Rectangle17.png" />
+    <None Remove="Rectangle29.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Account Male.png" />
-    <Resource Include="Plus Math.png" />
+    <Resource Include="AccountMale.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="assets\fonts\Roboto-Bold.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Group1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Group6.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="image2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\AccountMale.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\Group1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\Group6.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\image2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\PlusMath.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\Rectangle17.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\Rectangle29.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="PlusMath.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Rectangle17.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Rectangle29.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

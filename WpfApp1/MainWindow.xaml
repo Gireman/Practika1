@@ -7,28 +7,49 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="1024" Width="1440">
     <Grid>
-        <Grid Name="Account">
-            <Button x:Name="Acc" Content="" HorizontalAlignment="Left" Margin="54,39,0,0" VerticalAlignment="Top" Width="50" Height="50" Style="{StaticResource AccountButtonStyle}"/>
-            <Image HorizontalAlignment="Left" Height="44" Margin="57,41,0,0" VerticalAlignment="Top" Width="46" Source="/Account Male.png" IsHitTestVisible="False"/>
-            
-        </Grid>
-        <Grid Name="Registration">
-            <Button Content="" HorizontalAlignment="Left" Margin="123,39,0,0" VerticalAlignment="Top" Width="50" Height="50" Style="{StaticResource RegistrationButtonStyle}"/>
-            <Image HorizontalAlignment="Left" Height="31.44" Margin="132.13,48.13,0,0" VerticalAlignment="Top" Width="31.44" Source="/Plus Math.png" IsHitTestVisible="False"/>
-        </Grid>
-        <Grid Name="Menu">
-            <Grid Name="Main">
-                <TextBlock HorizontalAlignment="Left" Margin="513,50,0,0" TextWrapping="Wrap" Text="Главная" VerticalAlignment="Top" FontFamily="Verdana" FontWeight="Bold" FontSize="28" Foreground="#100100"/>
-                <Rectangle HorizontalAlignment="Left" Height="4" Margin="513,89,0,0" VerticalAlignment="Top" Width="135" Fill="#100100" RadiusX="2" RadiusY="15"/>
-            </Grid>
-            <Grid Name="Catalog">
-                <Button Content="" HorizontalAlignment="Left" Margin="653,41,0,0" VerticalAlignment="Top" Width="122" Height="52" Style="{StaticResource MenuButtonStyle}"/>
-            </Grid>
-            <Grid Name="Korzina">
-                <Button Content="" HorizontalAlignment="Left" Margin="808,41,0,0" VerticalAlignment="Top" Width="122" Height="52" Style="{StaticResource MenuButtonStyle}"/>
-            </Grid>
-        </Grid>
+        <!--Аккаунт и регистрация-->
+        <Button x:Name="Acc" Content="" HorizontalAlignment="Left" 
+                Margin="54,39,0,0" VerticalAlignment="Top" Style="{StaticResource AccountButtonStyle}"/>
+        <Image HorizontalAlignment="Left" Height="44" 
+               Margin="57,41,0,0" VerticalAlignment="Top" Width="46" Source="/AccountMale.png" IsHitTestVisible="False"/>
 
+        <Button Content="" HorizontalAlignment="Left" 
+                Margin="123,39,0,0" VerticalAlignment="Top" Style="{StaticResource RegistrationButtonStyle}"/>
+        <Image HorizontalAlignment="Left" Height="31.44" 
+               Margin="132.13,48.13,0,0" VerticalAlignment="Top" Width="31.44" Source="/PlusMath.png" IsHitTestVisible="False"/>
 
+        <!--Меню-->
+        <TextBlock Margin="513,50,0,0" Text="Главная" FontSize="28" IsHitTestVisible="False"/>
+        <Rectangle HorizontalAlignment="Left" Height="4" 
+                   Margin="513,89,0,0" VerticalAlignment="Top" Width="106" Fill="#100100" RadiusX="2" RadiusY="15"/>
+
+        <Button Content="" HorizontalAlignment="Left" x:Name="CatalogButton"
+                Margin="653,41,0,0" VerticalAlignment="Top" Style="{StaticResource MenuButtonStyle}" Click="Button_Click" 
+                MouseEnter="CatalogButton_MouseEnter" MouseLeave="CatalogButton_MouseLeave"/>
+        <TextBlock Margin="661,50,0,0" x:Name="CatalogTextBlock"
+                   Text="Каталог" IsHitTestVisible="False" FontSize="28"/>
+
+        <Button Content="" HorizontalAlignment="Left" x:Name="BasketButton"
+                Margin="808,41,0,0" VerticalAlignment="Top" Style="{StaticResource MenuButtonStyle}" Click="Button_Click" 
+                MouseEnter="BasketButton_MouseEnter" MouseLeave="BasketButton_MouseLeave"/>
+        <TextBlock Margin="813,50,0,0" x:Name="BasketTextBlock"
+                   Text="Корзина" IsHitTestVisible="False" FontSize="28"/>
+
+        <!--Главный квадрат-->
+        <Image HorizontalAlignment="Left" Height="364" 
+                Margin="54,160,0,0" VerticalAlignment="Top" Width="1332" Source="/img/Rectangle17.png"/>
+        <Image HorizontalAlignment="Left" Height="800" 
+                Margin="-5.3,269.3,0,0" VerticalAlignment="Top" Width="800" Source="/img/Group1.png"/>
+        <Image HorizontalAlignment="Left" Height="433" 
+                Margin="720,91.3,0,0" VerticalAlignment="Top" Width="732" Source="/img/Group6.png"/>
+        <TextBlock Margin="254,249,0,0" Text="Miku" FontSize="64"/>
+        <TextBlock Margin="254,342,0,0" Text="Два ядра, два гига&#x0a;Купи компьютер сыну, че он как..." FontFamily="/assets/fonts/Roboto-Regular.ttf#Roboto" FontSize="24"/>
+        
+        <!--Предложения-->
+        <TextBlock Margin="54,566,0,0" Text="Предложения" FontSize="32"/>
+        
+        <!--Последнее-->
+        <TextBlock Margin="494,566,0,0" Text="Последнее" FontSize="32"/>
+        
     </Grid>
 </Window>

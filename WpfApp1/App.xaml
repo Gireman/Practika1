@@ -5,11 +5,25 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
 
+        
+
+        <!--Шрифт-->
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="/assets/fonts/Roboto-Bold.ttf#Roboto Bold"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Foreground" Value="#100100"/>
+        </Style>
+
         <!--Вход в аккаунт-->
         <Style x:Key="AccountButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="#6A7181"/>
 
             <Setter Property="BorderThickness" Value="0"/>
+
+            <Setter Property="Width" Value="50"/>
+            <Setter Property="Height" Value="50"/>
 
             <Setter Property="Template">
                 <Setter.Value>
@@ -48,6 +62,9 @@
 
             <Setter Property="BorderThickness" Value="0"/>
 
+            <Setter Property="Width" Value="50"/>
+            <Setter Property="Height" Value="50"/>
+
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -72,6 +89,46 @@
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter TargetName="Border" Property="Background" Value="#3E999E"/>
                                 <Setter Property="BorderBrush" Value="#CFCFCF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--Кнопка меню-->
+        <Style x:Key="MenuButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+
+            <Setter Property="Width" Value="122"/>
+            <Setter Property="Height" Value="52"/>
+
+            <Setter Property="Foreground" Value="White"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border 
+                    x:Name="Border"
+                    Background="{TemplateBinding Background}" 
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="0">
+                            <ContentPresenter 
+                        Margin="{TemplateBinding Padding}"
+                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#1AFFFFFF"/>
+                            </Trigger>
+
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#33FFFFFF"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
