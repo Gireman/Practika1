@@ -136,5 +136,13 @@
             </Setter>
         </Style>
 
+        <Style TargetType="Rectangle">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="15"/>
+                </Style>
+            </Style.Resources>
+        </Style>
+
     </Application.Resources>
 </Application>

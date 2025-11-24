@@ -11,12 +11,12 @@
         <Button x:Name="Acc" Content="" HorizontalAlignment="Left" 
  Margin="54,39,0,0" VerticalAlignment="Top" Style="{StaticResource AccountButtonStyle}"/>
         <Image HorizontalAlignment="Left" Height="44" 
-Margin="57,41,0,0" VerticalAlignment="Top" Width="46" Source="/AccountMale.png" IsHitTestVisible="False"/>
+Margin="57,41,0,0" VerticalAlignment="Top" Width="46" Source="/img/AccountMale.png" IsHitTestVisible="False"/>
 
         <Button Content="" HorizontalAlignment="Left" 
  Margin="123,39,0,0" VerticalAlignment="Top" Style="{StaticResource RegistrationButtonStyle}"/>
         <Image HorizontalAlignment="Left" Height="31.44" 
-Margin="132.13,48.13,0,0" VerticalAlignment="Top" Width="31.44" Source="/PlusMath.png" IsHitTestVisible="False"/>
+Margin="132.13,48.13,0,0" VerticalAlignment="Top" Width="31.44" Source="/img/PlusMath.png" IsHitTestVisible="False"/>
 
         <!--Меню-->
         <Button Content="" HorizontalAlignment="Left" x:Name="MainButton"
@@ -35,6 +35,23 @@ Margin="132.13,48.13,0,0" VerticalAlignment="Top" Width="31.44" Source="/PlusMat
         Text="Корзина" IsHitTestVisible="False" FontSize="28"/>
         <Rectangle HorizontalAlignment="Left" Height="4" 
         Margin="813,89,0,0" VerticalAlignment="Top" Width="111" Fill="#100100" RadiusX="2" RadiusY="15"/>
+        
+        <!--Корзина-->
+        <Rectangle HorizontalAlignment="Left" Height="931" Margin="-21,128,0,0" 
+               VerticalAlignment="Top" Width="1485" Fill="#FF6A7181" />
+        <Image HorizontalAlignment="Left" Height="825" Margin="57,164,0,0" 
+               VerticalAlignment="Top" Width="1329" Source="/img/Rectangle41.png"/>
+        <TextBlock Margin="554,558,0,0"
+               Text="Вы ничего не покупаете :(" FontSize="28" IsHitTestVisible="False"/>
+        
 
+        <!--Товар-->
+        <Rectangle HorizontalAlignment="Left" Height="200" Margin="104,204,0,0" 
+                   Stroke="Black" VerticalAlignment="Top" Width="200
+                   "/>
+        <TextBlock Margin="342,204,0,0" Text="Название" FontSize="32"/>
+        <Image HorizontalAlignment="Left" Height="38" Margin="1295,204,0,0" 
+               VerticalAlignment="Top" Width="38" Source="/img/Trash.png"/>
+        <TextBlock Margin="1202,302,0,0" Text="Цена" FontSize="32"/>
     </Grid>
 </Window>

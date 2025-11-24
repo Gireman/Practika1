@@ -66,10 +66,17 @@ namespace WpfApp1
         }
 
         
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_ClickCatalog(object sender, RoutedEventArgs e)
         {
             Catalog catalog = new Catalog();
             catalog.Show();
+            this.Close();
+        }
+
+        private void Button_ClickBasket(object sender, RoutedEventArgs e)
+        {
+            Basket basket = new Basket();
+            basket.Show();
             this.Close();
         }
     }

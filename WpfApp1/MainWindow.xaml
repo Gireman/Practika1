@@ -11,12 +11,12 @@
         <Button x:Name="Acc" Content="" HorizontalAlignment="Left" 
                 Margin="54,39,0,0" VerticalAlignment="Top" Style="{StaticResource AccountButtonStyle}"/>
         <Image HorizontalAlignment="Left" Height="44" 
-               Margin="57,41,0,0" VerticalAlignment="Top" Width="46" Source="/AccountMale.png" IsHitTestVisible="False"/>
+               Margin="57,41,0,0" VerticalAlignment="Top" Width="46" Source="/img/AccountMale.png" IsHitTestVisible="False"/>
 
         <Button Content="" HorizontalAlignment="Left" 
                 Margin="123,39,0,0" VerticalAlignment="Top" Style="{StaticResource RegistrationButtonStyle}"/>
         <Image HorizontalAlignment="Left" Height="31.44" 
-               Margin="132.13,48.13,0,0" VerticalAlignment="Top" Width="31.44" Source="/PlusMath.png" IsHitTestVisible="False"/>
+               Margin="132.13,48.13,0,0" VerticalAlignment="Top" Width="31.44" Source="/img/PlusMath.png" IsHitTestVisible="False"/>
 
         <!--Меню-->
         <TextBlock Margin="513,50,0,0" Text="Главная" FontSize="28" IsHitTestVisible="False"/>
@@ -24,13 +24,13 @@
                    Margin="513,89,0,0" VerticalAlignment="Top" Width="106" Fill="#100100" RadiusX="2" RadiusY="15"/>
 
         <Button Content="" HorizontalAlignment="Left" x:Name="CatalogButton"
-                Margin="653,41,0,0" VerticalAlignment="Top" Style="{StaticResource MenuButtonStyle}" Click="Button_Click" 
+                Margin="653,41,0,0" VerticalAlignment="Top" Style="{StaticResource MenuButtonStyle}" Click="Button_ClickCatalog" 
                 MouseEnter="CatalogButton_MouseEnter" MouseLeave="CatalogButton_MouseLeave"/>
         <TextBlock Margin="661,50,0,0" x:Name="CatalogTextBlock"
                    Text="Каталог" IsHitTestVisible="False" FontSize="28"/>
 
         <Button Content="" HorizontalAlignment="Left" x:Name="BasketButton"
-                Margin="808,41,0,0" VerticalAlignment="Top" Style="{StaticResource MenuButtonStyle}" Click="Button_Click" 
+                Margin="808,41,0,0" VerticalAlignment="Top" Style="{StaticResource MenuButtonStyle}" Click="Button_ClickBasket" 
                 MouseEnter="BasketButton_MouseEnter" MouseLeave="BasketButton_MouseLeave"/>
         <TextBlock Margin="813,50,0,0" x:Name="BasketTextBlock"
                    Text="Корзина" IsHitTestVisible="False" FontSize="28"/>

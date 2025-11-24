@@ -11,16 +11,16 @@
         <Button x:Name="Acc" Content="" HorizontalAlignment="Left" 
         Margin="54,39,0,0" VerticalAlignment="Top" Style="{StaticResource AccountButtonStyle}"/>
         <Image HorizontalAlignment="Left" Height="44" 
-       Margin="57,41,0,0" VerticalAlignment="Top" Width="46" Source="/AccountMale.png" IsHitTestVisible="False"/>
+       Margin="57,41,0,0" VerticalAlignment="Top" Width="46" Source="/img/AccountMale.png" IsHitTestVisible="False"/>
 
         <Button Content="" HorizontalAlignment="Left" 
         Margin="123,39,0,0" VerticalAlignment="Top" Style="{StaticResource RegistrationButtonStyle}"/>
         <Image HorizontalAlignment="Left" Height="31.44" 
-       Margin="132.13,48.13,0,0" VerticalAlignment="Top" Width="31.44" Source="/PlusMath.png" IsHitTestVisible="False"/>
+       Margin="132.13,48.13,0,0" VerticalAlignment="Top" Width="31.44" Source="/img/PlusMath.png" IsHitTestVisible="False"/>
 
         <!--Меню-->
         <Button Content="" HorizontalAlignment="Left" x:Name="MainButton"
-        Margin="505,41,0,0" VerticalAlignment="Top" Style="{StaticResource MenuButtonStyle}" Click="Button_Click"
+        Margin="505,41,0,0" VerticalAlignment="Top" Style="{StaticResource MenuButtonStyle}" Click="Button_ClickMain"
         MouseEnter="MainButton_MouseEnter" MouseLeave="MainButton_MouseLeave"/>
         <TextBlock Margin="513,50,0,0" x:Name="MainTextBlock"
             Text="Главная" FontSize="28" IsHitTestVisible="False"/>
@@ -30,16 +30,16 @@
             Margin="661,89,0,0" VerticalAlignment="Top" Width="107" Fill="#100100" RadiusX="2" RadiusY="15"/>
 
         <Button Content="" HorizontalAlignment="Left" x:Name="BasketButton"
-        Margin="808,41,0,0" VerticalAlignment="Top" Style="{StaticResource MenuButtonStyle}" Click="Button_Click" 
+        Margin="808,41,0,0" VerticalAlignment="Top" Style="{StaticResource MenuButtonStyle}" Click="Button_ClickBasket" 
         MouseEnter="BasketButton_MouseEnter" MouseLeave="BasketButton_MouseLeave"/>
         <TextBlock Margin="813,50,0,0" x:Name="BasketTextBlock"
            Text="Корзина" IsHitTestVisible="False" FontSize="28"/>
 
         <!--Каталог-->
         <Image HorizontalAlignment="Left" Height="300" 
-               Margin="54,189,0,0" VerticalAlignment="Top" Width="400" Source="/Rectangle29.png"/>
+               Margin="54,189,0,0" VerticalAlignment="Top" Width="400" Source="/img/Rectangle29.png"/>
         <Image HorizontalAlignment="Left" Height="330" 
-               Margin="140,159,0,0" VerticalAlignment="Top" Width="330" Source="/image2.png"/>
+               Margin="140,159,0,0" VerticalAlignment="Top" Width="330" Source="/img/image2.png"/>
         <TextBlock Margin="74,422,0,0" Text="Бытовая&#x0a;техника" FontSize="24" Foreground="#FFFFFF"/>
 
     </Grid>
