@@ -47,11 +47,33 @@ Margin="132.13,48.13,0,0" VerticalAlignment="Top" Width="31.44" Source="/img/Plu
 
         <!--Товар-->
         <Rectangle HorizontalAlignment="Left" Height="200" Margin="104,204,0,0" 
-                   Stroke="Black" VerticalAlignment="Top" Width="200
-                   "/>
+                   Stroke="Black" VerticalAlignment="Top" Width="200"/>
         <TextBlock Margin="342,204,0,0" Text="Название" FontSize="32"/>
         <Image HorizontalAlignment="Left" Height="38" Margin="1295,204,0,0" 
                VerticalAlignment="Top" Width="38" Source="/img/Trash.png"/>
-        <TextBlock Margin="1202,302,0,0" Text="Цена" FontSize="32"/>
+        <TextBlock Margin="1184,302,0,0" Text="300 000 ₽" FontSize="32" TextAlignment="Right" Width="149"/>
+        
+            <!-- Счетчик-->
+        <Rectangle HorizontalAlignment="Left" Height="56" Margin="346,293,0,0" 
+                   Stroke="Black" VerticalAlignment="Top" Width="132" RadiusX="15" RadiusY="15"/>
+        <TextBlock x:Name="CountTextBlock" Margin="390,302,0,0"  FontSize="32" Width="45" TextAlignment="Center"/>
+        <Button Content="+" HorizontalAlignment="Left" Margin="440,302,0,0" 
+                VerticalAlignment="Top" FontSize="32" Width="32" 
+                Style="{StaticResource CountButtonStyle}" Click="IncrementButton_Click"/>
+        <Button Content="—" HorizontalAlignment="Left" Margin="352,302,0,0" 
+                VerticalAlignment="Top" FontSize="32" Width="32" 
+                Style="{StaticResource CountButtonStyle}" Click="DecrementButton_Click"/>
+
+        <TextBlock Margin="343,376,0,0"  FontSize="24" Text="В магазинах: с 20 ноября"/>
+
+        <Image HorizontalAlignment="Left" Height="2" Margin="72,421,0,0" 
+            VerticalAlignment="Top" Width="1300" Source="/img/Rectangle44.png"/>
+        
+        <!--Покупка-->
+        <TextBlock Margin="104,887,0,0" Text="300 000 ₽" FontSize="32" Width="149"/>
+        <Button Content="Услуги" HorizontalAlignment="Left" Margin="561,864,0,0" 
+        VerticalAlignment="Top" FontSize="32" Style="{StaticResource ServiceButtonStyle}"/>
+        <Button Content="Перейти к оформлению" HorizontalAlignment="Left" Margin="852,864,0,0" 
+        VerticalAlignment="Top" FontSize="32" Style="{StaticResource ConfirmButtonStyle}" Foreground="#fff"/>
     </Grid>
 </Window>

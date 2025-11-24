@@ -19,9 +19,13 @@ namespace WpfApp1
     /// </summary>
     public partial class Basket : Window
     {
+        private int currentValue = 1;
+
         public Basket()
         {
             InitializeComponent();
+
+            UpdateTextBlock();
         }
 
         private readonly SolidColorBrush DefaultColor = (SolidColorBrush)new BrushConverter().ConvertFromString("#100100");
@@ -77,6 +81,47 @@ namespace WpfApp1
             Catalog catalog = new Catalog();    
             catalog.Show();
             this.Close();
+        }
+
+        private void UpdateTextBlock()
+        {
+            // Проверяем, существует ли TextBlock, прежде чем менять его
+            if (CountTextBlock != null)
+            {
+                CountTextBlock.Text = $"{currentValue}";
+            }
+        }
+
+            private void IncrementButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Увеличиваем значение
+            if(currentValue >= 99)
+            {
+                currentValue = 99;
+            }
+            else
+            {
+                currentValue++;
+            }
+
+            // Обновляем текст в TextBlock
+            UpdateTextBlock();
+        }
+
+        private void DecrementButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Уменьшаем значение
+            if (currentValue <= 0)
+            {
+                currentValue = 0;
+            }
+            else
+            {
+                currentValue--;
+            }
+
+            // Обновляем текст в TextBlock
+            UpdateTextBlock();
         }
     }
 }
