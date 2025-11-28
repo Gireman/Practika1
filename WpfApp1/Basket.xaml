@@ -73,7 +73,7 @@ Margin="132.13,48.13,0,0" VerticalAlignment="Top" Width="31.44" Source="/img/Plu
         <TextBlock Margin="104,887,0,0" Text="300 000 ₽" FontSize="32" Width="149"/>
         <Button Content="Услуги" HorizontalAlignment="Left" Margin="561,864,0,0" 
         VerticalAlignment="Top" FontSize="32" Style="{StaticResource ServiceButtonStyle}"/>
-        <Button Content="Перейти к оформлению" HorizontalAlignment="Left" Margin="852,864,0,0" 
-        VerticalAlignment="Top" FontSize="32" Style="{StaticResource ConfirmButtonStyle}" Foreground="#fff"/>
+        <Button HorizontalAlignment="Left" Margin="852,864,0,0" 
+        VerticalAlignment="Top" Style="{StaticResource ImageButtonStyleBaskect}" />
     </Grid>
 </Window>

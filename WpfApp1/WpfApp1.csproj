@@ -25,6 +25,7 @@
     <None Remove="img\Rectangle41.png" />
     <None Remove="img\Rectangle44.png" />
     <None Remove="img\Trash.png" />
+    <None Remove="img\Оформление.png" />
     <None Remove="Plus Math.png" />
     <None Remove="PlusMath.png" />
     <None Remove="Rectangle17.png" />
@@ -63,6 +64,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="img\Trash.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\Оформление.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

@@ -79,5 +79,12 @@ namespace WpfApp1
             basket.Show();
             this.Close();
         }
+
+        private void Button_ClickAdmin(object sender, RoutedEventArgs e)
+        {
+            AdminConsole console = new AdminConsole();
+            console.Show();
+            this.Close();
+        }
     }
 }
