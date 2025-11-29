@@ -51,6 +51,7 @@
         <!--Последнее-->
         <TextBlock Margin="494,566,0,0" Text="Последнее" FontSize="32"/>
         <Button Content="Button" HorizontalAlignment="Left" Margin="397,940,0,0" VerticalAlignment="Top" Height="42" Width="128" Click="Button_ClickAdmin"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="577,936,0,0" VerticalAlignment="Top" Height="42" Width="128" Click="Button_ClickSeller"/>
 
     </Grid>
 </Window>

@@ -86,5 +86,12 @@ namespace WpfApp1
             console.Show();
             this.Close();
         }
+
+        private void Button_ClickSeller(object sender, RoutedEventArgs e)
+        {
+            ConsoleSeller console = new ConsoleSeller();
+            console.Show();
+            this.Close();
+        }
     }
 }

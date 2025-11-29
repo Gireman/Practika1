@@ -1,0 +1,55 @@
+﻿<Window x:Class="WpfApp1.AdminConsoleEmployee"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="AdminConsoleEmployee" MinHeight="1024" MinWidth="1440">
+    <Grid>
+        <Rectangle HorizontalAlignment="Left" Height="1024" VerticalAlignment="Center" Width="402" Fill="#6A7181"/>
+        <Rectangle HorizontalAlignment="Left" Height="138" Margin="0,0,0,0" VerticalAlignment="Top" Width="402" Fill="#6EC5CB"/>
+        <TextBlock Margin="22,10,0,0"
+Text="Miku" FontSize="64" IsHitTestVisible="False"/>
+        <TextBlock Margin="22,85,0,0"
+Text="Админ панель" FontSize="32" IsHitTestVisible="False"/>
+
+        <Button HorizontalAlignment="Left" Margin="0,138,0,0" VerticalAlignment="Top" Style="{StaticResource MenuButtonStyle}" FontSize="28" Width="402" Height="70"/>
+        <TextBlock Margin="22,157,0,0"
+Text="Список сотрудников" FontSize="28" IsHitTestVisible="False" Foreground="#6EC5CB"/>
+        <Rectangle HorizontalAlignment="Left" Height="1" Margin="6,208,0,0" Fill="#6EC5CB" VerticalAlignment="Top" Width="390"/>
+
+        <Button HorizontalAlignment="Left" Margin="0,209,0,0" VerticalAlignment="Top" Style="{StaticResource MenuButtonStyle}" FontSize="28" Width="402" Height="70" Click="Button_ClickUsers"/>
+        <TextBlock Margin="22,228,0,0"
+Text="Список пользователей" FontSize="28" IsHitTestVisible="False" Foreground="#fff"/>
+        <Rectangle HorizontalAlignment="Left" Height="1" Margin="6,279,0,0" Fill="#6EC5CB" VerticalAlignment="Top" Width="390"/>
+
+        <Rectangle HorizontalAlignment="Left" Height="1" Margin="6,953,0,0" Fill="#6EC5CB" VerticalAlignment="Top" Width="390"/>
+        <Button HorizontalAlignment="Left" Margin="0,954,0,0" VerticalAlignment="Top" Style="{StaticResource MenuButtonStyle}" FontSize="28" Width="402" Height="70" Click="Button_ClickExit"/>
+        <TextBlock Margin="157,973,0,0"
+Text="Выход" FontSize="28" IsHitTestVisible="False" Foreground="#fff"/>
+        <Rectangle HorizontalAlignment="Left" Height="850" Margin="475,62,0,0" 
+                   Fill="#e4e4e4" VerticalAlignment="Top" Width="900"/>
+        <Button HorizontalAlignment="Left" Margin="1112,943,0,0" 
+VerticalAlignment="Top" Style="{StaticResource ImageButtonStyle}" />
+
+
+
+
+        <DataGrid Name="OrdersListDataGrid" Margin="475,62,65,112" ItemsSource="{Binding Employee}" Background="Transparent" Width="900" Height="850">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="№" Width="128" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Name" Width="129" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Surname" Width="128" Binding="{Binding Surname}" />
+                <DataGridTextColumn Header="Patronymic" Width="129" Binding="{Binding Patronymic}" />
+                <DataGridTextColumn Header="Login" Width="129" Binding="{Binding Login}" />
+                <DataGridTextColumn Header="Password" Width="128" Binding="{Binding Password}" />
+                <DataGridTextColumn Header="Phone" Width="129" Binding="{Binding Phone}" />
+                <DataGridTextColumn Header="Email" Width="129" Binding="{Binding Email}" />
+                <DataGridTextColumn Header="Birthday" Width="129" Binding="{Binding Birthday}" />
+                <DataGridTextColumn Header="Post" Width="129" Binding="{Binding Post}" />
+                <DataGridTextColumn Header="Salary" Width="129" Binding="{Binding Salary}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
