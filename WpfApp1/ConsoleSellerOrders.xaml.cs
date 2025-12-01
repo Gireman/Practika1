@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfApp1.models;
 using WpfApp1.Models;
 
 namespace WpfApp1
@@ -34,7 +35,14 @@ namespace WpfApp1
                     Id = 1,
                     ClientID = 1,
                     Delivery = "Adress1",
-                    ProductID = [1],
+                   OrderItems = new List<OrderItem>
+        {
+            new OrderItem { ProductId = 1, Quantity = 2 }, // Товар 1, количество 2
+            new OrderItem { ProductId = 2, Quantity = 3 }, // Товар 1, количество 2
+            new OrderItem { ProductId = 3, Quantity = 4 }, // Товар 1, количество 2
+            new OrderItem { ProductId = 4, Quantity = 5 }, // Товар 1, количество 2
+            new OrderItem { ProductId = 5, Quantity = 1 }  // Товар 5, количество 1
+        },
                     ServicesID = [1],
                     Summ = 50000,
                     Status = true
@@ -44,8 +52,12 @@ namespace WpfApp1
                     Id = 2,
                     ClientID = 3,
                     Delivery = "Adress2",
-                    ProductID = [1,2],
-                    ServicesID = [],
+                   OrderItems = new List<OrderItem>
+        {
+            new OrderItem { ProductId = 1, Quantity = 5 }, // Товар 1, количество 5
+            new OrderItem { ProductId = 2, Quantity = 10 } // Товар 2, количество 10
+        },
+                    ServicesID = [3, 4], // Несколько ID для проверки
                     Summ = 50000,
                     Status = false
                 }
@@ -66,6 +78,18 @@ namespace WpfApp1
             ConsoleSellerOrdersRedact consoleSellerOrdersRedact = new ConsoleSellerOrdersRedact(Orders);
             consoleSellerOrdersRedact.Show();
             this.Close();
+        }
+
+        private void Button_ClickExit(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.Close();
+        }
+
+        private void Button_ClickCreateOrders(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

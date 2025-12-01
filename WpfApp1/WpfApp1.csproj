@@ -19,6 +19,7 @@
     <None Remove="img\Back.png" />
     <None Remove="img\Confirm.png" />
     <None Remove="img\Group 26.png" />
+    <None Remove="img\Group 27.png" />
     <None Remove="img\Group1.png" />
     <None Remove="img\Group6.png" />
     <None Remove="img\image2.png" />
@@ -49,6 +50,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="img\Group 26.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\Group 27.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="img\Group1.png">

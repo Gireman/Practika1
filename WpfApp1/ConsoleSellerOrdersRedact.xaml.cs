@@ -4,16 +4,19 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
+using WpfApp1.models;
 using WpfApp1.Models;
 
 namespace WpfApp1
 {
     // Реализуем INotifyPropertyChanged для обновления полей формы при поиске
+    // Класс ConsoleSellerOrdersRedact, реализующий INotifyPropertyChanged для обновления UI
     public partial class ConsoleSellerOrdersRedact : Window, INotifyPropertyChanged
     {
         private ObservableCollection<Order> _ordersList;
 
-        // Объект, к которому привязаны все поля формы
+        // Буферный объект, который будет отображаться в TextBoxes (поля заказа)
         private Order? _currentOrder;
         public Order? CurrentOrder
         {
@@ -25,59 +28,83 @@ namespace WpfApp1
             }
         }
 
-        // Основной конструктор, принимающий коллекцию заказов
+        // Коллекция для DataGrid: хранит список товаров с количеством (OrderItem)
+        // Используем ObservableCollection<OrderItem>, чтобы DataGrid обновлялся при добавлении/удалении
+        private ObservableCollection<OrderItem> _editableOrderItems = new ObservableCollection<OrderItem>();
+        public ObservableCollection<OrderItem> EditableOrderItems
+        {
+            get { return _editableOrderItems; }
+            set
+            {
+                _editableOrderItems = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // Конструктор, принимающий коллекцию заказов
         public ConsoleSellerOrdersRedact(ObservableCollection<Order> orders)
         {
             InitializeComponent();
             _ordersList = orders;
-
-            // Устанавливаем DataContext, чтобы привязки XAML работали
             DataContext = this;
 
-            // Инициализируем пустым объектом, чтобы привязка не "падала"
+            // Инициализируем буферный заказ и пустую коллекцию товаров
             CurrentOrder = new Order();
+            EditableOrderItems = new ObservableCollection<OrderItem>();
         }
 
-        // Перегрузка для совместимости с XAML-дизайнером
+        // Конструктор по умолчанию для XAML-дизайнера
         public ConsoleSellerOrdersRedact() : this(new ObservableCollection<Order>()) { }
 
-        // Обработчик кнопки "Поиск"
+        // Логика кнопки "Поиск"
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            if (int.TryParse(SearchIdTextBox.Text, out int searchId))
+            // Находим поле поиска по ID (Name="SearchIdTextBox" в XAML)
+            TextBox searchBox = (TextBox)FindName("SearchIdTextBox");
+            if (searchBox == null || !int.TryParse(searchBox.Text, out int searchId))
             {
-                Order? foundOrder = _ordersList.FirstOrDefault(o => o.Id == searchId);
+                MessageBox.Show("Пожалуйста, введите корректный ID заказа.", "Ошибка ввода");
+                return;
+            }
 
-                if (foundOrder != null)
-                {
-                    // Создаем КОПИЮ объекта. 
-                    // Это важно, чтобы изменения не применялись к списку до нажатия "Подтвердить".
-                    CurrentOrder = new Order
-                    {
-                        Id = foundOrder.Id,
-                        ClientID = foundOrder.ClientID,
-                        Delivery = foundOrder.Delivery,
-                        ProductID = foundOrder.ProductID?.ToArray(), // Копируем массив
-                        ServicesID = foundOrder.ServicesID?.ToArray(), // Копируем массив
-                        Summ = foundOrder.Summ,
-                        Status = foundOrder.Status
-                    };
+            Order? foundOrder = _ordersList.FirstOrDefault(o => o.Id == searchId);
 
-                    MessageBox.Show($"Заказ ID: {searchId} найден и загружен для редактирования.", "Успех");
-                }
-                else
+            if (foundOrder != null)
+            {
+                // 1. Создаем КОПИЮ объекта (БУФЕР) для редактирования
+                // Это предотвращает изменение оригинального объекта до нажатия "Сохранить"
+                CurrentOrder = new Order
                 {
-                    MessageBox.Show($"Заказ с ID: {searchId} не найден.", "Ошибка");
-                    CurrentOrder = new Order(); // Очищаем форму
-                }
+                    Id = foundOrder.Id,
+                    ClientID = foundOrder.ClientID,
+                    Delivery = foundOrder.Delivery,
+                    ServicesID = foundOrder.ServicesID?.ToArray(), // Копируем массив
+                    Summ = foundOrder.Summ,
+                    Status = foundOrder.Status,
+                    // OrderItems не копируем в буфер CurrentOrder, а сразу загружаем в ObservableCollection
+                };
+
+                // 2. Загружаем буферный список OrderItems в коллекцию для DataGrid (EditableOrderItems)
+                // Обязательно делаем глубокое копирование элементов OrderItem!
+                var copiedItems = foundOrder.OrderItems.Select(item => new OrderItem
+                {
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity
+                }).ToList();
+
+                EditableOrderItems = new ObservableCollection<OrderItem>(copiedItems);
+
+                MessageBox.Show($"Заказ ID: {searchId} найден и загружен для редактирования.", "Успех");
             }
             else
             {
-                MessageBox.Show("Пожалуйста, введите корректный ID заказа.", "Ошибка ввода");
+                MessageBox.Show($"Заказ с ID: {searchId} не найден.", "Ошибка");
+                CurrentOrder = new Order(); // Очищаем поля заказа
+                EditableOrderItems.Clear(); // Очищаем список товаров
             }
         }
 
-        // Обработчик кнопки "Подтвердить"
+        // Логика кнопки "Сохранить/Подтвердить"
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
             if (CurrentOrder == null || CurrentOrder.Id == 0)
@@ -86,41 +113,54 @@ namespace WpfApp1
                 return;
             }
 
-            // 1. Ищем оригинальный заказ по ID в основной коллекции
             Order? originalOrder = _ordersList.FirstOrDefault(o => o.Id == CurrentOrder.Id);
 
             if (originalOrder != null)
             {
-                // 2. Копируем все измененные данные обратно в оригинальный объект
+                // 1. Копируем изменения из буфера (CurrentOrder) обратно в оригинальный объект
                 originalOrder.ClientID = CurrentOrder.ClientID;
                 originalOrder.Delivery = CurrentOrder.Delivery;
-                originalOrder.ProductID = CurrentOrder.ProductID; // Обновленный массив из ProductsString
-                originalOrder.ServicesID = CurrentOrder.ServicesID; // Обновленный массив из ServicesString
+                originalOrder.ServicesID = CurrentOrder.ServicesID;
                 originalOrder.Summ = CurrentOrder.Summ;
                 originalOrder.Status = CurrentOrder.Status;
 
-                MessageBox.Show($"Данные заказа ID: {originalOrder.Id} успешно сохранены.", "Сохранение завершено");
+                // 2. КЛЮЧЕВОЕ ИЗМЕНЕНИЕ: Обновляем список товаров в оригинальном объекте
+                // EditableOrderItems содержит все изменения из DataGrid
+                originalOrder.OrderItems = EditableOrderItems.ToList();
 
-                CurrentOrder = new Order(); // Очищаем форму после сохранения
-            }
-            else
-            {
-                MessageBox.Show($"Произошла ошибка: оригинальный заказ ID: {CurrentOrder.Id} не найден.", "Критическая ошибка");
+                MessageBox.Show($"Данные заказа ID: {originalOrder.Id} успешно сохранены (в памяти).", "Сохранение завершено");
+
+                // Очистка формы после сохранения
+                CurrentOrder = new Order();
+                EditableOrderItems.Clear();
             }
         }
 
-        // Реализация INotifyPropertyChanged для обновления UI
+        // Реализация INotifyPropertyChanged
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string? name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
+        // Методы навигации (оставляем без изменений)
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             ConsoleSellerOrders consoleSellerOrders = new ConsoleSellerOrders();
             consoleSellerOrders.Show();
             this.Close();
+        }
+
+        private void Button_ClickExit(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.Close();
+        }
+
+        private void Button_ClickProducts(object sender, RoutedEventArgs e)
+        {
+            // Логика перехода к списку товаров
         }
     }
 }

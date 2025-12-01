@@ -20,13 +20,13 @@ Text="Панель продавца" FontSize="32" IsHitTestVisible="False"/>
 Text="История заказов" FontSize="28" IsHitTestVisible="False" Foreground="#6EC5CB"/>
         <Rectangle HorizontalAlignment="Left" Height="1" Margin="6,208,0,0" Fill="#6EC5CB" VerticalAlignment="Top" Width="390"/>
 
-        <Button HorizontalAlignment="Left" Margin="0,209,0,0" VerticalAlignment="Top" Style="{StaticResource MenuButtonStyle}" FontSize="28" Width="402" Height="70"/>
+        <Button HorizontalAlignment="Left" Margin="0,209,0,0" VerticalAlignment="Top" Style="{StaticResource MenuButtonStyle}" FontSize="28" Width="402" Height="70" Click="Button_ClickProducts"/>
         <TextBlock Margin="22,228,0,0"
 Text="Список товаров" FontSize="28" IsHitTestVisible="False" Foreground="#fff"/>
         <Rectangle HorizontalAlignment="Left" Height="1" Margin="6,279,0,0" Fill="#6EC5CB" VerticalAlignment="Top" Width="390"/>
 
         <Rectangle HorizontalAlignment="Left" Height="1" Margin="6,953,0,0" Fill="#6EC5CB" VerticalAlignment="Top" Width="390"/>
-        <Button HorizontalAlignment="Left" Margin="0,954,0,0" VerticalAlignment="Top" Style="{StaticResource MenuButtonStyle}" FontSize="28" Width="402" Height="70"/>
+        <Button HorizontalAlignment="Left" Margin="0,954,0,0" VerticalAlignment="Top" Style="{StaticResource MenuButtonStyle}" FontSize="28" Width="402" Height="70" Click="Button_ClickExit"/>
         <TextBlock Margin="157,973,0,0"
 Text="Выход" FontSize="28" IsHitTestVisible="False" Foreground="#fff"/>
         <Rectangle HorizontalAlignment="Left" Height="850" Margin="475,62,0,0" 
@@ -57,11 +57,37 @@ Text="Выход" FontSize="28" IsHitTestVisible="False" Foreground="#fff"/>
                  VerticalAlignment="Top" Width="400" Height="60" FontSize="28" 
                  Foreground="#100100" BorderBrush="Transparent" Padding="10"/>
         
-        <TextBox HorizontalAlignment="Left" Margin="725,318,0,0" TextWrapping="Wrap" 
+        <!--<TextBox HorizontalAlignment="Left" Margin="725,318,0,0" TextWrapping="Wrap" 
                  Text="{Binding CurrentOrder.ProductsString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                  VerticalAlignment="Top" Width="400" Height="60" FontSize="28" 
-                 Foreground="#100100" BorderBrush="Transparent" Padding="10"/>
-        
+                 Foreground="#100100" BorderBrush="Transparent" Padding="10"/>-->
+
+        <DataGrid
+            HorizontalAlignment="Left" 
+            Margin="725,306,0,0"
+            VerticalAlignment="Top" 
+            Width="400" 
+            Height="85" 
+            FontSize="16"
+            AutoGenerateColumns="False"
+            
+            
+            ItemsSource="{Binding EditableOrderItems}"
+            CanUserAddRows="True"
+            CanUserDeleteRows="True">
+
+        <DataGrid.Columns>
+            <DataGridTextColumn 
+                    Header="ID товара" 
+                    Binding="{Binding ProductId, UpdateSourceTrigger=LostFocus}" 
+                    Width="*"/>
+            <DataGridTextColumn 
+                    Header="Количество" 
+                    Binding="{Binding Quantity, UpdateSourceTrigger=LostFocus}" 
+                    Width="*"/>
+        </DataGrid.Columns>
+        </DataGrid>
+
         <TextBox HorizontalAlignment="Left" Margin="725,408,0,0" TextWrapping="Wrap" 
                  Text="{Binding CurrentOrder.Delivery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                  VerticalAlignment="Top" Width="400" Height="60" FontSize="28" 

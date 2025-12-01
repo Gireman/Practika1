@@ -148,7 +148,9 @@ namespace WpfApp1
 
         private void Button_ClickUsers(object sender, RoutedEventArgs e)
         {
-
+            AdminConsoleUsers adminConsoleUsers = new AdminConsoleUsers();
+            adminConsoleUsers.Show();
+            this.Close();
         }
     }
 }

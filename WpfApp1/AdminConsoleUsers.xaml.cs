@@ -60,5 +60,10 @@ namespace WpfApp1
             mainWindow.Show();
             this.Close();
         }
+
+        private void Button_ClickRedact(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

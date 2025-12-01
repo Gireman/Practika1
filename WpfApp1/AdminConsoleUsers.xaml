@@ -31,7 +31,7 @@ Text="Выход" FontSize="28" IsHitTestVisible="False" Foreground="#fff"/>
         <Rectangle HorizontalAlignment="Left" Height="850" Margin="475,62,0,0" 
                    Fill="#e4e4e4" VerticalAlignment="Top" Width="900"/>
         <Button HorizontalAlignment="Left" Margin="1112,943,0,0" 
-VerticalAlignment="Top" Style="{StaticResource ImageButtonStyle}" />
+VerticalAlignment="Top" Style="{StaticResource ImageButtonStyle}" Click="Button_ClickRedact" />
 
 
 

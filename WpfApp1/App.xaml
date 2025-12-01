@@ -331,5 +331,34 @@
             </Setter>
         </Style>
 
+        <Style x:Key="ImageButtonStyleDelete" TargetType="Button">
+            <Setter Property="Width" Value="263"/>
+            <Setter Property="Height" Value="56"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Border" CornerRadius="15">
+                            <Grid>
+                                <Image Source="/img/Group 27.png" 
+                        Stretch="Fill"/>
+                                <Rectangle x:Name="Overlay" Fill="Transparent"/>
+                            </Grid>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Overlay" Property="Fill" Value="#1AFFFFFF"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Overlay" Property="Fill" Value="#33FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Application.Resources>
 </Application>
