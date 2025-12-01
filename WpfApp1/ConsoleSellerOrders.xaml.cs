@@ -12,7 +12,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using WpfApp1.models;
 using WpfApp1.Models;
 
 namespace WpfApp1
@@ -68,7 +67,9 @@ namespace WpfApp1
         }
         private void Button_ClickProducts(object sender, RoutedEventArgs e)
         {
-
+            ConsoleSellerProducts consoleSellerProducts = new ConsoleSellerProducts();
+            consoleSellerProducts.Show();
+            this.Close();
         }
 
         // В файле ConsoleSellerOrders.xaml.cs

@@ -15,34 +15,32 @@ using System.Windows.Shapes;
 namespace WpfApp1
 {
     /// <summary>
-    /// Логика взаимодействия для ConsoleSeller.xaml
+    /// Логика взаимодействия для Registration.xaml
     /// </summary>
-    public partial class ConsoleSeller : Window
+    public partial class Registration : Window
     {
-        public ConsoleSeller()
+        public Registration()
         {
             InitializeComponent();
         }
 
-        private void Button_ClickExit(object sender, RoutedEventArgs e)
+        private void Button_ClickBack(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
             this.Close();
         }
 
-        private void Button_ClickOrders(object sender, RoutedEventArgs e)
+        private void Button_ClickEnter(object sender, RoutedEventArgs e)
         {
-            ConsoleSellerOrders consoleSellerOrders = new ConsoleSellerOrders();
-            consoleSellerOrders.Show();
+            Enter enter = new Enter();
+            enter.Show();
             this.Close();
         }
 
-        private void Button_ClickProducts(object sender, RoutedEventArgs e)
+        private void Button_ClickRegistration(object sender, RoutedEventArgs e)
         {
-            ConsoleSellerProducts consoleSellerProducts = new ConsoleSellerProducts();
-            consoleSellerProducts.Show();
-            this.Close();
+
         }
     }
 }

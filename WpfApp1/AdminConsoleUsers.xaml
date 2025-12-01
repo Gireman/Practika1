@@ -38,16 +38,16 @@ VerticalAlignment="Top" Style="{StaticResource ImageButtonStyle}" Click="Button_
 
         <DataGrid Name="OrdersListDataGrid" Margin="475,62,65,112" ItemsSource="{Binding User}" Background="Transparent" Width="900" Height="850">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="№" Width="128" Binding="{Binding Id}" />
-                <DataGridTextColumn Header="Name" Width="129" Binding="{Binding Name}" />
-                <DataGridTextColumn Header="Surname" Width="128" Binding="{Binding Surname}" />
-                <DataGridTextColumn Header="Patronymic" Width="129" Binding="{Binding Patronymic}" />
-                <DataGridTextColumn Header="Login" Width="129" Binding="{Binding Login}" />
-                <DataGridTextColumn Header="Password" Width="128" Binding="{Binding Password}" />
-                <DataGridTextColumn Header="Phone" Width="129" Binding="{Binding Phone}" />
-                <DataGridTextColumn Header="Email" Width="129" Binding="{Binding Email}" />
-                <DataGridTextColumn Header="Birthday" Width="129" Binding="{Binding Birthday}" />
-                <DataGridTextColumn Header="Adress" Width="129" Binding="{Binding Post}" />
+                <DataGridTextColumn Header="№" Width="90" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Name" Width="89" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Surname" Width="91" Binding="{Binding Surname}" />
+                <DataGridTextColumn Header="Patronymic" Width="90" Binding="{Binding Patronymic}" />
+                <DataGridTextColumn Header="Login" Width="90" Binding="{Binding Login}" />
+                <DataGridTextColumn Header="Password" Width="90" Binding="{Binding Password}" />
+                <DataGridTextColumn Header="Phone" Width="90" Binding="{Binding Phone}" />
+                <DataGridTextColumn Header="Email" Width="91" Binding="{Binding Email}" />
+                <DataGridTextColumn Header="Birthday" Width="90" Binding="{Binding Birthday}" />
+                <DataGridTextColumn Header="Adress" Width="89" Binding="{Binding Adress}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

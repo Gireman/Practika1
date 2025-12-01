@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="ConsoleSellerOrdersRedact" Width="1440" Height="1040">
     <Grid>
-        
+
         <Rectangle HorizontalAlignment="Left" Height="1024" VerticalAlignment="Center" Width="402" Fill="#6A7181"/>
         <Rectangle HorizontalAlignment="Left" Height="138" Margin="0,0,0,0" VerticalAlignment="Top" Width="402" Fill="#6EC5CB"/>
         <TextBlock Margin="22,10,0,0"
@@ -36,27 +36,27 @@ Text="Выход" FontSize="28" IsHitTestVisible="False" Foreground="#fff"/>
         VerticalAlignment="Top" Style="{StaticResource ImageButtonStyleBack}" 
         Width="263" Height="56" FontSize="28" Background="#6EC5CB"
         Click="BackButton_Click"/>
-        
+
         <Button Content="Подтвердить" HorizontalAlignment="Left" Margin="1112,943,0,0" 
                 VerticalAlignment="Top" Style="{StaticResource ImageButtonStyleConfirm}" 
                 Width="263" Height="56" FontSize="28" Background="#6EC5CB"
-                Click="ConfirmButton_Click"/> 
-        
-        
+                Click="ConfirmButton_Click"/>
+
+
         <TextBox x:Name="SearchIdTextBox" HorizontalAlignment="Left" Margin="725,138,0,0" TextWrapping="Wrap" 
                  Text="" VerticalAlignment="Top" Width="400" Height="60" FontSize="28" 
                  Foreground="#100100" BorderBrush="Transparent" Padding="10"/>
-        
+
         <Button Content="Поиск" HorizontalAlignment="Left" Margin="1162,138,0,0" VerticalAlignment="Top" 
                 Style="{StaticResource MenuButtonStyle}" Background="#fff" FontSize="28"
                 Width="175" Height="60" Click="SearchButton_Click"/>
 
-        
+
         <TextBox HorizontalAlignment="Left" Margin="725,228,0,0" TextWrapping="Wrap" 
                  Text="{Binding CurrentOrder.ClientID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                  VerticalAlignment="Top" Width="400" Height="60" FontSize="28" 
                  Foreground="#100100" BorderBrush="Transparent" Padding="10"/>
-        
+
         <!--<TextBox HorizontalAlignment="Left" Margin="725,318,0,0" TextWrapping="Wrap" 
                  Text="{Binding CurrentOrder.ProductsString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                  VerticalAlignment="Top" Width="400" Height="60" FontSize="28" 
@@ -76,28 +76,28 @@ Text="Выход" FontSize="28" IsHitTestVisible="False" Foreground="#fff"/>
             CanUserAddRows="True"
             CanUserDeleteRows="True">
 
-        <DataGrid.Columns>
-            <DataGridTextColumn 
+            <DataGrid.Columns>
+                <DataGridTextColumn 
                     Header="ID товара" 
                     Binding="{Binding ProductId, UpdateSourceTrigger=LostFocus}" 
                     Width="*"/>
-            <DataGridTextColumn 
+                <DataGridTextColumn 
                     Header="Количество" 
                     Binding="{Binding Quantity, UpdateSourceTrigger=LostFocus}" 
                     Width="*"/>
-        </DataGrid.Columns>
+            </DataGrid.Columns>
         </DataGrid>
 
         <TextBox HorizontalAlignment="Left" Margin="725,408,0,0" TextWrapping="Wrap" 
                  Text="{Binding CurrentOrder.Delivery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                  VerticalAlignment="Top" Width="400" Height="60" FontSize="28" 
                  Foreground="#100100" BorderBrush="Transparent" Padding="10"/>
-        
+
         <TextBox HorizontalAlignment="Left" Margin="725,498,0,0" TextWrapping="Wrap" 
                  Text="{Binding CurrentOrder.ServicesString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                  VerticalAlignment="Top" Width="400" Height="60" FontSize="28" 
                  Foreground="#100100" BorderBrush="Transparent" Padding="10"/>
-        
+
         <TextBox HorizontalAlignment="Left" Margin="725,588,0,0" TextWrapping="Wrap" 
                  Text="{Binding CurrentOrder.Summ, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                  VerticalAlignment="Top" Width="400" Height="60" FontSize="28" 
@@ -119,6 +119,9 @@ Text="Выход" FontSize="28" IsHitTestVisible="False" Foreground="#fff"/>
         <TextBlock Margin="600,512,0,0" Text="Services" FontSize="28"/>
         <TextBlock Margin="625,602,0,0" Text="Summ" FontSize="28"/>
 
-
+        <Button HorizontalAlignment="Left" Margin="806,943,0,0" 
+        VerticalAlignment="Top" Style="{StaticResource ImageButtonStyleDelete}" 
+        Width="263" Height="56" FontSize="28" Background="#6EC5CB"
+        Click="DeleteButton_Click"/>
     </Grid>
 </Window>

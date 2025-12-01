@@ -1,0 +1,54 @@
+﻿<Window x:Class="WpfApp1.ConsoleSellerProducts"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="ConsoleSellerProducts" Width="1440" Height="1040">
+    <Grid>
+        <Rectangle HorizontalAlignment="Left" Height="1024" VerticalAlignment="Center" Width="402" Fill="#6A7181"/>
+        <Rectangle HorizontalAlignment="Left" Height="138" Margin="0,0,0,0" VerticalAlignment="Top" Width="402" Fill="#6EC5CB"/>
+        <TextBlock Margin="22,10,0,0"
+Text="Miku" FontSize="64" IsHitTestVisible="False"/>
+        <TextBlock Margin="22,85,0,0"
+Text="Панель продавца" FontSize="32" IsHitTestVisible="False"/>
+
+        <Button HorizontalAlignment="Left" Margin="0,138,0,0" VerticalAlignment="Top" Style="{StaticResource MenuButtonStyle}" FontSize="28" Width="402" Height="70" Click="Button_ClickOrders"/>
+        <TextBlock Margin="22,157,0,0"
+Text="История заказов" FontSize="28" IsHitTestVisible="False" Foreground="#fff"/>
+        <Rectangle HorizontalAlignment="Left" Height="1" Margin="6,208,0,0" Fill="#6EC5CB" VerticalAlignment="Top" Width="390"/>
+
+        <Button HorizontalAlignment="Left" Margin="0,209,0,0" VerticalAlignment="Top" Style="{StaticResource MenuButtonStyle}" FontSize="28" Width="402" Height="70" />
+        <TextBlock Margin="22,228,0,0"
+Text="Список товаров" FontSize="28" IsHitTestVisible="False" Foreground="#6EC5CB"/>
+        <Rectangle HorizontalAlignment="Left" Height="1" Margin="6,279,0,0" Fill="#6EC5CB" VerticalAlignment="Top" Width="390"/>
+
+        <Rectangle HorizontalAlignment="Left" Height="1" Margin="6,953,0,0" Fill="#6EC5CB" VerticalAlignment="Top" Width="390"/>
+        <Button HorizontalAlignment="Left" Margin="0,954,0,0" VerticalAlignment="Top" Style="{StaticResource MenuButtonStyle}" FontSize="28" Width="402" Height="70" Click="Button_ClickExit"/>
+        <TextBlock Margin="157,973,0,0"
+Text="Выход" FontSize="28" IsHitTestVisible="False" Foreground="#fff"/>
+        <Rectangle HorizontalAlignment="Left" Height="850" Margin="475,62,0,0" 
+                   Fill="#e4e4e4" VerticalAlignment="Top" Width="900"/>
+        <Button HorizontalAlignment="Left" Margin="1112,943,0,0" 
+VerticalAlignment="Top" Style="{StaticResource ImageButtonStyle}" Click="Button_ClickRedactProducts"/>
+
+
+
+
+        <DataGrid Name="OrdersListDataGrid" Margin="475,62,65,112" ItemsSource="{Binding Products}" Background="Transparent" Width="900" Height="850" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="№" Width="128" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Category" Width="129" Binding="{Binding Category}" />
+                <DataGridTextColumn Header="Product" Width="128" Binding="{Binding Product}" />
+                <DataGridTextColumn Header="Count" Width="129" Binding="{Binding Count}" />
+                <DataGridTextColumn Header="Storage" Width="129" Binding="{Binding Storage}" />
+                <DataGridTextColumn Header="Supplier" Width="128" Binding="{Binding Supplier}" />
+                <DataGridTextColumn Header="Price" Width="129" Binding="{Binding Price}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button HorizontalAlignment="Left" Margin="800,943,0,0" 
+            VerticalAlignment="Top" Style="{StaticResource ImageButtonStyle}" Click="Button_ClickCreateProducts"/>
+    </Grid>
+</Window>

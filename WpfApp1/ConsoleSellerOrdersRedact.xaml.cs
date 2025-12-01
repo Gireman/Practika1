@@ -5,7 +5,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using WpfApp1.models;
 using WpfApp1.Models;
 
 namespace WpfApp1
@@ -160,7 +159,49 @@ namespace WpfApp1
 
         private void Button_ClickProducts(object sender, RoutedEventArgs e)
         {
-            // Логика перехода к списку товаров
+            ConsoleSellerProducts consoleSellerProducts = new ConsoleSellerProducts();
+            consoleSellerProducts.Show();
+            this.Close();
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            // 1. Проверяем, есть ли текущий загруженный заказ в буфере и имеет ли он ID
+            if (CurrentOrder == null || CurrentOrder.Id == 0)
+            {
+                MessageBox.Show("Сначала найдите заказ для удаления.", "Ошибка удаления");
+                return;
+            }
+
+            // 2. Запрашиваем подтверждение
+            MessageBoxResult result = MessageBox.Show(
+                $"Вы уверены, что хотите удалить заказ ID: {CurrentOrder.Id}?",
+                "Подтверждение удаления",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                // 3. Находим оригинальный объект в коллекции (_ordersList) по ID
+                Order? orderToDelete = _ordersList.FirstOrDefault(o => o.Id == CurrentOrder.Id);
+
+                if (orderToDelete != null)
+                {
+                    // 4. Удаляем объект из ObservableCollection
+                    // ObservableCollection автоматически уведомит DataGrid (в ConsoleSellerOrders) об удалении
+                    _ordersList.Remove(orderToDelete);
+
+                    // 5. Очищаем форму редактирования после удаления
+                    CurrentOrder = new Order(); // Очистка всех полей
+                    EditableOrderItems.Clear(); // Очистка списка товаров в DataGrid
+
+                    MessageBox.Show("Заказ успешно удален (из буферного массива).", "Удалено");
+                }
+                else
+                {
+                    MessageBox.Show($"Ошибка: Заказ ID: {CurrentOrder.Id} не найден в списке.", "Ошибка");
+                }
+            }
         }
     }
 }

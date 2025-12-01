@@ -93,5 +93,19 @@ namespace WpfApp1
             console.Show();
             this.Close();
         }
+
+        private void Acc_Click(object sender, RoutedEventArgs e)
+        {
+            Enter enter = new Enter();
+            enter.Show();
+            this.Close();
+        }
+
+        private void Button_ClickReg(object sender, RoutedEventArgs e)
+        {
+            Registration registration = new Registration();
+            registration.Show();
+            this.Close();
+        }
     }
 }

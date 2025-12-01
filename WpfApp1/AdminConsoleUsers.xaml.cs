@@ -40,6 +40,19 @@ namespace WpfApp1
                     Email = "1",
                     Birthday = new DateOnly(1999,10,1),
                     Adress = "1"
+                },
+                new Users
+                {
+                    Id = 2,
+                    Name = "2",
+                    Surname = "2",
+                    Patronymic = "2",
+                    Login = "2",
+                    Password = "2",
+                    Phone = "2",
+                    Email = "2",
+                    Birthday = new DateOnly(1999,10,2),
+                    Adress = "2"
                 }
             };
 
@@ -63,7 +76,10 @@ namespace WpfApp1
 
         private void Button_ClickRedact(object sender, RoutedEventArgs e)
         {
-
+            // !!! Ключевое изменение: передаем коллекцию User в конструктор
+            AdminConsoleUsersRedact redactWindow = new AdminConsoleUsersRedact(User);
+            redactWindow.Show();
+            this.Close();
         }
     }
 }

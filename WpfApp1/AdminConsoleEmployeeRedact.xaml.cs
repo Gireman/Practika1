@@ -152,6 +152,50 @@ namespace WpfApp1
             adminConsoleUsers.Show();
             this.Close();
         }
+
+        private void Button_ClickDelete(object sender, RoutedEventArgs e)
+        {
+            // 1. Проверяем, загружен ли текущий сотрудник
+            if (CurrentEmployee == null || CurrentEmployee.Id == 0)
+            {
+                MessageBox.Show("Сначала найдите сотрудника для удаления.", "Ошибка удаления");
+                return;
+            }
+
+            // 2. Запрашиваем подтверждение
+            MessageBoxResult result = MessageBox.Show(
+                $"Вы уверены, что хотите удалить сотрудника ID: {CurrentEmployee.Id} ({CurrentEmployee.Surname} {CurrentEmployee.Name})?",
+                "Подтверждение удаления",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                // 3. Находим оригинальный объект в коллекции (_employeesList) по ID
+                Employee? employeeToDelete = _employeesList.FirstOrDefault(emp => emp.Id == CurrentEmployee.Id);
+
+                if (employeeToDelete != null)
+                {
+                    // 4. Удаляем объект из ObservableCollection
+                    // Это автоматически обновит DataGrid в главном окне.
+                    _employeesList.Remove(employeeToDelete);
+
+                    // 5. Очищаем форму редактирования после удаления
+                    CurrentEmployee = new Employee(); // Очистка всех полей
+
+                    MessageBox.Show("Сотрудник успешно удален (из буферного массива).", "Удалено");
+
+                    // Опционально: можно вернуться на главный экран после удаления
+                    // AdminConsoleEmployee adminConsoleEmployee = new AdminConsoleEmployee();
+                    // adminConsoleEmployee.Show();
+                    // this.Close();
+                }
+                else
+                {
+                    MessageBox.Show($"Ошибка: Сотрудник ID: {CurrentEmployee.Id} не найден в списке.", "Ошибка");
+                }
+            }
+        }
     }
 }
 
