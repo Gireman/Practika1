@@ -21,25 +21,25 @@ namespace WpfApp1
     /// </summary>
     public partial class AdminConsoleEmployee : Window
     {
-        public ObservableCollection<Employees> Employee { get; set; }
+        public ObservableCollection<Employee> Employees { get; set; }
         public AdminConsoleEmployee()
         {
             InitializeComponent();
 
-            Employee = new ObservableCollection<Employees>()
+            Employees = new ObservableCollection<Employee>()
             {
-                new Employees
+                new Employee
                 {
                     Id = 1,
-                    Name = "1",
-                    Surname = "1",
-                    Patronymic = "1",
-                    Login = "1",
-                    Password = "1",
-                    Phone = "1",
-                    Email = "1",
-                    Birthday = "1",
-                    Post = "1",
+                    Name = "Name",
+                    Surname = "Surname",
+                    Patronymic = "Patronymic",
+                    Login = "Login",
+                    Password = "Password",
+                    Phone = "+79313122078",
+                    Email = "Email",
+                    Birthday = new DateOnly(1990,1,1),
+                    Post = 1,
                     Salary = 15000
                 }
             };
@@ -59,6 +59,14 @@ namespace WpfApp1
         {
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
+            this.Close();
+        }
+
+        private void Button_ClickRedactEmployee(object sender, RoutedEventArgs e)
+        {
+            // Передаем коллекцию Employees в конструктор окна редактирования
+            AdminConsoleEmployeeRedact redactWindow = new AdminConsoleEmployeeRedact(Employees);
+            redactWindow.Show();
             this.Close();
         }
     }

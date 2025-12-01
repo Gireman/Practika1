@@ -5,8 +5,6 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
 
-        
-
         <!--Шрифт-->
         <Style TargetType="TextBlock">
             <Setter Property="FontFamily" Value="/assets/fonts/Roboto-Bold.ttf#Roboto Bold"/>

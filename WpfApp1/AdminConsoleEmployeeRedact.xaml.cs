@@ -14,16 +14,124 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfApp1;
 using WpfApp1.Models;
 
 namespace WpfApp1
 {
-    /// <summary>
-    /// Логика взаимодействия для AdminConsoleEmployeeRedact.xaml
-    /// </summary>
-    public partial class AdminConsoleEmployeeRedact : Window
+    // Добавляем INotifyPropertyChanged для обновления полей формы
+    public partial class AdminConsoleEmployeeRedact : Window, INotifyPropertyChanged
     {
+        private ObservableCollection<Employee> _employeesList;
 
+        // Буферный объект, к которому привязаны все поля формы
+        private Employee? _currentEmployee;
+        public Employee? CurrentEmployee
+        {
+            get { return _currentEmployee; }
+            set
+            {
+                _currentEmployee = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // Конструктор, который получает коллекцию из главного окна
+        public AdminConsoleEmployeeRedact(ObservableCollection<Employee> employees)
+        {
+            InitializeComponent();
+            _employeesList = employees;
+            DataContext = this;
+            CurrentEmployee = new Employee(); // Инициализируем пустой буфер
+        }
+
+        // Конструктор по умолчанию (для XAML-дизайнера)
+        public AdminConsoleEmployeeRedact() : this(new ObservableCollection<Employee>()) { }
+
+        // *** Обработчик кнопки "Поиск" (SearchButton_Click) ***
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Здесь предполагается, что TextBox для поиска ID назван SearchIdTextBox
+            if (int.TryParse(SearchIdTextBox.Text, out int searchId))
+            {
+                Employee? foundEmployee = _employeesList.FirstOrDefault(emp => emp.Id == searchId);
+
+                if (foundEmployee != null)
+                {
+                    // Создаем КОПИЮ объекта (буфер), чтобы не изменять оригинал до нажатия "Сохранить"
+                    CurrentEmployee = new Employee
+                    {
+                        Id = foundEmployee.Id,
+                        Name = foundEmployee.Name,
+                        Surname = foundEmployee.Surname,
+                        Patronymic = foundEmployee.Patronymic,
+                        Login = foundEmployee.Login,
+                        Password = foundEmployee.Password,
+                        Phone = foundEmployee.Phone,
+                        Email = foundEmployee.Email,
+                        Birthday = foundEmployee.Birthday,
+                        Post = foundEmployee.Post,
+                        Salary = foundEmployee.Salary
+                    };
+
+                    MessageBox.Show($"Сотрудник ID: {searchId} найден и загружен для редактирования.", "Успех");
+                }
+                else
+                {
+                    MessageBox.Show($"Сотрудник с ID: {searchId} не найден.", "Ошибка");
+                    CurrentEmployee = new Employee(); // Очищаем форму
+                }
+            }
+            else
+            {
+                MessageBox.Show("Пожалуйста, введите корректный ID сотрудника.", "Ошибка ввода");
+            }
+        }
+
+        // *** Обработчик кнопки "Сохранить" (ConfirmButton_Click) ***
+        private void ConfirmButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentEmployee == null || CurrentEmployee.Id == 0)
+            {
+                MessageBox.Show("Сначала найдите сотрудника для редактирования.", "Ошибка сохранения");
+                return;
+            }
+
+            // 1. Ищем оригинальный объект в основной коллекции
+            Employee? originalEmployee = _employeesList.FirstOrDefault(emp => emp.Id == CurrentEmployee.Id);
+
+            if (originalEmployee != null)
+            {
+                // 2. Копируем изменения из буфера (CurrentEmployee) в оригинальный объект
+                originalEmployee.Name = CurrentEmployee.Name;
+                originalEmployee.Surname = CurrentEmployee.Surname;
+                originalEmployee.Patronymic = CurrentEmployee.Patronymic;
+                originalEmployee.Login = CurrentEmployee.Login;
+                originalEmployee.Password = CurrentEmployee.Password;
+                originalEmployee.Phone = CurrentEmployee.Phone;
+                originalEmployee.Email = CurrentEmployee.Email;
+                originalEmployee.Birthday = CurrentEmployee.Birthday;
+                originalEmployee.Post = CurrentEmployee.Post;
+                originalEmployee.Salary = CurrentEmployee.Salary;
+
+                MessageBox.Show($"Данные сотрудника ID: {originalEmployee.Id} успешно сохранены.", "Сохранение завершено");
+
+                CurrentEmployee = new Employee(); // Очищаем буфер (форму) после сохранения
+            }
+            else
+            {
+                MessageBox.Show($"Произошла ошибка: оригинальный сотрудник ID: {CurrentEmployee.Id} не найден.", "Критическая ошибка");
+            }
+        }
+
+        // Реализация INotifyPropertyChanged
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string? name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        // ... (Ваши существующие методы Button_ClickExit и Button_ClickBack)
         private void Button_ClickExit(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = new MainWindow();
@@ -31,59 +139,18 @@ namespace WpfApp1
             this.Close();
         }
 
+        private void Button_ClickBack(object sender, RoutedEventArgs e)
+        {
+            AdminConsoleEmployee adminConsoleEmployee = new AdminConsoleEmployee();
+            adminConsoleEmployee.Show();
+            this.Close();
+        }
+
         private void Button_ClickUsers(object sender, RoutedEventArgs e)
         {
 
         }
-
-        public ObservableCollection<Order> Orders { get; set; }
-
-        // --- Новый код для выбранного заказа ---
-        private Order? _selectedOrder;
-        public Order? SelectedOrder
-        {
-            get { return _selectedOrder; }
-            set
-            {
-                if (_selectedOrder != value)
-                {
-                    _selectedOrder = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-        // --- Конец нового кода ---
-
-        // Конструктор (ваш исправленный)
-        public AdminConsoleEmployeeRedact()
-        {
-            InitializeComponent();
-            // ... (Ваша инициализация коллекции Orders) ...
-            DataContext = this;
-        }
-
-        // --- Реализация INotifyPropertyChanged ---
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        // --- Обработчик для кнопки "Сохранить" ---
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (SelectedOrder != null)
-            {
-                // При двусторонней привязке (Mode=TwoWay) изменения уже применены к объекту SelectedOrder
-                // и отразились в коллекции Orders. Здесь просто сообщаем пользователю.
-                MessageBox.Show($"Изменения для заказа ID: {SelectedOrder.Id} успешно применены.", "Сохранение", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                // Здесь будет код для сохранения в базу данных, если вы ее используете.
-            }
-            else
-            {
-                MessageBox.Show("Пожалуйста, выберите заказ для сохранения.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-        }
     }
 }
+
+

@@ -8,64 +8,43 @@ using System.Threading.Tasks;
 
 namespace WpfApp1.Models
 {
-    // Реализуем интерфейс INotifyPropertyChanged
-    public class Order : INotifyPropertyChanged
+    public class Order
     {
-        // Приватные поля для хранения данных
-        private int _id;
-        private int _clientId;
-        private int[]? _productID;
-        private bool _delivery;
-        private int[]? _servicesID;
-        private decimal _summ;
-        private bool _status;
+        // Все поля заменены на публичные свойства
+        public int Id { get; set; }
+        public int ClientID { get; set; }
 
-        // Публичные свойства с логикой уведомления
-        public int Id { get => _id; set { if (_id != value) { _id = value; OnPropertyChanged(); } } }
-        public int ClientID { get => _clientId; set { if (_clientId != value) { _clientId = value; OnPropertyChanged(); } } }
+        public int[]? ProductID { get; set; }
+        public string Delivery { get; set; }
+        public int[]? ServicesID { get; set; }
+        public decimal Summ { get; set; }
+        public bool Status { get; set; }
 
-        public int[]? ProductID
+        // Вспомогательное свойство для привязки к полю Products (позволяет вводить ID через запятую)
+        public string ProductsString
         {
-            get => _productID;
+            get => ProductID != null ? string.Join(", ", ProductID) : string.Empty;
             set
             {
-                if (_productID != value)
-                {
-                    _productID = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged(nameof(ProductsDisplay)); // Обновляем и отображаемое свойство
-                }
+                // Парсинг строки "1, 2, 5" обратно в массив int[]
+                ProductID = value?.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                                 .Select(s => int.TryParse(s.Trim(), out int n) ? n : -1)
+                                 .Where(n => n != -1)
+                                 .ToArray();
             }
         }
 
-        public bool Delivery { get => _delivery; set { if (_delivery != value) { _delivery = value; OnPropertyChanged(); } } }
-
-        public int[]? ServicesID
+        // Вспомогательное свойство для привязки к полю Services
+        public string ServicesString
         {
-            get => _servicesID;
+            get => ServicesID != null ? string.Join(", ", ServicesID) : string.Empty;
             set
             {
-                if (_servicesID != value)
-                {
-                    _servicesID = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged(nameof(ServicesDisplay)); // Обновляем и отображаемое свойство
-                }
+                ServicesID = value?.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                                  .Select(s => int.TryParse(s.Trim(), out int n) ? n : -1)
+                                  .Where(n => n != -1)
+                                  .ToArray();
             }
-        }
-
-        public decimal Summ { get => _summ; set { if (_summ != value) { _summ = value; OnPropertyChanged(); } } }
-        public bool Status { get => _status; set { if (_status != value) { _status = value; OnPropertyChanged(); } } }
-
-        // Вспомогательные свойства для отображения массивов (как вы реализовали ранее)
-        public string ProductsDisplay => ProductID != null ? string.Join(", ", ProductID) : string.Empty;
-        public string ServicesDisplay => ServicesID != null ? string.Join(", ", ServicesID) : string.Empty;
-
-        // Реализация INotifyPropertyChanged
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

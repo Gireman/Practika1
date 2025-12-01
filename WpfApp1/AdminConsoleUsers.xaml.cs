@@ -38,7 +38,7 @@ namespace WpfApp1
                     Password = "1",
                     Phone = "1",
                     Email = "1",
-                    Birthday = "1",
+                    Birthday = new DateOnly(1999,10,1),
                     Adress = "1"
                 }
             };

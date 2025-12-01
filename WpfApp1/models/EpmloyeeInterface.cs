@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace WpfApp1.Models
 {
-    public class Employees
+    public class Employee
     {
         public int Id { get; set; }
-        public required string Name { get; set; }
-        public required string Surname { get; set; }
-        public required string Patronymic { get; set; }
-        public required string Login { get; set; }
-        public required string Password { get; set; }
-        public required string Phone { get; set; }
-        public required string Email { get; set; }
-        public required string Birthday { get; set; }
-        public required string Post { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string Patronymic { get; set; }
+        public string Login { get; set; }
+        public string Password { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
+        public DateOnly Birthday { get; set; }
+        public int Post { get; set; }
         public decimal Salary { get; set; }
     }
 }

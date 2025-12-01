@@ -31,24 +31,24 @@ Text="Выход" FontSize="28" IsHitTestVisible="False" Foreground="#fff"/>
         <Rectangle HorizontalAlignment="Left" Height="850" Margin="475,62,0,0" 
                    Fill="#e4e4e4" VerticalAlignment="Top" Width="900"/>
         <Button HorizontalAlignment="Left" Margin="1112,943,0,0" 
-VerticalAlignment="Top" Style="{StaticResource ImageButtonStyle}" />
+VerticalAlignment="Top" Style="{StaticResource ImageButtonStyle}" Click="Button_ClickRedactEmployee" />
 
 
 
 
-        <DataGrid Name="OrdersListDataGrid" Margin="475,62,65,112" ItemsSource="{Binding Employee}" Background="Transparent" Width="900" Height="850">
+        <DataGrid Name="OrdersListDataGrid" Margin="475,62,65,112" ItemsSource="{Binding Employees}" Background="Transparent" Width="900" Height="850">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="№" Width="128" Binding="{Binding Id}" />
-                <DataGridTextColumn Header="Name" Width="129" Binding="{Binding Name}" />
-                <DataGridTextColumn Header="Surname" Width="128" Binding="{Binding Surname}" />
-                <DataGridTextColumn Header="Patronymic" Width="129" Binding="{Binding Patronymic}" />
-                <DataGridTextColumn Header="Login" Width="129" Binding="{Binding Login}" />
-                <DataGridTextColumn Header="Password" Width="128" Binding="{Binding Password}" />
-                <DataGridTextColumn Header="Phone" Width="129" Binding="{Binding Phone}" />
-                <DataGridTextColumn Header="Email" Width="129" Binding="{Binding Email}" />
-                <DataGridTextColumn Header="Birthday" Width="129" Binding="{Binding Birthday}" />
-                <DataGridTextColumn Header="Post" Width="129" Binding="{Binding Post}" />
-                <DataGridTextColumn Header="Salary" Width="129" Binding="{Binding Salary}" />
+                <DataGridTextColumn Header="№" Width="82" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Name" Width="81" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Surname" Width="82" Binding="{Binding Surname}" />
+                <DataGridTextColumn Header="Patronymic" Width="82" Binding="{Binding Patronymic}" />
+                <DataGridTextColumn Header="Login" Width="82" Binding="{Binding Login}" />
+                <DataGridTextColumn Header="Password" Width="82" Binding="{Binding Password}" />
+                <DataGridTextColumn Header="Phone" Width="82" Binding="{Binding Phone}" />
+                <DataGridTextColumn Header="Email" Width="82" Binding="{Binding Email}" />
+                <DataGridTextColumn Header="Birthday" Width="82" Binding="{Binding Birthday}" />
+                <DataGridTextColumn Header="Post" Width="81" Binding="{Binding Post}" />
+                <DataGridTextColumn Header="Salary" Width="82" Binding="{Binding Salary}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

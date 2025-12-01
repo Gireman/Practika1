@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="ConsoleSellerOrders" MinHeight="1024" MinWidth="1440">
+        Title="ConsoleSellerOrders" Width="1440" Height="1040">
     <Grid>
         <Rectangle HorizontalAlignment="Left" Height="1024" VerticalAlignment="Center" Width="402" Fill="#6A7181"/>
         <Rectangle HorizontalAlignment="Left" Height="138" Margin="0,0,0,0" VerticalAlignment="Top" Width="402" Fill="#6EC5CB"/>
@@ -19,7 +19,7 @@ Text="Панель продавца" FontSize="32" IsHitTestVisible="False"/>
 Text="История заказов" FontSize="28" IsHitTestVisible="False" Foreground="#6EC5CB"/>
         <Rectangle HorizontalAlignment="Left" Height="1" Margin="6,208,0,0" Fill="#6EC5CB" VerticalAlignment="Top" Width="390"/>
 
-        <Button HorizontalAlignment="Left" Margin="0,209,0,0" VerticalAlignment="Top" Style="{StaticResource MenuButtonStyle}" FontSize="28" Width="402" Height="70"/>
+        <Button HorizontalAlignment="Left" Margin="0,209,0,0" VerticalAlignment="Top" Style="{StaticResource MenuButtonStyle}" FontSize="28" Width="402" Height="70" Click="Button_ClickProducts"/>
         <TextBlock Margin="22,228,0,0"
 Text="Список товаров" FontSize="28" IsHitTestVisible="False" Foreground="#fff"/>
         <Rectangle HorizontalAlignment="Left" Height="1" Margin="6,279,0,0" Fill="#6EC5CB" VerticalAlignment="Top" Width="390"/>
@@ -31,7 +31,7 @@ Text="Выход" FontSize="28" IsHitTestVisible="False" Foreground="#fff"/>
         <Rectangle HorizontalAlignment="Left" Height="850" Margin="475,62,0,0" 
                    Fill="#e4e4e4" VerticalAlignment="Top" Width="900"/>
         <Button HorizontalAlignment="Left" Margin="1112,943,0,0" 
-VerticalAlignment="Top" Style="{StaticResource ImageButtonStyle}" />
+VerticalAlignment="Top" Style="{StaticResource ImageButtonStyle}" Click="Button_ClickRedactOrders"/>
 
 
 

@@ -9,14 +9,14 @@ namespace WpfApp1.Models
     public class Users
     {
         public int Id { get; set; }
-        public required string Name { get; set; }
-        public required string Surname { get; set; }
-        public required string Patronymic { get; set; }
-        public required string Login { get; set; }
-        public required string Password { get; set; }
-        public required string Phone { get; set; }
-        public required string Email { get; set; }
-        public required string Birthday { get; set; }
-        public required string Adress { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string Patronymic { get; set; }
+        public string Login { get; set; }
+        public string Password { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
+        public DateOnly Birthday { get; set; }
+        public string Adress { get; set; }
     }
 }
