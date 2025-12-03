@@ -76,7 +76,7 @@ namespace WpfApp1
                 {
                     Id = foundOrder.Id,
                     ClientID = foundOrder.ClientID,
-                    Delivery = foundOrder.Delivery,
+                    EmployeeID = foundOrder.EmployeeID,
                     ServicesID = foundOrder.ServicesID?.ToArray(), // Копируем массив
                     Summ = foundOrder.Summ,
                     Status = foundOrder.Status,
@@ -118,7 +118,7 @@ namespace WpfApp1
             {
                 // 1. Копируем изменения из буфера (CurrentOrder) обратно в оригинальный объект
                 originalOrder.ClientID = CurrentOrder.ClientID;
-                originalOrder.Delivery = CurrentOrder.Delivery;
+                originalOrder.EmployeeID = CurrentOrder.EmployeeID;
                 originalOrder.ServicesID = CurrentOrder.ServicesID;
                 originalOrder.Summ = CurrentOrder.Summ;
                 originalOrder.Status = CurrentOrder.Status;

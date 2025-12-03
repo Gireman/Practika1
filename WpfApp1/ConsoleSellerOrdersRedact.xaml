@@ -89,7 +89,7 @@ Text="Выход" FontSize="28" IsHitTestVisible="False" Foreground="#fff"/>
         </DataGrid>
 
         <TextBox HorizontalAlignment="Left" Margin="725,408,0,0" TextWrapping="Wrap" 
-                 Text="{Binding CurrentOrder.Delivery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                 Text="{Binding CurrentOrder.EmployeeID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                  VerticalAlignment="Top" Width="400" Height="60" FontSize="28" 
                  Foreground="#100100" BorderBrush="Transparent" Padding="10"/>
 
@@ -115,7 +115,7 @@ Text="Выход" FontSize="28" IsHitTestVisible="False" Foreground="#fff"/>
         <TextBlock Margin="679,152,0,0" Text="ID" FontSize="28"/>
         <TextBlock Margin="608,242,0,0" Text="IDClient" FontSize="28"/>
         <TextBlock Margin="593,332,0,0" Text="Products" FontSize="28"/>
-        <TextBlock Margin="608,422,0,0" Text="Delivery" FontSize="28"/>
+        <TextBlock Margin="558,422,0,0" Text="EmployeeID" FontSize="28"/>
         <TextBlock Margin="600,512,0,0" Text="Services" FontSize="28"/>
         <TextBlock Margin="625,602,0,0" Text="Summ" FontSize="28"/>
 

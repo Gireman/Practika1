@@ -41,7 +41,7 @@ VerticalAlignment="Top" Style="{StaticResource ImageButtonStyle}" Click="Button_
                 <DataGridTextColumn Header="№" Width="128" Binding="{Binding Id}" />
                 <DataGridTextColumn Header="ID_Client" Width="129" Binding="{Binding ClientID}" />
                 <DataGridTextColumn Header="Products" Width="128" Binding="{Binding ProductsDisplay}" />
-                <DataGridTextColumn Header="Delivery" Width="129" Binding="{Binding Delivery}" />
+                <DataGridTextColumn Header="EmployeeID" Width="129" Binding="{Binding EmployeeID}" />
                 <DataGridTextColumn Header="Services" Width="129" Binding="{Binding ServicesDisplay}" />
                 <DataGridTextColumn Header="Summ" Width="128" Binding="{Binding Summ}" />
                 <DataGridTextColumn Header="Status" Width="129" Binding="{Binding Status}" />

@@ -10,14 +10,16 @@
         <Rectangle HorizontalAlignment="Left" Height="550" Margin="370,237,0,0"  VerticalAlignment="Top" Width="700" Fill="#fff" RadiusX="15" RadiusY="15"/>
         <TextBlock Margin="683,285,0,0" Text="Вход" FontSize="32"/>
         <Border CornerRadius="15" BorderThickness="2" BorderBrush="#100100" Width="400" Height="65" Margin="0,-160,0,0" >
-            <TextBox HorizontalAlignment="Left" Width="400" Height="65" TextWrapping="Wrap" Text="Логин" 
+            <TextBox x:Name="LoginTextBox" HorizontalAlignment="Left" Width="400" Height="65" TextWrapping="Wrap" Text="Логин" 
                  VerticalAlignment="Top"  Padding="10" FontSize="28" 
-                 Foreground="#55100100" BorderBrush="Transparent" Background="Transparent"/>
+                 Foreground="#100100" BorderBrush="Transparent" Background="Transparent"
+                 GotFocus="LoginTextBox_GotFocus" LostFocus="LoginTextBox_LostFocus"/>
         </Border>
         <Border CornerRadius="15" BorderThickness="2" BorderBrush="#100100" Width="400" Height="65" Margin="0,50,0,0" >
-        <TextBox HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Пароль" 
-         VerticalAlignment="Top" Width="400" Height="65" Padding="10" FontSize="28" 
-         Foreground="#55100100" BorderBrush="Transparent" Background="Transparent"/>
+            <TextBox x:Name="PasswordTextBox" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Пароль" 
+                VerticalAlignment="Top" Width="400" Height="65" Padding="10" FontSize="28" 
+                Foreground="#100100" BorderBrush="Transparent" Background="Transparent"
+                 GotFocus="PasswordTextBox_GotFocus" LostFocus="PasswordTextBox_LostFocus"/>
         </Border>
         <Button HorizontalAlignment="Left" Margin="545,630,0,0" VerticalAlignment="Top" Style="{StaticResource ImageButtonStyleEnter}" Click="Button_ClickEnter"/>
         <Button HorizontalAlignment="Left" Margin="647,738,0,0" VerticalAlignment="Top" BorderThickness="0" Background="Transparent" Click="Button_ClickRegistration">

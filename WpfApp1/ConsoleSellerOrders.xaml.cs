@@ -33,7 +33,7 @@ namespace WpfApp1
                 {
                     Id = 1,
                     ClientID = 1,
-                    Delivery = "Adress1",
+                    EmployeeID = 2,
                    OrderItems = new List<OrderItem>
         {
             new OrderItem { ProductId = 1, Quantity = 2 }, // Товар 1, количество 2
@@ -50,7 +50,7 @@ namespace WpfApp1
                 {
                     Id = 2,
                     ClientID = 3,
-                    Delivery = "Adress2",
+                    EmployeeID = 2,
                    OrderItems = new List<OrderItem>
         {
             new OrderItem { ProductId = 1, Quantity = 5 }, // Товар 1, количество 5

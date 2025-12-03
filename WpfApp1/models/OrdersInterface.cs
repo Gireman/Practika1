@@ -62,7 +62,7 @@ namespace WpfApp1.Models
         // Используем List<OrderItem> для буфера и последующего сохранения
         public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
-        public string Delivery { get; set; } = string.Empty;
+        public int EmployeeID { get; set; }
         public int[]? ServicesID { get; set; }
         public decimal Summ { get; set; }
         public bool Status { get; set; }

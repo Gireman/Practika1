@@ -11,51 +11,59 @@
         <TextBlock Margin="623,85,0,0" Text="Регистрация" FontSize="32"/>
         
         <Border CornerRadius="15" BorderThickness="2" BorderBrush="#100100" Width="400" Height="65" Margin="0,-630,0,0" >
-            <TextBox HorizontalAlignment="Left" Width="400" Height="65" TextWrapping="Wrap" Text="Логин*" 
+            <TextBox x:Name="LoginTextBox" HorizontalAlignment="Left" Width="400" Height="65" TextWrapping="Wrap" Text="Логин*" 
          VerticalAlignment="Top"  Padding="10" FontSize="28" 
-         Foreground="#55100100" BorderBrush="Transparent" Background="Transparent"/>
+         Foreground="#100100" BorderBrush="Transparent" Background="Transparent"
+         GotFocus="RegistrationTextBox_GotFocus" LostFocus="RegistrationTextBox_LostFocus"/>
         </Border>
         
         <Border CornerRadius="15" BorderThickness="2" BorderBrush="#100100" Width="400" Height="65" Margin="0,-470,0,0" >
-            <TextBox HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Пароль*" 
+            <TextBox x:Name="PasswordTextBox" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Пароль*" 
  VerticalAlignment="Top" Width="400" Height="65" Padding="10" FontSize="28" 
- Foreground="#55100100" BorderBrush="Transparent" Background="Transparent"/>
+ Foreground="#100100" BorderBrush="Transparent" Background="Transparent"
+         GotFocus="RegistrationTextBox_GotFocus" LostFocus="RegistrationTextBox_LostFocus"/>
         </Border>
 
         <Border CornerRadius="15" BorderThickness="2" BorderBrush="#100100" Width="400" Height="65" Margin="0,-310,0,0" >
-            <TextBox HorizontalAlignment="Left" Width="400" Height="65" TextWrapping="Wrap" Text="Имя*" 
+            <TextBox x:Name="NameTextBox" HorizontalAlignment="Left" Width="400" Height="65" TextWrapping="Wrap" Text="Имя*" 
         VerticalAlignment="Top"  Padding="10" FontSize="28" 
-        Foreground="#55100100" BorderBrush="Transparent" Background="Transparent"/>
+        Foreground="#100100" BorderBrush="Transparent" Background="Transparent"
+         GotFocus="RegistrationTextBox_GotFocus" LostFocus="RegistrationTextBox_LostFocus"/>
         </Border>
 
         <Border CornerRadius="15" BorderThickness="2" BorderBrush="#100100" Width="400" Height="65" Margin="0,-150,0,0" >
-            <TextBox HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Фамилия*" 
+            <TextBox x:Name="SurnameTextBox" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Фамилия*" 
 VerticalAlignment="Top" Width="400" Height="65" Padding="10" FontSize="28" 
-Foreground="#55100100" BorderBrush="Transparent" Background="Transparent"/>
+Foreground="#100100" BorderBrush="Transparent" Background="Transparent"
+         GotFocus="RegistrationTextBox_GotFocus" LostFocus="RegistrationTextBox_LostFocus"/>
         </Border>
 
         <Border CornerRadius="15" BorderThickness="2" BorderBrush="#100100" Width="400" Height="65" Margin="0,10,0,0" >
-            <TextBox HorizontalAlignment="Left" Width="400" Height="65" TextWrapping="Wrap" Text="Отчество" 
+            <TextBox x:Name="PatronymicTextBox" HorizontalAlignment="Left" Width="400" Height="65" TextWrapping="Wrap" Text="Отчество" 
         VerticalAlignment="Top"  Padding="10" FontSize="28" 
-        Foreground="#55100100" BorderBrush="Transparent" Background="Transparent"/>
+        Foreground="#100100" BorderBrush="Transparent" Background="Transparent"
+         GotFocus="RegistrationTextBox_GotFocus" LostFocus="RegistrationTextBox_LostFocus"/>
         </Border>
 
         <Border CornerRadius="15" BorderThickness="2" BorderBrush="#100100" Width="400" Height="65" Margin="0,170,0,0" >
-            <TextBox HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Номер телефона*" 
+            <TextBox x:Name="PhoneTextBox" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Номер телефона*" 
 VerticalAlignment="Top" Width="400" Height="65" Padding="10" FontSize="28" 
-Foreground="#55100100" BorderBrush="Transparent" Background="Transparent"/>
+Foreground="#100100" BorderBrush="Transparent" Background="Transparent"
+         GotFocus="RegistrationTextBox_GotFocus" LostFocus="RegistrationTextBox_LostFocus"/>
         </Border>
 
         <Border CornerRadius="15" BorderThickness="2" BorderBrush="#100100" Width="400" Height="65" Margin="0,330,0,0" >
-            <TextBox HorizontalAlignment="Left" Width="400" Height="65" TextWrapping="Wrap" Text="Почта" 
+            <TextBox x:Name="EmailTextBox" HorizontalAlignment="Left" Width="400" Height="65" TextWrapping="Wrap" Text="Почта" 
         VerticalAlignment="Top"  Padding="10" FontSize="28" 
-        Foreground="#55100100" BorderBrush="Transparent" Background="Transparent"/>
+        Foreground="#100100" BorderBrush="Transparent" Background="Transparent"
+         GotFocus="RegistrationTextBox_GotFocus" LostFocus="RegistrationTextBox_LostFocus"/>
         </Border>
 
         <Border CornerRadius="15" BorderThickness="2" BorderBrush="#100100" Width="400" Height="65" Margin="0,490,0,0" >
-            <TextBox HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Дата рождения*" 
+            <TextBox x:Name="BirthdayTextBox" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Дата рождения*" 
 VerticalAlignment="Top" Width="400" Height="65" Padding="10" FontSize="28" 
-Foreground="#55100100" BorderBrush="Transparent" Background="Transparent"/>
+Foreground="#100100" BorderBrush="Transparent" Background="Transparent"
+         GotFocus="RegistrationTextBox_GotFocus" LostFocus="RegistrationTextBox_LostFocus"/>
         </Border>
 
         <Button HorizontalAlignment="Left" Margin="544,830,0,0" VerticalAlignment="Top" Style="{StaticResource ImageButtonStyleReg}" Click="Button_ClickRegistration"/>
