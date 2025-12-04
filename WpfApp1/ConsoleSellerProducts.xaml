@@ -47,8 +47,5 @@ VerticalAlignment="Top" Style="{StaticResource ImageButtonStyle}" Click="Button_
                 <DataGridTextColumn Header="Price" Width="129" Binding="{Binding Price}" />
             </DataGrid.Columns>
         </DataGrid>
-
-        <Button HorizontalAlignment="Left" Margin="800,943,0,0" 
-            VerticalAlignment="Top" Style="{StaticResource ImageButtonStyle}" Click="Button_ClickCreateProducts"/>
     </Grid>
 </Window>

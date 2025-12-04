@@ -87,6 +87,33 @@ namespace WpfApp1
             }
         }
 
+        // --- СОЗДАНИЕ (CreateButton_Click) ---
+        private void CreateButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentProduct == null) return;
+            if (!ValidateProduct(CurrentProduct)) return;
+
+            ProductsInterface newProd = new ProductsInterface
+            {
+                Category = CurrentProduct.Category,
+                Product = CurrentProduct.Product,
+                Count = CurrentProduct.Count,
+                Storage = CurrentProduct.Storage,
+                Supplier = CurrentProduct.Supplier,
+                Price = CurrentProduct.Price
+            };
+
+            int newId = _productsList.Any() ? _productsList.Max(p => p.Id) + 1 : 1;
+            newProd.Id = newId;
+
+            _productsList.Add(newProd);
+            MessageBox.Show($"Товар ID: {newId} создан.", "Создано");
+
+            CurrentProduct = new ProductsInterface();
+            TextBox searchBox = (TextBox)FindName("SearchIdTextBox");
+            if (searchBox != null) searchBox.Text = "";
+        }
+
         // --------------------------------------------------------------------
         // ЛОГИКА СОХРАНЕНИЯ (РЕДАКТИРОВАНИЯ)
         // --------------------------------------------------------------------
@@ -155,6 +182,22 @@ namespace WpfApp1
                     MessageBox.Show($"Ошибка: Товар ID: {CurrentProduct.Id} не найден в списке.", "Ошибка");
                 }
             }
+        }
+
+        // --- ВАЛИДАЦИЯ ---
+        private bool ValidateProduct(ProductsInterface p)
+        {
+            if (string.IsNullOrWhiteSpace(p.Product))
+            {
+                MessageBox.Show("Название товара не может быть пустым.", "Ошибка");
+                return false;
+            }
+            if (p.Price < 0 || p.Count < 0)
+            {
+                MessageBox.Show("Цена и количество не могут быть отрицательными.", "Ошибка");
+                return false;
+            }
+            return true;
         }
 
         // Реализация INotifyPropertyChanged

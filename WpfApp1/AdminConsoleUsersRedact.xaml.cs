@@ -91,6 +91,42 @@ namespace WpfApp1
             }
         }
 
+        // --- ЛОГИКА СОЗДАНИЯ (CreateButton_Click) ---
+        private void CreateButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentUser == null) return;
+
+            if (!ValidateUserData(CurrentUser)) return;
+
+            // Создаем новый объект
+            Users newUser = new Users
+            {
+                // ID сформируем автоматически
+                Name = CurrentUser.Name,
+                Surname = CurrentUser.Surname,
+                Patronymic = CurrentUser.Patronymic,
+                Login = CurrentUser.Login,
+                Password = CurrentUser.Password,
+                Phone = CurrentUser.Phone,
+                Email = CurrentUser.Email,
+                Birthday = CurrentUser.Birthday,
+                Adress = CurrentUser.Adress
+            };
+
+            // Авто-генерация ID
+            int newId = _usersList.Any() ? _usersList.Max(u => u.Id) + 1 : 1;
+            newUser.Id = newId;
+
+            _usersList.Add(newUser);
+
+            MessageBox.Show($"Новый пользователь ID: {newId} успешно создан.", "Создано");
+
+            // Очистка
+            CurrentUser = new Users();
+            TextBox searchBox = (TextBox)FindName("SearchIdTextBox");
+            if (searchBox != null) searchBox.Text = "";
+        }
+
         // --------------------------------------------------------------------
         // ЛОГИКА СОХРАНЕНИЯ (РЕДАКТИРОВАНИЯ)
         // --------------------------------------------------------------------
@@ -121,6 +157,25 @@ namespace WpfApp1
 
                 CurrentUser = new Users(); // Очистка формы после сохранения
             }
+        }
+
+        // --- ВАЛИДАЦИЯ ---
+        private bool ValidateUserData(Users user)
+        {
+            if (string.IsNullOrWhiteSpace(user.Name) ||
+                string.IsNullOrWhiteSpace(user.Surname) ||
+                string.IsNullOrWhiteSpace(user.Login) ||
+                string.IsNullOrWhiteSpace(user.Password))
+            {
+                MessageBox.Show("Заполните обязательные поля: Имя, Фамилия, Логин, Пароль.", "Ошибка валидации");
+                return false;
+            }
+            if (user.Birthday == default(DateOnly))
+            {
+                MessageBox.Show("Введите корректную дату рождения.", "Ошибка валидации");
+                return false;
+            }
+            return true;
         }
 
         // --------------------------------------------------------------------

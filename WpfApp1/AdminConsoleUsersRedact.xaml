@@ -103,7 +103,8 @@ VerticalAlignment="Top" Style="{StaticResource ImageButtonStyleBack}" Click="But
         <TextBlock Margin="636,658,0,0" Text="Email" FontSize="28"/>
         <TextBlock Margin="601,733,0,0" Text="Birthday" FontSize="28"/>
         <TextBlock Margin="616,808,0,0" Text="Adress" FontSize="28"/>
-        <Button HorizontalAlignment="Left" Margin="796,943,0,0" 
+        <Button HorizontalAlignment="Left" Margin="946,943,0,0" 
             VerticalAlignment="Top" Style="{StaticResource ImageButtonStyleDelete}" Click="DeleteButton_Click" />
+        <Button HorizontalAlignment="Left" Margin="773,943,0,9" Style="{StaticResource ImageButtonStyleCreate}" Click="CreateButton_Click" />
     </Grid>
 </Window>

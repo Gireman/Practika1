@@ -119,9 +119,12 @@ Text="Выход" FontSize="28" IsHitTestVisible="False" Foreground="#fff"/>
         <TextBlock Margin="600,512,0,0" Text="Services" FontSize="28"/>
         <TextBlock Margin="625,602,0,0" Text="Summ" FontSize="28"/>
 
-        <Button HorizontalAlignment="Left" Margin="806,943,0,0" 
+        <Button HorizontalAlignment="Left" Margin="946,943,0,0" 
         VerticalAlignment="Top" Style="{StaticResource ImageButtonStyleDelete}" 
-        Width="263" Height="56" FontSize="28" Background="#6EC5CB"
         Click="DeleteButton_Click"/>
+
+        <Button HorizontalAlignment="Left" Margin="773,943,0,0" 
+VerticalAlignment="Top" Style="{StaticResource ImageButtonStyleCreate}" 
+Click="CreateButton_Click"/>
     </Grid>
 </Window>
