@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp1.Utilities;
 
 namespace WpfApp1
 {
@@ -106,6 +107,29 @@ namespace WpfApp1
             Registration registration = new Registration();
             registration.Show();
             this.Close();
+        }
+
+        private void Button_Click2(object sender, RoutedEventArgs e)
+        {
+            // Добавление второго товара в корзину
+            BasketManager.AddItem(
+                productId: 102, // Уникальный ID товара
+                name: "Xiaomi Redmi Poko-X4 5G ProMax Audi Chicken-MacNaggets OldSpice M3-Competition UltraSE с 18-ью камерами",
+                price: 300000m
+            );
+            MessageBox.Show("Товар 'Xiaomi Redmi Poko-X4 5G ProMax Audi Chicken-MacNaggets OldSpice M3-Competition UltraSE с 18-ью камерами' добавлен в корзину!", "Корзина");
+        }
+
+        private void Button_Click1(object sender, RoutedEventArgs e)
+        {
+            // Добавление первого товара в корзину
+            BasketManager.AddItem(
+                productId: 101, // Уникальный ID товара
+                name: "Amd GeForce RX 10060 TI Rog Strix",
+                price: 150000m // Цена в формате decimal
+                               // ImagePath по умолчанию пустой
+            );
+            MessageBox.Show("Товар 'Amd GeForce RX 10060 TI Rog Strix' добавлен в корзину!", "Корзина");
         }
     }
 }

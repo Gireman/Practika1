@@ -41,19 +41,81 @@ Margin="132.13,48.13,0,0" VerticalAlignment="Top" Width="31.44" Source="/img/Plu
                VerticalAlignment="Top" Width="1485" Fill="#FF6A7181" />
         <Image HorizontalAlignment="Left" Height="825" Margin="57,164,0,0" 
                VerticalAlignment="Top" Width="1329" Source="/img/Rectangle41.png"/>
-        <TextBlock Margin="554,558,0,0"
-               Text="Вы ничего не покупаете :(" FontSize="28" IsHitTestVisible="False"/>
-        
+        <TextBlock x:Name="EmptyBasketTextBlock" 
+                   Text="Вы ничего не покупаете :(" 
+                   Margin="554,558,0,0" 
+                   FontSize="28" 
+                   Foreground="#100100" 
+                   HorizontalAlignment="Left" 
+                   VerticalAlignment="Top" 
+                   Visibility="Visible"/>
+
+        <ListBox x:Name="BasketListBox" 
+                 Margin="72,175,72,150" 
+                 ScrollViewer.CanContentScroll="False" 
+                 Background="Transparent" 
+                 BorderThickness="0"
+                 ItemsSource="{Binding}" Visibility="Collapsed">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <ContentPresenter/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Height="250">
+
+                        <Rectangle HorizontalAlignment="Left" Height="177" VerticalAlignment="Top" 
+                                   Width="178" Fill="#CCCCCC" Margin="0,0,0,0"/>
+                        <Image HorizontalAlignment="Left" Height="177" VerticalAlignment="Top" 
+                               Width="178" Source="{Binding ImagePath}" Margin="0,0,0,0"/>
+
+                        <TextBlock Margin="271,9,0,0" Text="{Binding Name}" FontSize="36" Width="500" HorizontalAlignment="Left"/>
+                        <TextBlock Margin="271,68,0,0" Text="{Binding TotalItemPrice, StringFormat='{}{0:N0} ₽'}" FontSize="28" Width="200" HorizontalAlignment="Left"/>
+
+                        <Rectangle HorizontalAlignment="Left" Height="56" Margin="271,118,0,0" 
+                                   Stroke="Black" VerticalAlignment="Top" Width="132" RadiusX="15" RadiusY="15"/>
+                        <TextBlock x:Name="CountTextBlock" 
+                                   Margin="315,127,0,0"  
+                                   FontSize="32" Width="45" TextAlignment="Center" 
+                                   Text="{Binding Quantity}"/>
+
+                        <Button Content="+" HorizontalAlignment="Left" Margin="367,127,0,0" 
+                                VerticalAlignment="Top" FontSize="32" Width="32" 
+                                Style="{StaticResource CountButtonStyle}" 
+                                Click="IncrementItemButton_Click"/>
+
+                        <Button Content="—" HorizontalAlignment="Left" Margin="279,127,0,0" 
+                                VerticalAlignment="Top" FontSize="32" Width="32" 
+                                Style="{StaticResource CountButtonStyle}" 
+                                Click="DecrementItemButton_Click"/>
+
+                        <Image HorizontalAlignment="Left" Height="2" Margin="0,230,0,0" 
+                            VerticalAlignment="Top" Width="1300" Source="/img/Rectangle44.png"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
         <!--Товар-->
+        <!--
         <Rectangle HorizontalAlignment="Left" Height="200" Margin="104,204,0,0" 
                    Stroke="Black" VerticalAlignment="Top" Width="200"/>
         <TextBlock Margin="342,204,0,0" Text="Название" FontSize="32"/>
         <Image HorizontalAlignment="Left" Height="38" Margin="1295,204,0,0" 
                VerticalAlignment="Top" Width="38" Source="/img/Trash.png"/>
         <TextBlock Margin="1184,302,0,0" Text="300 000 ₽" FontSize="32" TextAlignment="Right" Width="149"/>
+
         
-            <!-- Счетчик-->
         <Rectangle HorizontalAlignment="Left" Height="56" Margin="346,293,0,0" 
                    Stroke="Black" VerticalAlignment="Top" Width="132" RadiusX="15" RadiusY="15"/>
         <TextBlock x:Name="CountTextBlock" Margin="390,302,0,0"  FontSize="32" Width="45" TextAlignment="Center"/>
@@ -68,7 +130,7 @@ Margin="132.13,48.13,0,0" VerticalAlignment="Top" Width="31.44" Source="/img/Plu
 
         <Image HorizontalAlignment="Left" Height="2" Margin="72,421,0,0" 
             VerticalAlignment="Top" Width="1300" Source="/img/Rectangle44.png"/>
-        
+        -->
         <!--Покупка-->
         <TextBlock Margin="104,887,0,0" Text="300 000 ₽" FontSize="32" Width="149"/>
         <Button Content="Услуги" HorizontalAlignment="Left" Margin="561,864,0,0" 

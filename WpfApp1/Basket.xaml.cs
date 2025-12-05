@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfApp1.Models;
+using WpfApp1.Utilities;
 
 namespace WpfApp1
 {
@@ -19,17 +21,30 @@ namespace WpfApp1
     /// </summary>
     public partial class Basket : Window
     {
-        private int currentValue = 1;
+        // Удалите private int currentValue = 1;
 
         public Basket()
         {
             InitializeComponent();
 
-            UpdateTextBlock();
+            // Привязываем DataContext всего окна к статическому BasketManager
+            this.DataContext = BasketManager.Items;
+
+            // Запускаем метод для обновления видимости
+            UpdateBasketDisplay();
+
+            // Подписываемся на событие изменения коллекции, чтобы обновлять видимость
+            BasketManager.Items.CollectionChanged += (s, e) => UpdateBasketDisplay();
+
+            // Удалите вызов UpdateTextBlock();
         }
+
+        // Удалите DefaultColor и HoverColor, если они не используются для других элементов
 
         private readonly SolidColorBrush DefaultColor = (SolidColorBrush)new BrushConverter().ConvertFromString("#100100");
         private readonly SolidColorBrush HoverColor = (SolidColorBrush)new BrushConverter().ConvertFromString("#85D5DC");
+
+        // ... все методы MainButton_MouseEnter/Leave, CatalogButton_MouseEnter/Leave ...
 
         private void MainButton_MouseEnter(object sender, MouseEventArgs e)
         {
@@ -78,50 +93,76 @@ namespace WpfApp1
 
         private void Button_ClickCatalog(object sender, RoutedEventArgs e)
         {
-            Catalog catalog = new Catalog();    
+            Catalog catalog = new Catalog();
             catalog.Show();
             this.Close();
         }
 
-        private void UpdateTextBlock()
+
+        // Удалите методы IncrementButton_Click, DecrementButton_Click, UpdateTextBlock()
+
+        // Новый метод для управления видимостью
+        private void UpdateBasketDisplay()
         {
-            // Проверяем, существует ли TextBlock, прежде чем менять его
-            if (CountTextBlock != null)
+            // Проверяем, есть ли товары в корзине
+            bool hasItems = BasketManager.Items.Any();
+
+            // Показываем/скрываем ListBox
+            if (BasketListBox != null)
             {
-                CountTextBlock.Text = $"{currentValue}";
+                BasketListBox.Visibility = hasItems ? Visibility.Visible : Visibility.Collapsed;
+            }
+
+            // Показываем/скрываем текст "Вы ничего не покупаете"
+            if (EmptyBasketTextBlock != null)
+            {
+                EmptyBasketTextBlock.Visibility = hasItems ? Visibility.Collapsed : Visibility.Visible;
             }
         }
 
-            private void IncrementButton_Click(object sender, RoutedEventArgs e)
+        // Новый обработчик для увеличения количества товара
+        private void IncrementItemButton_Click(object sender, RoutedEventArgs e)
         {
-            // Увеличиваем значение
-            if(currentValue >= 99)
+            // Получаем кнопку, которая вызвала событие
+            if (sender is Button button)
             {
-                currentValue = 99;
+                // Находим DataContext (BasketItem) кнопки. 
+                // Button находится внутри DataTemplate, поэтому его DataContext - это BasketItem.
+                if (button.DataContext is BasketItem item)
+                {
+                    // Увеличиваем количество. Свойство Quantity само обновит TotalItemPrice и UI.
+                    item.Quantity++;
+                }
             }
-            else
-            {
-                currentValue++;
-            }
-
-            // Обновляем текст в TextBlock
-            UpdateTextBlock();
         }
 
-        private void DecrementButton_Click(object sender, RoutedEventArgs e)
+        // Новый обработчик для уменьшения количества товара
+        private void DecrementItemButton_Click(object sender, RoutedEventArgs e)
         {
-            // Уменьшаем значение
-            if (currentValue <= 0)
+            if (sender is Button button)
             {
-                currentValue = 0;
-            }
-            else
-            {
-                currentValue--;
-            }
+                if (button.DataContext is BasketItem item)
+                {
+                    if (item.Quantity > 1)
+                    {
+                        // Уменьшаем количество
+                        item.Quantity--;
+                    }
+                    else
+                    {
+                        // Если количество стало 1 и пользователь нажимает "минус", удаляем товар
+                        MessageBoxResult result = MessageBox.Show(
+                            $"Удалить {item.Name} из корзины?",
+                            "Подтверждение",
+                            MessageBoxButton.YesNo);
 
-            // Обновляем текст в TextBlock
-            UpdateTextBlock();
+                        if (result == MessageBoxResult.Yes)
+                        {
+                            BasketManager.RemoveItem(item);
+                        }
+                    }
+                }
+            }
         }
     }
 }

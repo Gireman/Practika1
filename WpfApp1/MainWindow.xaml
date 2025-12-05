@@ -7,16 +7,14 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="1024" Width="1440">
     <Grid>
-        <!--Аккаунт и регистрация-->
+
+        <Image HorizontalAlignment="Left" Height="1024" Margin="0,0,0,0" VerticalAlignment="Top" Width="1440" Source="/img/image 7.png" Panel.ZIndex="-1"/>
+
+        <!--Аккаунт, вход и регистрация-->
         <Button x:Name="Acc" Content="" HorizontalAlignment="Left" 
                 Margin="54,39,0,0" VerticalAlignment="Top" Style="{StaticResource AccountButtonStyle}" Click="Acc_Click"/>
         <Image HorizontalAlignment="Left" Height="44" 
                Margin="57,41,0,0" VerticalAlignment="Top" Width="46" Source="/img/AccountMale.png" IsHitTestVisible="False"/>
-
-        <Button Content="" HorizontalAlignment="Left" 
-                Margin="123,39,0,0" VerticalAlignment="Top" Style="{StaticResource RegistrationButtonStyle}" Click="Button_ClickReg"/>
-        <Image HorizontalAlignment="Left" Height="31.44" 
-               Margin="132.13,48.13,0,0" VerticalAlignment="Top" Width="31.44" Source="/img/PlusMath.png" IsHitTestVisible="False"/>
 
         <!--Меню-->
         <TextBlock Margin="513,50,0,0" Text="Главная" FontSize="28" IsHitTestVisible="False"/>
@@ -47,11 +45,24 @@
         
         <!--Предложения-->
         <TextBlock Margin="54,566,0,0" Text="Предложения" FontSize="32"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="54,637,0,0" 
+                VerticalAlignment="Top" Style="{StaticResource ImageButtonStylePR1}" Click="Button_Click1"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="274,637,0,0" 
+            VerticalAlignment="Top" Style="{StaticResource ImageButtonStylePR2}" Click="Button_Click2"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="54,920,0,0" 
+        VerticalAlignment="Top" Style="{StaticResource ImageButtonStyleVM}"/>
+        
         
         <!--Последнее-->
         <TextBlock Margin="494,566,0,0" Text="Последнее" FontSize="32"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="397,940,0,0" VerticalAlignment="Top" Height="42" Width="128" Click="Button_ClickAdmin"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="577,936,0,0" VerticalAlignment="Top" Height="42" Width="128" Click="Button_ClickSeller"/>
+        
 
+        <!--
+        <Button Content="Admin" HorizontalAlignment="Left" Margin="397,940,0,0" VerticalAlignment="Top" Height="42" Width="128" Click="Button_ClickAdmin"/>
+        <Button Content="Seller" HorizontalAlignment="Left" Margin="577,936,0,0" VerticalAlignment="Top" Height="42" Width="128" Click="Button_ClickSeller"/>
+        -->
+        
+        
+        
     </Grid>
 </Window>

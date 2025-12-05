@@ -206,7 +206,61 @@ namespace WpfApp1
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
+            // 1. Проверка: Убедимся, что буферный объект CurrentOrder существует.
+            if (CurrentOrder == null)
+            {
+                MessageBox.Show("Ошибка: Буферный объект заказа отсутствует.", "Ошибка создания");
+                return;
+            }
 
+            // Проверка заполнения основных полей
+            // Проверяем ClientID, EmployeeID и наличие хотя бы одного товара
+            if (CurrentOrder.ClientID == 0 || CurrentOrder.EmployeeID == 0 || EditableOrderItems.Count == 0)
+            {
+                MessageBox.Show("Пожалуйста, заполните поля IDClient, EmployeeID и добавьте хотя бы один товар.", "Ошибка ввода");
+                return;
+            }
+
+            // Проверяем, что все OrderItem имеют ProductId и Quantity > 0
+            if (EditableOrderItems.Any(item => item.ProductId == 0 || item.Quantity <= 0))
+            {
+                MessageBox.Show("Ошибка: Все товары должны иметь корректный ID товара и количество больше 0.", "Ошибка ввода");
+                return;
+            }
+
+
+            // 2. Генерация нового ID (имитация работы БД)
+            // Находим максимальный ID в текущей коллекции и добавляем 1.
+            int newId = _ordersList.Any() ? _ordersList.Max(o => o.Id) + 1 : 1;
+
+            // 3. Создание нового объекта Order с скопированными данными
+            // Создаем НОВЫЙ объект для добавления в список, чтобы не добавлять буферный объект.
+            var newOrder = new Order
+            {
+                Id = newId,
+                ClientID = CurrentOrder.ClientID,
+                EmployeeID = CurrentOrder.EmployeeID,
+                ServicesID = CurrentOrder.ServicesID?.ToArray(), // Копируем массив услуг
+                Summ = CurrentOrder.Summ,
+                Status = CurrentOrder.Status,
+
+                // КЛЮЧЕВОЕ ИЗМЕНЕНИЕ: Глубокое копирование OrderItems из DataGrid
+                OrderItems = EditableOrderItems.Select(item => new OrderItem
+                {
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity
+                }).ToList()
+            };
+
+            // 4. Добавление в ObservableCollection
+            // ObservableCollection автоматически уведомит DataGrid в ConsoleSellerOrders о новом элементе.
+            _ordersList.Add(newOrder);
+
+            MessageBox.Show($"Новый заказ ID: {newId} успешно создан и добавлен (в памяти).", "Создание завершено");
+
+            // 5. Очистка формы после создания
+            CurrentOrder = new Order(); // Создаем новый пустой буфер
+            EditableOrderItems.Clear(); // Очищаем DataGrid
         }
     }
 }
