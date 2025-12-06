@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using WpfApp1.Models;
+using WpfApp1.Utilities;
 
 namespace WpfApp1
 {
@@ -152,6 +153,12 @@ namespace WpfApp1
 
         private void Button_ClickExit(object sender, RoutedEventArgs e)
         {
+            // Выход из сессии
+            AuthManager.Logout();
+
+            MessageBox.Show("Вы успешно вышли из аккаунта.", "Выход");
+
+            // Возвращаемся на главное окно
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
             this.Close();

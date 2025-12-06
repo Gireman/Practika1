@@ -13,11 +13,6 @@
         <Image HorizontalAlignment="Left" Height="44" 
        Margin="57,41,0,0" VerticalAlignment="Top" Width="46" Source="/img/AccountMale.png" IsHitTestVisible="False"/>
 
-        <Button Content="" HorizontalAlignment="Left" 
-        Margin="123,39,0,0" VerticalAlignment="Top" Style="{StaticResource RegistrationButtonStyle}"/>
-        <Image HorizontalAlignment="Left" Height="31.44" 
-       Margin="132.13,48.13,0,0" VerticalAlignment="Top" Width="31.44" Source="/img/PlusMath.png" IsHitTestVisible="False"/>
-
         <!--Меню-->
         <Button Content="" HorizontalAlignment="Left" x:Name="MainButton"
         Margin="505,41,0,0" VerticalAlignment="Top" Style="{StaticResource MenuButtonStyle}" Click="Button_ClickMain"

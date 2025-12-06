@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1.models;
+using WpfApp1.Utilities; // Для AuthManager
+using WpfApp1.Models;    // Для модели Users
 
 namespace WpfApp1
 {
@@ -21,6 +23,19 @@ namespace WpfApp1
     public partial class Enter : Window
     {
         // 1. Локальный список пользователей для имитации БД
+        //private List<LoginData> _usersList = new List<LoginData>()
+        //{
+        //    new LoginData { Login = "admin", Password = "123", Role = "Admin" },
+        //    new LoginData { Login = "seller", Password = "123", Role = "Seller" },
+        //    new LoginData { Login = "user", Password = "123", Role = "User" }
+        //};
+
+        public Enter()
+        {
+            InitializeComponent();
+        }
+
+// 1. Локальный список данных для входа(LoginData)
         private List<LoginData> _usersList = new List<LoginData>()
         {
             new LoginData { Login = "admin", Password = "123", Role = "Admin" },
@@ -28,61 +43,82 @@ namespace WpfApp1
             new LoginData { Login = "user", Password = "123", Role = "User" }
         };
 
-        public Enter()
+        // 2. Имитация полного списка пользователей для сохранения в сессию (Users)
+        // !!! ВАЖНО: Эти данные должны соответствовать логинам из _usersList
+        private List<Users> _usersFullDataList = new List<Users>()
         {
-            InitializeComponent();
-        }
+            new Users { Id = 1, Login = "admin", Name = "Администратор", Surname = "Системы", Password = "123", /* ... */ },
+            new Users { Id = 2, Login = "seller", Name = "Продавец", Surname = "Магазина", Password = "123", /* ... */ },
+            new Users { Id = 3, Login = "user", Name = "Обычный", Surname = "Пользователь", Password = "123", /* ... */ },
+        };
 
         // --------------------------------------------------------------------
-        // ЛОГИКА ВХОДА
+        // ИСПРАВЛЕННАЯ ЛОГИКА ВХОДА
         // --------------------------------------------------------------------
         private void Button_ClickEnter(object sender, RoutedEventArgs e)
         {
-            // Получаем элементы по имени
-            TextBox? loginBox = (TextBox)FindName("LoginTextBox");
-            TextBox? passwordBox = (TextBox)FindName("PasswordTextBox"); // Используем TextBox
+            TextBox? loginBox = this.FindName("LoginTextBox") as TextBox;
+            TextBox? passwordBox = this.FindName("PasswordTextBox") as TextBox;
 
-            // Проверяем, что элементы найдены
-            if (loginBox == null || passwordBox == null)
+            if (loginBox == null || passwordBox == null || loginBox.Text == "Логин" || passwordBox.Text == "Пароль")
             {
-                MessageBox.Show("Ошибка: Поля ввода не найдены (проверьте x:Name в XAML).", "Критическая ошибка");
+                MessageBox.Show("Пожалуйста, введите логин и пароль.", "Ошибка");
                 return;
             }
 
-            string login = loginBox.Text.Trim();
-            string password = passwordBox.Text.Trim(); // Используем .Text для TextBox
+            string login = loginBox.Text;
+            string password = passwordBox.Text;
 
-            // !!! ГЛАВНОЕ ИСПРАВЛЕНИЕ: Проверяем, не остался ли текст-заглушка
-            if (string.IsNullOrWhiteSpace(login) || login == "Логин" ||
-                string.IsNullOrWhiteSpace(password) || password == "Пароль")
-            {
-                MessageBox.Show("Пожалуйста, введите логин и пароль.", "Ошибка ввода");
-                return;
-            }
-
-            // Ищем пользователя в списке
-            LoginData? currentUser = _usersList.FirstOrDefault(u =>
+            // 1. Проверка учетных данных
+            LoginData? validLoginData = _usersList.FirstOrDefault(u =>
                 u.Login == login && u.Password == password);
 
-            if (currentUser != null)
+            if (validLoginData != null)
             {
-                MessageBox.Show($"Добро пожаловать, {currentUser.Login}! Ваша роль: {currentUser.Role}.", "Успешный вход");
+                // 2. Вход успешен. Получаем полный объект пользователя.
+                Users? currentUser = _usersFullDataList.FirstOrDefault(u => u.Login == login);
 
-                // Открываем окно в зависимости от роли
-                Window nextWindow = currentUser.Role switch
+                if (currentUser != null)
                 {
-                    "Admin" => new AdminConsole(),
-                    "Seller" => new ConsoleSeller(),
-                    "User" => new MainWindow(),
-                    _ => new MainWindow(),
-                };
+                    // 3. Сохраняем данные пользователя в глобальной сессии
+                    AuthManager.Login(currentUser);
 
-                nextWindow.Show();
-                this.Close();
+                    // 4. Уведомление без имени пользователя
+                    MessageBox.Show("Вход выполнен успешно!", "Вход");
+
+                    // 5. Ролевая навигация
+                    Window nextWindow;
+                    switch (validLoginData.Role)
+                    {
+                        case "Admin":
+                            // Навигация для Администратора
+                            // Вам нужно убедиться, что класс AdminConsole существует
+                            // Примечание: предполагается, что вы замените этот класс на нужный
+                            nextWindow = new AdminConsole();
+                            break;
+                        case "Seller":
+                            // Навигация для Продавца
+                            // Класс ConsoleSeller был упомянут в ваших предыдущих файлах
+                            nextWindow = new ConsoleSeller();
+                            break;
+                        case "User":
+                        default:
+                            // Навигация для Обычного Пользователя (остается на главном окне)
+                            nextWindow = new MainWindow();
+                            break;
+                    }
+
+                    nextWindow.Show();
+                    this.Close(); // Закрываем окно входа
+                }
+                else
+                {
+                    MessageBox.Show("Ошибка: Полные пользовательские данные не найдены.", "Ошибка");
+                }
             }
             else
             {
-                MessageBox.Show("Неверный логин или пароль.", "Ошибка аутентификации");
+                MessageBox.Show("Неверный логин или пароль.", "Ошибка входа");
             }
         }
 

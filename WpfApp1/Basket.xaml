@@ -13,10 +13,6 @@
         <Image HorizontalAlignment="Left" Height="44" 
 Margin="57,41,0,0" VerticalAlignment="Top" Width="46" Source="/img/AccountMale.png" IsHitTestVisible="False"/>
 
-        <Button Content="" HorizontalAlignment="Left" 
- Margin="123,39,0,0" VerticalAlignment="Top" Style="{StaticResource RegistrationButtonStyle}"/>
-        <Image HorizontalAlignment="Left" Height="31.44" 
-Margin="132.13,48.13,0,0" VerticalAlignment="Top" Width="31.44" Source="/img/PlusMath.png" IsHitTestVisible="False"/>
 
         <!--Меню-->
         <Button Content="" HorizontalAlignment="Left" x:Name="MainButton"
@@ -75,32 +71,32 @@ Margin="132.13,48.13,0,0" VerticalAlignment="Top" Width="31.44" Source="/img/Plu
                     <Grid Height="250">
 
                         <Rectangle HorizontalAlignment="Left" Height="177" VerticalAlignment="Top" 
-                                   Width="178" Fill="#CCCCCC" Margin="0,0,0,0"/>
+                                   Width="178" Fill="#CCCCCC" Margin="29,29,0,0"/>
                         <Image HorizontalAlignment="Left" Height="177" VerticalAlignment="Top" 
-                               Width="178" Source="{Binding ImagePath}" Margin="0,0,0,0"/>
+                               Width="178" Source="{Binding ImagePath}" Margin="20,29,0,0"/>
 
-                        <TextBlock Margin="271,9,0,0" Text="{Binding Name}" FontSize="36" Width="500" HorizontalAlignment="Left"/>
-                        <TextBlock Margin="271,68,0,0" Text="{Binding TotalItemPrice, StringFormat='{}{0:N0} ₽'}" FontSize="28" Width="200" HorizontalAlignment="Left"/>
+                        <TextBlock Margin="271,23,0,0" Text="{Binding Name}" FontSize="36" Width="800" HorizontalAlignment="Left" TextTrimming="CharacterEllipsis"  TextWrapping="NoWrap"/>
+                        <TextBlock Margin="271,85,0,0" Text="{Binding TotalItemPrice, StringFormat='{}{0:N0} ₽'}" FontSize="28" Width="200" HorizontalAlignment="Left"/>
 
-                        <Rectangle HorizontalAlignment="Left" Height="56" Margin="271,118,0,0" 
+                        <Rectangle HorizontalAlignment="Left" Height="56" Margin="271,150,0,0" 
                                    Stroke="Black" VerticalAlignment="Top" Width="132" RadiusX="15" RadiusY="15"/>
                         <TextBlock x:Name="CountTextBlock" 
-                                   Margin="315,127,0,0"  
+                                   Margin="315,160,0,0"  
                                    FontSize="32" Width="45" TextAlignment="Center" 
                                    Text="{Binding Quantity}"/>
 
-                        <Button Content="+" HorizontalAlignment="Left" Margin="367,127,0,0" 
+                        <Button Content="+" HorizontalAlignment="Left" Margin="367,158,0,0" 
                                 VerticalAlignment="Top" FontSize="32" Width="32" 
                                 Style="{StaticResource CountButtonStyle}" 
                                 Click="IncrementItemButton_Click"/>
 
-                        <Button Content="—" HorizontalAlignment="Left" Margin="279,127,0,0" 
+                        <Button Content="—" HorizontalAlignment="Left" Margin="279,158,0,0" 
                                 VerticalAlignment="Top" FontSize="32" Width="32" 
                                 Style="{StaticResource CountButtonStyle}" 
                                 Click="DecrementItemButton_Click"/>
 
-                        <Image HorizontalAlignment="Left" Height="2" Margin="0,230,0,0" 
-                            VerticalAlignment="Top" Width="1300" Source="/img/Rectangle44.png"/>
+                        <Image HorizontalAlignment="Left" Height="2" Margin="29,230,0,0" 
+                            VerticalAlignment="Top" Width="1231" Source="/img/Rectangle44.png"/>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

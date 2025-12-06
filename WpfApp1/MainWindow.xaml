@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
+
         mc:Ignorable="d"
         Title="MainWindow" Height="1024" Width="1440">
     <Grid>
@@ -46,23 +47,35 @@
         <!--Предложения-->
         <TextBlock Margin="54,566,0,0" Text="Предложения" FontSize="32"/>
         <Button Content="Button" HorizontalAlignment="Left" Margin="54,637,0,0" 
-                VerticalAlignment="Top" Style="{StaticResource ImageButtonStylePR1}" Click="Button_Click1"/>
+                VerticalAlignment="Top" Style="{StaticResource ImageButtonStylePR1}" Click="Button_Click11"/>
         <Button Content="Button" HorizontalAlignment="Left" Margin="274,637,0,0" 
-            VerticalAlignment="Top" Style="{StaticResource ImageButtonStylePR2}" Click="Button_Click2"/>
+            VerticalAlignment="Top" Style="{StaticResource ImageButtonStylePR2}" Click="Button_Click22"/>
         <Button Content="Button" HorizontalAlignment="Left" Margin="54,920,0,0" 
         VerticalAlignment="Top" Style="{StaticResource ImageButtonStyleVM}"/>
         
         
         <!--Последнее-->
         <TextBlock Margin="494,566,0,0" Text="Последнее" FontSize="32"/>
+        <Button Content="" HorizontalAlignment="Left" Margin="494,637,0,0" VerticalAlignment="Top" Style="{StaticResource ImageButtonStyle1}" Click="Button_Click1"/>
+        <Button Content="" HorizontalAlignment="Left" Margin="494,711,0,0" VerticalAlignment="Top" Style="{StaticResource ImageButtonStyle2}" Click="Button_Click2"/>
+        <Button Content="" HorizontalAlignment="Left" Margin="494,785,0,0" VerticalAlignment="Top" Style="{StaticResource ImageButtonStyle3}" Click="Button_Click3"/>
+        <Button Content="" HorizontalAlignment="Left" Margin="494,858,0,0" VerticalAlignment="Top" Style="{StaticResource ImageButtonStyle4}" Click="Button_Click4"/>
+        <Button Content="" HorizontalAlignment="Left" Margin="494,932,0,0" VerticalAlignment="Top" Style="{StaticResource ImageButtonStyle5}" Click="Button_Click5"/>
         
+
 
         <!--
         <Button Content="Admin" HorizontalAlignment="Left" Margin="397,940,0,0" VerticalAlignment="Top" Height="42" Width="128" Click="Button_ClickAdmin"/>
         <Button Content="Seller" HorizontalAlignment="Left" Margin="577,936,0,0" VerticalAlignment="Top" Height="42" Width="128" Click="Button_ClickSeller"/>
         -->
         
-        
-        
+        <Image HorizontalAlignment="Left" Height="200" Margin="794,566,0,0" VerticalAlignment="Top" Width="220" Source="/img/Group 40.png"/>
+        <Image HorizontalAlignment="Left" Height="200" Margin="794,789,0,0" VerticalAlignment="Top" Width="220" Source="/img/Group 41.png"/>
+
+        <Image HorizontalAlignment="Left" Height="120" Margin="1063,566,0,0" VerticalAlignment="Top" Width="323" Source="/img/Group 44.png"/>
+        <Image HorizontalAlignment="Left" Height="120" Margin="1063,718,0,0" VerticalAlignment="Top" Width="323" Source="/img/Group 43.png"/>
+        <Image HorizontalAlignment="Left" Height="120" Margin="1063,869,0,0" VerticalAlignment="Top" Width="323" Source="/img/Group 42.png"/>
+
+
     </Grid>
 </Window>
