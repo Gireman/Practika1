@@ -46,9 +46,9 @@ namespace WpfApp1
 
             // 2. Валидация (добавьте свои проверки)
             // Пример: Проверка, что имя и email не пустые после редактирования
-            if (string.IsNullOrWhiteSpace(user.Name) || string.IsNullOrWhiteSpace(user.Email) || user.Birthday == default)
+            if (string.IsNullOrWhiteSpace(user.Name) || string.IsNullOrWhiteSpace(user.Phone) || user.Birthday == default || string.IsNullOrWhiteSpace(user.Password) || string.IsNullOrWhiteSpace(user.Surname))
             {
-                MessageBox.Show("Пожалуйста, заполните обязательные поля (Имя, Email, Дата рождения).", "Ошибка валидации");
+                MessageBox.Show("Пожалуйста, заполните обязательные поля (Пароль, Имя, Фамилия, Телефон, Дата рождения).", "Ошибка валидации");
                 return;
             }
 
@@ -71,45 +71,6 @@ namespace WpfApp1
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
             this.Close();
-        }
-
-        private void AccountTextBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            TextBox textBox = (TextBox)sender;
-
-            // Убираем текст-заглушку, если она присутствует
-            if (textBox.Text.EndsWith("*") || textBox.Text == "Почта" || textBox.Text == "Отчество" || textBox.Text == "Адрес")
-            {
-                textBox.Text = string.Empty;
-                textBox.Foreground = Brushes.Black; // Меняем цвет на стандартный при фокусе
-            }
-        }
-
-        // Общий обработчик для LostFocus
-        private void AccountTextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            TextBox textBox = (TextBox)sender;
-
-            // Если поле пустое после потери фокуса, восстанавливаем текст-заглушку
-            if (string.IsNullOrWhiteSpace(textBox.Text))
-            {
-                string originalText = string.Empty;
-
-                if (textBox.Name == "LoginTextBox") originalText = "Логин*";
-                else if (textBox.Name == "PasswordTextBox") originalText = "Пароль*";
-                else if (textBox.Name == "NameTextBox") originalText = "Имя*";
-                else if (textBox.Name == "SurnameTextBox") originalText = "Фамилия*";
-                else if (textBox.Name == "PatronymicTextBox") originalText = "Отчество";
-                else if (textBox.Name == "PhoneTextBox") originalText = "Телефон*";
-                else if (textBox.Name == "EmailTextBox") originalText = "Почта";
-                else if (textBox.Name == "BirthdayTextBox") originalText = "Дата рождения*";
-                else if (textBox.Name == "AdressTextBox") originalText = "Адрес";
-
-                textBox.Text = originalText;
-
-                // Восстановление полупрозрачного цвета
-                //textBox.Foreground = new SolidColorBrush(Color.FromArgb(0x55, 0x10, 0x01, 0x00));
-            }
         }
 
         private void Button_ClickBack(object sender, RoutedEventArgs e)

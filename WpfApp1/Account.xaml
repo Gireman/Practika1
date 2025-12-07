@@ -10,67 +10,67 @@
         <Rectangle HorizontalAlignment="Left" Height="950" Margin="370,37,0,0"  VerticalAlignment="Top" Width="700" Fill="#fff" RadiusX="15" RadiusY="15"/>
         <TextBlock Margin="657,85,0,0" Text="Аккаунт" FontSize="32"/>
 
-        <Border CornerRadius="15" BorderThickness="2" BorderBrush="#100100" Width="400" Height="65" Margin="0,-670,0,0" >
+        <TextBlock Margin="536,152,0,0" Text="Логин" FontSize="28"/>
+        <Border CornerRadius="15" BorderThickness="2" BorderBrush="#100100" Width="400" Height="65" Margin="230,-670,0,0" >
             <TextBox x:Name="LoginTextBox" HorizontalAlignment="Left" Width="400" Height="65" TextWrapping="Wrap" Text="{Binding Login, Mode=OneWay}"
          VerticalAlignment="Top"  Padding="10" FontSize="28" 
-         Foreground="#100100" BorderBrush="Transparent" Background="Transparent"
-         GotFocus="AccountTextBox_GotFocus" LostFocus="AccountTextBox_LostFocus"/>
+         Foreground="#100100" BorderBrush="Transparent" Background="Transparent"/>
         </Border>
 
-        <Border CornerRadius="15" BorderThickness="2" BorderBrush="#100100" Width="400" Height="65" Margin="0,-510,0,0" >
+        <TextBlock Margin="504,232,0,0" Text="Пароль*" FontSize="28"/>
+        <Border CornerRadius="15" BorderThickness="2" BorderBrush="#100100" Width="400" Height="65" Margin="230,-510,0,0" >
             <TextBox x:Name="PasswordTextBox" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
  VerticalAlignment="Top" Width="400" Height="65" Padding="10" FontSize="28" 
- Foreground="#100100" BorderBrush="Transparent" Background="Transparent"
-         GotFocus="AccountTextBox_GotFocus" LostFocus="AccountTextBox_LostFocus"/>
+ Foreground="#100100" BorderBrush="Transparent" Background="Transparent"/>
         </Border>
 
-        <Border CornerRadius="15" BorderThickness="2" BorderBrush="#100100" Width="400" Height="65" Margin="0,-350,0,0" >
+        <TextBlock Margin="545,312,0,0" Text="Имя*" FontSize="28" RenderTransformOrigin="0.896,-0.207"/>
+        <Border CornerRadius="15" BorderThickness="2" BorderBrush="#100100" Width="400" Height="65" Margin="230,-350,0,0" >
             <TextBox x:Name="NameTextBox" HorizontalAlignment="Left" Width="400" Height="65" TextWrapping="Wrap" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
         VerticalAlignment="Top"  Padding="10" FontSize="28" 
-        Foreground="#100100" BorderBrush="Transparent" Background="Transparent"
-         GotFocus="AccountTextBox_GotFocus" LostFocus="AccountTextBox_LostFocus"/>
+        Foreground="#100100" BorderBrush="Transparent" Background="Transparent"/>
         </Border>
 
-        <Border CornerRadius="15" BorderThickness="2" BorderBrush="#100100" Width="400" Height="65" Margin="0,-190,0,0" >
+        <TextBlock Margin="479,392,0,0" Text="Фамилия*" FontSize="28"/>
+        <Border CornerRadius="15" BorderThickness="2" BorderBrush="#100100" Width="400" Height="65" Margin="230,-190,0,0" >
             <TextBox x:Name="SurnameTextBox" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="{Binding Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 VerticalAlignment="Top" Width="400" Height="65" Padding="10" FontSize="28" 
-Foreground="#100100" BorderBrush="Transparent" Background="Transparent"
-         GotFocus="AccountTextBox_GotFocus" LostFocus="AccountTextBox_LostFocus"/>
+Foreground="#100100" BorderBrush="Transparent" Background="Transparent"/>
         </Border>
 
-        <Border CornerRadius="15" BorderThickness="2" BorderBrush="#100100" Width="400" Height="65" Margin="0,-30,0,0" >
+        <TextBlock Margin="490,472,0,0" Text="Отчество" FontSize="28"/>
+        <Border CornerRadius="15" BorderThickness="2" BorderBrush="#100100" Width="400" Height="65" Margin="230,-30,0,0" >
             <TextBox x:Name="PatronymicTextBox" HorizontalAlignment="Left" Width="400" Height="65" TextWrapping="Wrap" Text="{Binding Patronymic, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
         VerticalAlignment="Top"  Padding="10" FontSize="28" 
-        Foreground="#100100" BorderBrush="Transparent" Background="Transparent"
-         GotFocus="AccountTextBox_GotFocus" LostFocus="AccountTextBox_LostFocus"/>
+        Foreground="#100100" BorderBrush="Transparent" Background="Transparent"/>
         </Border>
 
-        <Border CornerRadius="15" BorderThickness="2" BorderBrush="#100100" Width="400" Height="65" Margin="0,130,0,0" >
+        <TextBlock Margin="488,552,0,0" Text="Телефон*" FontSize="28"/>
+        <Border CornerRadius="15" BorderThickness="2" BorderBrush="#100100" Width="400" Height="65" Margin="230,130,0,0" >
             <TextBox x:Name="PhoneTextBox" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="{Binding Phone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 VerticalAlignment="Top" Width="400" Height="65" Padding="10" FontSize="28" 
-Foreground="#100100" BorderBrush="Transparent" Background="Transparent"
-         GotFocus="AccountTextBox_GotFocus" LostFocus="AccountTextBox_LostFocus"/>
+Foreground="#100100" BorderBrush="Transparent" Background="Transparent"/>
         </Border>
 
-        <Border CornerRadius="15" BorderThickness="2" BorderBrush="#100100" Width="400" Height="65" Margin="0,290,0,0" >
+        <TextBlock Margin="534,632,0,0" Text="Почта" FontSize="28"/>
+        <Border CornerRadius="15" BorderThickness="2" BorderBrush="#100100" Width="400" Height="65" Margin="230,290,0,0" >
             <TextBox x:Name="EmailTextBox" HorizontalAlignment="Left" Width="400" Height="65" TextWrapping="Wrap" Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
         VerticalAlignment="Top"  Padding="10" FontSize="28" 
-        Foreground="#100100" BorderBrush="Transparent" Background="Transparent"
-         GotFocus="AccountTextBox_GotFocus" LostFocus="AccountTextBox_LostFocus"/>
+        Foreground="#100100" BorderBrush="Transparent" Background="Transparent"/>
         </Border>
 
-        <Border CornerRadius="15" BorderThickness="2" BorderBrush="#100100" Width="400" Height="65" Margin="0,450,0,0" >
+        <TextBlock Margin="395,712,0,0" Text="Дата рождения*" FontSize="28"/>
+        <Border CornerRadius="15" BorderThickness="2" BorderBrush="#100100" Width="400" Height="65" Margin="230,450,0,0" >
             <TextBox x:Name="BirthdayTextBox" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="{Binding Birthday, Mode=TwoWay, StringFormat='{}{0:yyyy-MM-dd}', UpdateSourceTrigger=PropertyChanged}"
 VerticalAlignment="Top" Width="400" Height="65" Padding="10" FontSize="28" 
-Foreground="#100100" BorderBrush="Transparent" Background="Transparent"
-         GotFocus="AccountTextBox_GotFocus" LostFocus="AccountTextBox_LostFocus"/>
+Foreground="#100100" BorderBrush="Transparent" Background="Transparent"/>
         </Border>
 
-        <Border CornerRadius="15" BorderThickness="2" BorderBrush="#100100" Width="400" Height="65" Margin="0,610,0,0" >
+        <TextBlock Margin="532,792,0,0" Text="Адрес" FontSize="28"/>
+        <Border CornerRadius="15" BorderThickness="2" BorderBrush="#100100" Width="400" Height="65" Margin="230,610,0,0" >
             <TextBox x:Name="AdressTextBox" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="{Binding Adress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 VerticalAlignment="Top" Width="400" Height="65" Padding="10" FontSize="28" 
-Foreground="#100100" BorderBrush="Transparent" Background="Transparent"
-         GotFocus="AccountTextBox_GotFocus" LostFocus="AccountTextBox_LostFocus"/>
+Foreground="#100100" BorderBrush="Transparent" Background="Transparent"/>
         </Border>
 
         <Button HorizontalAlignment="Left" Margin="544,860,0,0" VerticalAlignment="Top" Style="{StaticResource ImageButtonStyleIsmen}" Click="Button_ClickChange"/>
