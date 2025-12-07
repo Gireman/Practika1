@@ -15,8 +15,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1;
+using WpfApp1.data;
 using WpfApp1.Models;
 using WpfApp1.Utilities;
+using Microsoft.EntityFrameworkCore;
 
 namespace WpfApp1
 {
@@ -40,205 +42,84 @@ namespace WpfApp1
             InitializeComponent();
             _employeesList = employees;
             DataContext = this;
+            // Инициализируем пустым объектом, чтобы привязки не сломались
             CurrentEmployee = new Employee();
         }
 
-        public AdminConsoleEmployeeRedact() : this(new ObservableCollection<Employee>()) { }
+        //public AdminConsoleEmployeeRedact() : this(new ObservableCollection<Employee>()) { }
 
-        // --- ЛОГИКА ПОИСКА (ИСПРАВЛЕНО) ---
+        // --- ГЛАВНАЯ ЛОГИКА: ПОИСК ПО ID В БАЗЕ ДАННЫХ ---
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            // !!! ИСПРАВЛЕНИЕ: Читаем ID из TextBox, а не из CurrentEmployee
-            // Предполагаем, что имя TextBox в XAML - SearchIdTextBox
+            // 1. Проверяем ввод ID
             if (!int.TryParse(SearchIdTextBox.Text, out int searchId) || searchId <= 0)
             {
-                MessageBox.Show("Пожалуйста, введите корректный ID для поиска (число больше 0).", "Ошибка ввода");
+                MessageBox.Show("Пожалуйста, введите корректный ID сотрудника (число больше 0).", "Ошибка ввода");
                 return;
             }
 
-            // Ищем сотрудника в коллекции по ID, который ввели в TextBox
-            Employee? foundEmployee = _employeesList.FirstOrDefault(emp => emp.Id == searchId);
-
-            if (foundEmployee != null)
+            try
             {
-                // Если найден, копируем его в буфер для редактирования
-                CurrentEmployee = new Employee
+                // 2. Инициализируем контекст БД
+                using (var db = new ApplicationContext())
                 {
-                    Id = foundEmployee.Id,
-                    Name = foundEmployee.Name,
-                    Surname = foundEmployee.Surname,
-                    Patronymic = foundEmployee.Patronymic,
-                    Login = foundEmployee.Login,
-                    Password = foundEmployee.Password,
-                    Phone = foundEmployee.Phone,
-                    Email = foundEmployee.Email,
-                    Birthday = foundEmployee.Birthday,
-                    Post = foundEmployee.Post,
-                    Salary = foundEmployee.Salary
-                };
-                MessageBox.Show($"Сотрудник ID: {searchId} найден и загружен.", "Успех");
+                    // 3. Запрос к БД: ищем EmployeeEntity по ID пользователя (User.Id)
+                    // Используем Include() для загрузки связанных данных (User и Post)
+                    var employeeEntity = db.EmployeeEntities
+                        .Include(ee => ee.User)
+                        .Include(ee => ee.Post)
+                        // Ищем Employee, у которого User.Id соответствует введенному searchId
+                        .FirstOrDefault(ee => ee.User.Id == searchId);
+
+                    if (employeeEntity != null)
+                    {
+                        // 4. Если найден, проектируем его в отображаемую модель Employee
+                        CurrentEmployee = new Employee
+                        {
+                            Id = employeeEntity.User.Id,
+                            Name = employeeEntity.User.Name,
+                            Surname = employeeEntity.User.Surname,
+                            Patronymic = employeeEntity.User.Patronymic,
+                            Login = employeeEntity.User.Login,
+                            Password = employeeEntity.User.Password,
+                            Phone = employeeEntity.User.Phone,
+                            Email = employeeEntity.User.Email,
+                            Birthday = employeeEntity.User.Birthday,
+                            PostName = employeeEntity.Post.PostName, // PostName из таблицы posts
+                            Salary = employeeEntity.Salary
+                        };
+                        MessageBox.Show($"Сотрудник ID: {searchId} найден и загружен в форму.", "Успех");
+                    }
+                    else
+                    {
+                        // 5. Если не найден, очищаем форму и сообщаем об этом
+                        CurrentEmployee = new Employee { Id = searchId }; // Подставляем ID, чтобы пользователь мог начать ввод
+                        MessageBox.Show($"Сотрудник с ID: {searchId} не найден. Вы можете создать его, заполнив данные.", "Не найдено");
+                    }
+                }
             }
-            else
+            catch (Exception ex)
             {
-                // Если не найден, предлагаем создать
-                // Можно автоматически подставить введенный ID в форму создания
-                CurrentEmployee = new Employee { Id = 0 };
-                MessageBox.Show($"Сотрудник с ID: {searchId} не найден. Вы можете создать нового сотрудника, заполнив данные и нажав 'Создать'.", "Не найдено");
+                MessageBox.Show($"Ошибка при поиске данных в БД: {ex.Message}", "Ошибка БД");
             }
         }
 
-        // --- НОВЫЙ МЕТОД: СОЗДАНИЕ СОТРУДНИКА (CreateButton_Click) ---
+private void ConfirmButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Здесь будет логика сохранения/обновления (Update) в БД
+            MessageBox.Show("Здесь будет логика сохранения в базу данных.", "Заглушка");
+        }
+        
         private void Button_ClickCreate(object sender, RoutedEventArgs e)
         {
-            if (CurrentEmployee == null) return;
-
-            // 1. Валидация перед созданием
-            if (!ValidateEmployeeData(CurrentEmployee))
-            {
-                return; // Сообщение об ошибке уже показано в ValidateEmployeeData
-            }
-
-            // 2. Логика создания
-            // Создаем НОВЫЙ объект, чтобы убедиться, что он не связан с ID из буфера
-            Employee newEmployee = new Employee
-            {
-                // Id оставляем 0 (или не устанавливаем), чтобы имитировать автогенерацию БД
-                Id = 0,
-                Name = CurrentEmployee.Name,
-                Surname = CurrentEmployee.Surname,
-                Patronymic = CurrentEmployee.Patronymic,
-                Login = CurrentEmployee.Login,
-                Password = CurrentEmployee.Password,
-                Phone = CurrentEmployee.Phone,
-                Email = CurrentEmployee.Email,
-                Birthday = CurrentEmployee.Birthday,
-                Post = CurrentEmployee.Post,
-                Salary = CurrentEmployee.Salary
-            };
-
-            // !!! Имитация присвоения ID базой данных
-            // Мы временно присваиваем ID в клиенте, чтобы ObservableCollection увидела новый элемент
-            // В реальном приложении это происходит на сервере после успешного запроса.
-            int newId = _employeesList.Any() ? _employeesList.Max(emp => emp.Id) + 1 : 1;
-            newEmployee.Id = newId;
-
-            // 3. Добавляем новый объект в коллекцию
-            _employeesList.Add(newEmployee);
-
-            MessageBox.Show($"Новый сотрудник ID: {newEmployee.Id} успешно создан.", "Создание завершено");
-
-            // 4. Очищаем форму (для создания следующего)
-            CurrentEmployee = new Employee();
+            // Здесь будет логика создания (Create) в БД
+            MessageBox.Show("Здесь будет логика создания в базу данных.", "Заглушка");
         }
 
-        // --- ИЗМЕНЕННЫЙ МЕТОД: РЕДАКТИРОВАНИЕ СОТРУДНИКА (ConfirmButton_Click) ---
-        private void ConfirmButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (CurrentEmployee == null) return;
-
-            // 1. Проверяем, что ID указан и существует
-            if (CurrentEmployee.Id <= 0)
-            {
-                MessageBox.Show("Для сохранения/редактирования необходимо ввести корректный ID сотрудника. Для создания используйте кнопку 'Создать'.", "Ошибка редактирования");
-                return;
-            }
-
-            Employee? originalEmployee = _employeesList.FirstOrDefault(emp => emp.Id == CurrentEmployee.Id);
-
-            if (originalEmployee == null)
-            {
-                MessageBox.Show($"Сотрудник ID: {CurrentEmployee.Id} не найден для редактирования.", "Ошибка редактирования");
-                return;
-            }
-
-            // 2. Валидация данных
-            if (!ValidateEmployeeData(CurrentEmployee))
-            {
-                return;
-            }
-
-            // 3. Копируем данные из буфера обратно в оригинальный объект ObservableCollection
-            originalEmployee.Name = CurrentEmployee.Name;
-            originalEmployee.Surname = CurrentEmployee.Surname;
-            originalEmployee.Patronymic = CurrentEmployee.Patronymic;
-            originalEmployee.Login = CurrentEmployee.Login;
-            originalEmployee.Password = CurrentEmployee.Password;
-            originalEmployee.Phone = CurrentEmployee.Phone;
-            originalEmployee.Email = CurrentEmployee.Email;
-            originalEmployee.Birthday = CurrentEmployee.Birthday;
-            originalEmployee.Post = CurrentEmployee.Post;
-            originalEmployee.Salary = CurrentEmployee.Salary;
-
-            MessageBox.Show($"Данные сотрудника ID: {originalEmployee.Id} успешно сохранены.", "Сохранение завершено");
-
-            // 4. Очищаем буфер (форму) после сохранения
-            CurrentEmployee = new Employee();
-        }
-
-        // --- МЕТОД ВАЛИДАЦИИ (Общий для Создания и Редактирования) ---
-        private bool ValidateEmployeeData(Employee employee)
-        {
-            // Проверка обязательных строковых полей
-            if (string.IsNullOrWhiteSpace(employee.Name) ||
-                string.IsNullOrWhiteSpace(employee.Surname) ||
-                string.IsNullOrWhiteSpace(employee.Login) ||
-                string.IsNullOrWhiteSpace(employee.Password) ||
-                string.IsNullOrWhiteSpace(employee.Phone) ||
-                employee.Post <= 0)
-            {
-                MessageBox.Show("Пожалуйста, заполните все обязательные поля (Имя, Фамилия, Логин, Пароль, Телефон, Должность).", "Ошибка валидации");
-                return false;
-            }
-
-            // Проверка даты рождения
-            if (employee.Birthday == default(DateOnly))
-            {
-                MessageBox.Show($"Пожалуйста, введите корректную дату рождения в формате ГГГГ-ММ-ДД.", "Ошибка формата");
-                return false;
-            }
-
-            // Дополнительная валидация (например, зарплата > 0)
-            if (employee.Salary <= 0)
-            {
-                MessageBox.Show("Зарплата должна быть больше нуля.", "Ошибка валидации");
-                return false;
-            }
-
-            return true;
-        }
-
-
-        // --- ЛОГИКА УДАЛЕНИЯ (DeleteButton_Click) ---
         private void Button_ClickDelete(object sender, RoutedEventArgs e)
         {
-            if (CurrentEmployee == null || CurrentEmployee.Id <= 0)
-            {
-                MessageBox.Show("Пожалуйста, введите ID сотрудника для удаления.", "Ошибка");
-                return;
-            }
-
-            MessageBoxResult result = MessageBox.Show(
-                $"Вы действительно хотите удалить сотрудника ID: {CurrentEmployee.Id} ({CurrentEmployee.Surname} {CurrentEmployee.Name})?",
-                "Подтверждение удаления",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Warning);
-
-            if (result == MessageBoxResult.Yes)
-            {
-                Employee? employeeToDelete = _employeesList.FirstOrDefault(emp => emp.Id == CurrentEmployee.Id);
-
-                if (employeeToDelete != null)
-                {
-                    _employeesList.Remove(employeeToDelete);
-                    CurrentEmployee = new Employee();
-
-                    MessageBox.Show("Сотрудник успешно удален (из буферного массива).", "Удалено");
-                }
-                else
-                {
-                    MessageBox.Show($"Ошибка: Сотрудник ID: {CurrentEmployee.Id} не найден в списке.", "Ошибка");
-                }
-            }
+            // Здесь будет логика удаления (Delete) из БД
+            MessageBox.Show("Здесь будет логика удаления из базы данных.", "Заглушка");
         }
 
         // --- РЕАЛИЗАЦИЯ INotifyPropertyChanged ---

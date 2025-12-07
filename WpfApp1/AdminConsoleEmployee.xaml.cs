@@ -12,8 +12,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfApp1.data;
 using WpfApp1.Models;
 using WpfApp1.Utilities;
+using Microsoft.EntityFrameworkCore; // Важно для использования Include()
 
 namespace WpfApp1
 {
@@ -27,26 +29,58 @@ namespace WpfApp1
         {
             InitializeComponent();
 
-            Employees = new ObservableCollection<Employee>()
-            {
-                new Employee
-                {
-                    Id = 1,
-                    Name = "Name",
-                    Surname = "Surname",
-                    Patronymic = "Patronymic",
-                    Login = "Login",
-                    Password = "Password",
-                    Phone = "+79313122078",
-                    Email = "Email",
-                    Birthday = new DateOnly(1990,1,1),
-                    Post = 1,
-                    Salary = 15000
-                }
-            };
+            // Инициализация коллекции
+            Employees = new ObservableCollection<Employee>();
+
+            // Загрузка данных из БД
+            LoadEmployeesData();
 
             DataContext = this;
 
+        }
+
+        private void LoadEmployeesData()
+        {
+            try
+            {
+                using (var db = new ApplicationContext())
+                {
+                    // 1. Загружаем данные из таблицы employees
+                    // 2. Используем Include() для подтягивания связанных данных (users и posts)
+                    var employeeEntities = db.EmployeeEntities
+                        .Include(ee => ee.User)
+                        .Include(ee => ee.Post)
+                        .ToList();
+
+                    // 3. Используем LINQ для проекции (объединения) данных 
+                    // в вашу отображаемую модель Employee
+                    var employeeData = employeeEntities.Select(ee => new Employee
+                    {
+                        Id = ee.User.Id, // Используем Id из таблицы users
+                        Name = ee.User.Name,
+                        Surname = ee.User.Surname,
+                        Patronymic = ee.User.Patronymic,
+                        Login = ee.User.Login,
+                        Password = ee.User.Password,
+                        Phone = ee.User.Phone,
+                        Email = ee.User.Email,
+                        Birthday = ee.User.Birthday,
+                        PostName = ee.Post.PostName, // Используем PostName из таблицы posts
+                        Salary = ee.Salary
+                    });
+
+                    // 4. Очищаем старые данные и добавляем новые в ObservableCollection
+                    Employees.Clear();
+                    foreach (var emp in employeeData)
+                    {
+                        Employees.Add(emp);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при загрузке данных: {ex.Message}", "Ошибка БД");
+            }
         }
 
         private void Button_ClickUsers(object sender, RoutedEventArgs e)

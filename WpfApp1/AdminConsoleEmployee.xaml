@@ -46,7 +46,7 @@ VerticalAlignment="Top" Style="{StaticResource ImageButtonStyle}" Click="Button_
                 <DataGridTextColumn Header="Password" Width="82" Binding="{Binding Password}" />
                 <DataGridTextColumn Header="Phone" Width="82" Binding="{Binding Phone}" />
                 <DataGridTextColumn Header="Email" Width="82" Binding="{Binding Email}" />
-                <DataGridTextColumn Header="Birthday" Width="82" Binding="{Binding Birthday}" />
+                <DataGridTextColumn Header="Birthday" Width="82" Binding="{Binding Birthday, StringFormat={}{0:dd/MM/yyyy}}" />
                 <DataGridTextColumn Header="Post" Width="81" Binding="{Binding PostName}" />
                 <DataGridTextColumn Header="Salary" Width="82" Binding="{Binding Salary}" />
             </DataGrid.Columns>

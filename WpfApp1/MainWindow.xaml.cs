@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp1.data;
 using WpfApp1.Utilities;
 
 namespace WpfApp1
@@ -21,8 +22,37 @@ namespace WpfApp1
         public MainWindow()
         {
             InitializeComponent();
+            TestDatabaseConnection();
         }
 
+        private void TestDatabaseConnection()
+        {
+            try
+            {
+                // Создаем экземпляр нашего контекста
+                using (var db = new ApplicationContext())
+                {
+                    // Попытка открытия подключения
+                    // Мы используем CanConnect(), который просто проверяет, 
+                    // можно ли установить подключение к БД.
+                    bool isConnected = db.Database.CanConnect();
+
+                    if (isConnected)
+                    {
+                        MessageBox.Show("✅ Подключение к базе данных успешно установлено!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("❌ Не удалось установить подключение к базе данных.");
+                    }
+                }
+            }
+            catch (Exception ex) // Ловим любые исключения, связанные с подключением
+            {
+                // В случае ошибки (неверный пароль, недоступный сервер и т.д.)
+                MessageBox.Show($"❌ Ошибка подключения: {ex.Message}");
+            }
+        }
 
         private readonly SolidColorBrush DefaultColor = (SolidColorBrush)new BrushConverter().ConvertFromString("#100100");
         private readonly SolidColorBrush HoverColor = (SolidColorBrush)new BrushConverter().ConvertFromString("#85D5DC");
