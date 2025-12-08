@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,9 +12,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfApp1.data;
 using WpfApp1.models;
-using WpfApp1.Utilities; // Для AuthManager
 using WpfApp1.Models;    // Для модели Users
+using WpfApp1.Utilities; // Для AuthManager
 
 namespace WpfApp1
 {
@@ -35,90 +37,113 @@ namespace WpfApp1
             InitializeComponent();
         }
 
-// 1. Локальный список данных для входа(LoginData)
-        private List<LoginData> _usersList = new List<LoginData>()
-        {
-            new LoginData { Login = "admin", Password = "123", Role = "Admin" },
-            new LoginData { Login = "seller", Password = "123", Role = "Seller" },
-            new LoginData { Login = "user", Password = "123", Role = "User" }
-        };
+//// 1. Локальный список данных для входа(LoginData)
+//        private List<LoginData> _usersList = new List<LoginData>()
+//        {
+//            new LoginData { Login = "admin", Password = "123", Role = "Admin" },
+//            new LoginData { Login = "seller", Password = "123", Role = "Seller" },
+//            new LoginData { Login = "user", Password = "123", Role = "User" }
+//        };
 
-        // 2. Имитация полного списка пользователей для сохранения в сессию (Users)
-        // !!! ВАЖНО: Эти данные должны соответствовать логинам из _usersList
-        private List<Users> _usersFullDataList = new List<Users>()
-        {
-            new Users { Id = 1, Login = "admin", Name = "Администратор", Surname = "Системы", Password = "123", Birthday = new DateTime(1999,10,2), },
-            new Users { Id = 2, Login = "seller", Name = "Продавец", Surname = "Магазина", Password = "123", Birthday = new DateTime(1999,10,2), },
-            new Users { Id = 3, Login = "user", Name = "Обычный", Surname = "Пользователь", Password = "123", Birthday = new DateTime(1999,10,2), Phone = "+79999999999" },
-        };
+//        // 2. Имитация полного списка пользователей для сохранения в сессию (Users)
+//        // !!! ВАЖНО: Эти данные должны соответствовать логинам из _usersList
+//        private List<Users> _usersFullDataList = new List<Users>()
+//        {
+//            new Users { Id = 1, Login = "admin", Name = "Администратор", Surname = "Системы", Password = "123", Birthday = new DateTime(1999,10,2), },
+//            new Users { Id = 2, Login = "seller", Name = "Продавец", Surname = "Магазина", Password = "123", Birthday = new DateTime(1999,10,2), },
+//            new Users { Id = 3, Login = "user", Name = "Обычный", Surname = "Пользователь", Password = "123", Birthday = new DateTime(1999,10,2), Phone = "+79999999999" },
+//        };
 
         // --------------------------------------------------------------------
         // ИСПРАВЛЕННАЯ ЛОГИКА ВХОДА
         // --------------------------------------------------------------------
         private void Button_ClickEnter(object sender, RoutedEventArgs e)
         {
-            TextBox? loginBox = this.FindName("LoginTextBox") as TextBox;
-            TextBox? passwordBox = this.FindName("PasswordTextBox") as TextBox;
+            // Получаем данные из полей ввода
+            string login = LoginTextBox.Text;
+            // В WPF для паролей лучше использовать PasswordBox. 
+            // Если у вас TextBox, убедитесь, что это не текст по умолчанию "Пароль"
+            string password = PasswordTextBox.Text;
 
-            if (loginBox == null || passwordBox == null || loginBox.Text == "Логин" || passwordBox.Text == "Пароль")
+            // Проверка на заполнение полей
+            if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password) || password == "Пароль" || login == "Логин")
             {
-                MessageBox.Show("Пожалуйста, введите логин и пароль.", "Ошибка");
+                MessageBox.Show("Пожалуйста, введите логин и пароль.", "Ошибка входа", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            string login = loginBox.Text;
-            string password = passwordBox.Text;
-
-            // 1. Проверка учетных данных
-            LoginData? validLoginData = _usersList.FirstOrDefault(u =>
-                u.Login == login && u.Password == password);
-
-            if (validLoginData != null)
+            try
             {
-                // 2. Вход успешен. Получаем полный объект пользователя.
-                Users? currentUser = _usersFullDataList.FirstOrDefault(u => u.Login == login);
-
-                if (currentUser != null)
+                using (var db = new ApplicationContext())
                 {
-                    // 3. Сохраняем данные пользователя в глобальной сессии
-                    AuthManager.Login(currentUser);
+                    // 1. Ищем пользователя по логину и паролю
+                    // Важно: для сотрудников (Id_role = 1) нам нужны связанные данные должности (Post)
+                    var userEntity = db.Users
+                        .Include(u => u.EmployeeEntity) // Связь с таблицей сотрудников (если role=1)
+                        .FirstOrDefault(u => u.Login == login && u.Password == password);
+                    // !!! В реальном приложении ПАРОЛЬ ДОЛЖЕН БЫТЬ ХЕШИРОВАН!
 
-                    // 4. Уведомление без имени пользователя
-                    MessageBox.Show("Вход выполнен успешно!", "Вход");
-
-                    // 5. Ролевая навигация
-                    Window nextWindow;
-                    switch (validLoginData.Role)
+                    if (userEntity == null)
                     {
-                        case "Admin":
-                            // Навигация для Администратора
-                            // Вам нужно убедиться, что класс AdminConsole существует
-                            // Примечание: предполагается, что вы замените этот класс на нужный
-                            nextWindow = new AdminConsole();
-                            break;
-                        case "Seller":
-                            // Навигация для Продавца
-                            // Класс ConsoleSeller был упомянут в ваших предыдущих файлах
-                            nextWindow = new ConsoleSeller();
-                            break;
-                        case "User":
-                        default:
-                            // Навигация для Обычного Пользователя (остается на главном окне)
-                            nextWindow = new MainWindow();
-                            break;
+                        MessageBox.Show("Неверный логин или пароль.", "Ошибка входа", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
                     }
 
-                    nextWindow.Show();
-                    this.Close(); // Закрываем окно входа
-                }
-                else
-                {
-                    MessageBox.Show("Ошибка: Полные пользовательские данные не найдены.", "Ошибка");
+                    // Переменные для навигации
+                    Window targetWindow;
+                    int postId = 0; // По умолчанию 0
+
+                    // 2. Определяем роль и целевое окно
+
+                    if (userEntity.IdRole == 2)
+                    {
+                        // РОЛЬ: КЛИЕНТ (Пользователь)
+                        // Направляем в главное окно (MainWindow)
+                        targetWindow = new MainWindow();
+                    }
+                    else if (userEntity.IdRole == 1)
+                    {
+                        // РОЛЬ: СОТРУДНИК
+                        // Проверяем, есть ли связанная сущность EmployeeEntity
+                        if (userEntity.EmployeeEntity == null)
+                        {
+                            MessageBox.Show("Сотрудник найден, но его должность не определена. Обратитесь к администратору.", "Ошибка данных", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
+
+                        postId = userEntity.EmployeeEntity.IdPost;
+
+                        if (postId == 3)
+                        {
+                            // ДОЛЖНОСТЬ: АДМИНИСТРАТОР (Id_post = 3)
+                            // Направляем в Админ Панель
+                            targetWindow = new AdminConsole();
+                        }
+                        else
+                        {
+                            // ДОЛЖНОСТЬ: ПРОДАВЕЦ ИЛИ ДРУГАЯ РОЛЬ (Id_post != 3)
+                            // Направляем в Панель Продавца (предположим, что это окно называется SellerConsole)
+                            // ВАЖНО: замените "SellerConsole" на имя вашего окна продавца
+                            targetWindow = new ConsoleSeller(); // <-- ЗАМЕНИТЬ НА ИМЯ ВАШЕГО ОКНА ПРОДАВЦА
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Неизвестная роль пользователя (ID роли: {userEntity.IdRole}).", "Ошибка роли", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    // 3. Устанавливаем текущую сессию
+                    AuthManager.Login(userEntity, postId);
+
+                    // 4. Открываем целевое окно и закрываем текущее
+                    targetWindow.Show();
+                    this.Close();
                 }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Неверный логин или пароль.", "Ошибка входа");
+                MessageBox.Show($"Произошла ошибка при входе: {ex.Message}", "Критическая ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

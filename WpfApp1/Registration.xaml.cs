@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,8 +12,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfApp1.data;
 using WpfApp1.Models;
-
+using WpfApp1.models;
 
 namespace WpfApp1
     {
@@ -24,17 +26,28 @@ namespace WpfApp1
         // Для автоматического присвоения ID
         private static int _nextId = 1;
 
+        // Определяем константы для заглушек (плейсхолдеров)
+        private const string PLACEHOLDER_LOGIN = "Логин*";
+        private const string PLACEHOLDER_PASSWORD = "Пароль*";
+        private const string PLACEHOLDER_NAME = "Имя*";
+        private const string PLACEHOLDER_SURNAME = "Фамилия*";
+        private const string PLACEHOLDER_PATRONYMIC = "Отчество";
+        private const string PLACEHOLDER_PHONE = "Телефон*";
+        private const string PLACEHOLDER_EMAIL = "Почта";
+        private const string PLACEHOLDER_BIRTHDAY = "Дата рождения*";
+        private const string PLACEHOLDER_ADRESS = "Адрес"; // Хотя адрес не вводится, проверяем на всякий случай
+
         public Registration()
         {
             InitializeComponent();
         }
 
         // --------------------------------------------------------------------
-        // ЛОГИКА РЕГИСТРАЦИИ
+        // ЛОГИКА РЕГИСТРАЦИИ (Button_ClickRegistration)
         // --------------------------------------------------------------------
         private void Button_ClickRegistration(object sender, RoutedEventArgs e)
         {
-            // 1. Получаем данные из полей
+            // 1. Получаем данные из полей ввода
             string login = (FindName("LoginTextBox") as TextBox)?.Text.Trim() ?? string.Empty;
             string password = (FindName("PasswordTextBox") as TextBox)?.Text.Trim() ?? string.Empty;
             string name = (FindName("NameTextBox") as TextBox)?.Text.Trim() ?? string.Empty;
@@ -42,84 +55,100 @@ namespace WpfApp1
             string patronymic = (FindName("PatronymicTextBox") as TextBox)?.Text.Trim() ?? string.Empty;
             string phone = (FindName("PhoneTextBox") as TextBox)?.Text.Trim() ?? string.Empty;
             string email = (FindName("EmailTextBox") as TextBox)?.Text.Trim() ?? string.Empty;
-            string birthdayText = (FindName("BirthdayTextBox") as TextBox)?.Text.Trim() ?? string.Empty;
+            string birthdayStr = (FindName("BirthdayTextBox") as TextBox)?.Text.Trim() ?? string.Empty;
+            string adress = (FindName("AdressTextBox") as TextBox)?.Text.Trim() ?? string.Empty; // Хотя не вводится, его нужно получить
 
-
-            // 2. Валидация ОБЯЗАТЕЛЬНЫХ полей 
-            List<string> requiredFields = new List<string>();
-
-            // Логин
-            if (string.IsNullOrWhiteSpace(login) || login == "Логин*")
-                requiredFields.Add("Логин");
-
-            // Пароль
-            if (string.IsNullOrWhiteSpace(password) || password == "Пароль*")
-                requiredFields.Add("Пароль");
-
-            // Имя
-            if (string.IsNullOrWhiteSpace(name) || name == "Имя*")
-                requiredFields.Add("Имя");
-
-            // Фамилия
-            if (string.IsNullOrWhiteSpace(surname) || surname == "Фамилия*")
-                requiredFields.Add("Фамилия");
-
-            // Дата рождения
-            if (string.IsNullOrWhiteSpace(birthdayText) || birthdayText == "Дата рождения*")
-                requiredFields.Add("Дата рождения");
-
-            // Телефон
-            if (string.IsNullOrWhiteSpace(phone) || phone == "Телефон" || phone == "Телефон*")
-                requiredFields.Add("Телефон");
-
-            // Проверка наличия незаполненных обязательных полей
-            if (requiredFields.Count > 0)
-            {
-                MessageBox.Show($"Пожалуйста, заполните следующие обязательные поля (*):\n\n- {string.Join("\n- ", requiredFields)}", "Ошибка регистрации");
-                return;
-            }
-
-            // 3. Дополнительная валидация (Дата рождения)
             DateTime birthday;
-            // !!! ИСПОЛЬЗУЕМ DateOnly.TryParse
-            if (!DateTime.TryParse(birthdayText.Replace("*", "").Trim(), out birthday))
+
+            // 2. Валидация обязательных полей (со звездочкой)
+            if (string.IsNullOrWhiteSpace(login) || login == PLACEHOLDER_LOGIN)
             {
-                MessageBox.Show("Некорректный формат даты рождения. Используйте формат ГГГГ-ММ-ДД (например, 1990-12-31).", "Ошибка формата");
+                MessageBox.Show("Пожалуйста, введите Логин.", "Ошибка валидации", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(password) || password == PLACEHOLDER_PASSWORD)
+            {
+                MessageBox.Show("Пожалуйста, введите Пароль.", "Ошибка валидации", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(name) || name == PLACEHOLDER_NAME)
+            {
+                MessageBox.Show("Пожалуйста, введите Имя.", "Ошибка валидации", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(surname) || surname == PLACEHOLDER_SURNAME)
+            {
+                MessageBox.Show("Пожалуйста, введите Фамилию.", "Ошибка валидации", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(phone) || phone == PLACEHOLDER_PHONE)
+            {
+                MessageBox.Show("Пожалуйста, введите Телефон.", "Ошибка валидации", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(birthdayStr) || birthdayStr == PLACEHOLDER_BIRTHDAY || !DateTime.TryParse(birthdayStr, out birthday))
+            {
+                MessageBox.Show("Пожалуйста, введите корректную Дату рождения (ГГГГ-ММ-ДД).", "Ошибка валидации", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            // 4. Проверка на дубликат логина
-            if (RegisteredUsers.Any(u => u.Login == login))
+            try
             {
-                MessageBox.Show("Пользователь с таким логином уже зарегистрирован.", "Ошибка регистрации");
-                return;
+                using (var db = new ApplicationContext())
+                {
+                    // Проверка на уникальность Логина
+                    if (db.Users.Any(u => u.Login == login))
+                    {
+                        MessageBox.Show("Пользователь с таким логином уже существует.", "Ошибка регистрации", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    // 3. Создаем сущность Client (для связи)
+                    // Adress может быть пустым (NULL), как запрошено
+                    var newClientEntity = new Client
+                    {
+                        // Адрес при регистрации не вводится, оставляем его NULL или пустым
+                        Adress = null // Или (string.IsNullOrWhiteSpace(adress) ? null : adress)
+                    };
+
+                    // 4. Создаем сущность User, преобразуя опциональные поля в NULL, если они содержат заглушку
+                    var newUserEntity = new User
+                    {
+                        IdRole = 2, // Только Пользователь
+                        Name = name,
+                        Surname = surname,
+                        // Если Отчество пустое или равно заглушке, то NULL, иначе - значение
+                        Patronymic = (string.IsNullOrWhiteSpace(patronymic) || patronymic == PLACEHOLDER_PATRONYMIC) ? null : patronymic,
+                        Login = login,
+                        Password = password,
+                        Phone = phone,
+                        // Если Почта пустая или равно заглушке, то NULL, иначе - значение
+                        Email = (string.IsNullOrWhiteSpace(email) || email == PLACEHOLDER_EMAIL) ? null : email,
+                        Birthday = birthday,
+
+                        // Связываем с Clients
+                        ClientEntity = newClientEntity
+                    };
+
+                    // 5. Добавляем и сохраняем
+                    db.Users.Add(newUserEntity);
+                    db.SaveChanges();
+
+                    // 6. Успешная регистрация и навигация
+                    MessageBox.Show("Регистрация успешно завершена! Теперь вы можете войти.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    // Переходим на окно входа
+                    Button_ClickEnter(sender, e);
+                }
             }
-
-
-            // 5. Создание нового пользователя и добавление в буфер
-            Users newUser = new Users
+            catch (DbUpdateException ex)
             {
-                Id = _nextId++,
-                Login = login,
-                Password = password,
-                Name = name,
-                Surname = surname,
-                Birthday = birthday, // Тип DateOnly
-
-                // Необязательные поля
-                Patronymic = (patronymic == "Отчество" ? string.Empty : patronymic),
-                Email = (email == "Почта" ? string.Empty : email),
-                Adress = string.Empty, // Адрес оставляем пустым
-                Phone = phone
-            };
-
-            RegisteredUsers.Add(newUser);
-
-            // 6. Сообщение об успехе и переход на вход
-            MessageBox.Show($"Пользователь {newUser.Login} (ID: {newUser.Id}) успешно зарегистрирован!", "Успешная регистрация");
-
-            // Перебрасываем на окно входа
-            Button_ClickEnter(sender, e);
+                MessageBox.Show($"Ошибка при сохранении данных: {ex.InnerException?.Message ?? ex.Message}", "Ошибка БД", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Непредвиденная ошибка при регистрации: {ex.Message}", "Критическая ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         // --------------------------------------------------------------------

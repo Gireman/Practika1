@@ -68,7 +68,7 @@ Foreground="#100100" BorderBrush="Transparent" Background="Transparent"/>
 
         <TextBlock Margin="532,792,0,0" Text="Адрес" FontSize="28"/>
         <Border CornerRadius="15" BorderThickness="2" BorderBrush="#100100" Width="400" Height="65" Margin="230,610,0,0" >
-            <TextBox x:Name="AdressTextBox" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="{Binding Adress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <TextBox x:Name="AdressTextBox" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="{Binding ClientEntity.Adress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 VerticalAlignment="Top" Width="400" Height="65" Padding="10" FontSize="28" 
 Foreground="#100100" BorderBrush="Transparent" Background="Transparent"/>
         </Border>

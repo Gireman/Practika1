@@ -73,7 +73,7 @@ namespace WpfApp1
 
                         // Получаем Adress из связанной таблицы Client
                         // Проверяем, что ClientEntity не null
-                        Adress = u.ClientEntity.Adress ?? string.Empty // <-- САМЫЙ ВАЖНЫЙ МОМЕНТ
+                        Adress = u.ClientEntity?.Adress ?? string.Empty // <-- САМЫЙ ВАЖНЫЙ МОМЕНТ
                     }).ToList();
 
                     // 3. Очищаем старые данные и добавляем новые в ObservableCollection

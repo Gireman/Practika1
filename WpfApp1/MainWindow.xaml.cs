@@ -22,7 +22,8 @@ namespace WpfApp1
         public MainWindow()
         {
             InitializeComponent();
-            TestDatabaseConnection();
+            //TestDatabaseConnection(); //проверка на подключение к бд
+
         }
 
         private void TestDatabaseConnection()
@@ -69,20 +70,22 @@ namespace WpfApp1
 
         private void Acc_Click(object sender, RoutedEventArgs e)
         {
-            if (AuthManager.IsLoggedIn)
+            Window targetWindow;
+
+            // Проверяем, авторизован ли пользователь
+            if (AuthManager.IsAuthenticated)
             {
-                // Пользователь вошел. Открываем окно аккаунта.
-                Account account = new Account();
-                account.Show();
-                this.Close();
+                // Если авторизован, направляем на страницу профиля
+                targetWindow = new Account(); // <-- НОВОЕ ОКНО: Профиль пользователя
             }
             else
             {
-                // Пользователь не вошел. Открываем окно входа.
-                Enter enter = new Enter();
-                enter.Show();
-                this.Close();
+                // Если не авторизован, направляем на страницу входа
+                targetWindow = new Enter();   // <-- СТАРОЕ ОКНО: Вход/Авторизация
             }
+
+            targetWindow.Show();
+            this.Close();
         }
 
         // Метод, который срабатывает при уходе мыши с кнопки

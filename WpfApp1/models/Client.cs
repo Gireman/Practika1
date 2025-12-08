@@ -25,7 +25,7 @@ namespace WpfApp1.models
         public int IdUser { get; set; }
 
         [Column("Adress")] // Поле, содержащее адрес
-        public string Adress { get; set; } = string.Empty;
+        public string? Adress { get; set; } = string.Empty;
 
         // Навигационное свойство для обратной связи к пользователю
         public User User { get; set; } = null!;

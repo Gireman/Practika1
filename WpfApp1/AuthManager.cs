@@ -9,21 +9,27 @@ using WpfApp1.Models;
 
 namespace WpfApp1.Utilities
 {
-    // Статический класс для хранения данных сессии
     public static class AuthManager
     {
-        public static Users? CurrentUser { get; private set; }
+        // Хранит данные о текущем вошедшем пользователе/сотруднике
+        public static User? CurrentUser { get; private set; }
 
-        public static bool IsLoggedIn => CurrentUser != null;
+        // Должность для сотрудников (role_id = 1). 
+        // Если пользователь (role_id = 2), это будет 0 или NULL, это не важно.
+        public static int CurrentUserPostId { get; private set; }
 
-        public static void Login(Users user)
+        public static bool IsAuthenticated => CurrentUser != null;
+
+        public static void Login(User user, int postId = 0)
         {
             CurrentUser = user;
+            CurrentUserPostId = postId;
         }
 
         public static void Logout()
         {
             CurrentUser = null;
+            CurrentUserPostId = 0;
         }
     }
 }

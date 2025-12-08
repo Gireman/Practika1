@@ -116,10 +116,83 @@ namespace WpfApp1
             }
         }
 
-        // --- ЛОГИКА СОЗДАНИЯ (CreateButton_Click) ---
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            // 1. Валидация: Проверяем, что заполнены все обязательные поля.
+            // Предполагаем, что CurrentUser уже содержит данные, введенные в TextBoxes.
+            if (CurrentUser == null ||
+                string.IsNullOrWhiteSpace(CurrentUser.Name) ||
+                string.IsNullOrWhiteSpace(CurrentUser.Surname) ||
+                string.IsNullOrWhiteSpace(CurrentUser.Login) ||
+                string.IsNullOrWhiteSpace(CurrentUser.Password) ||
+                string.IsNullOrWhiteSpace(CurrentUser.Phone) ||
+                CurrentUser.Birthday == default(DateTime)) // Проверка на незаполненную дату
+            {
+                MessageBox.Show("Пожалуйста, заполните все обязательные поля: Имя, Фамилия, Логин, Пароль, Телефон и Дата рождения.", "Ошибка создания", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            try
+            {
+                using (var db = new ApplicationContext())
+                {
+                    // 2. Создаем сущность Client.
+                    // Запись в clients должна создаваться всегда, даже если Adress пустой (NULL).
+                    var newClientEntity = new Client
+                    {
+                        Adress = CurrentUser.Adress // Adress может быть NULL
+                    };
+
+                    // 3. Создаем сущность User.
+                    var newUserEntity = new User
+                    {
+                        IdRole = 2, // Устанавливаем роль "Клиент"
+                        Name = CurrentUser.Name,
+                        Surname = CurrentUser.Surname,
+                        Patronymic = CurrentUser.Patronymic,
+                        Login = CurrentUser.Login,
+                        Password = CurrentUser.Password, // В реальном приложении пароль должен быть хеширован!
+                        Phone = CurrentUser.Phone,
+                        Email = CurrentUser.Email,
+                        Birthday = CurrentUser.Birthday,
+
+                        // 4. Связываем User и Client. EF Core позаботится об установке внешних ключей.
+                        ClientEntity = newClientEntity
+                    };
+
+                    db.Users.Add(newUserEntity);
+
+                    // 5. Сохраняем изменения.
+                    // Будут вставлены обе записи: в clients и в users.
+                    db.SaveChanges();
+
+                    // 6. Обновляем коллекцию в родительском окне.
+                    // Создаем новую UI-модель, используя ID, присвоенный БД.
+                    var createdUserUI = new Users
+                    {
+                        Id = newUserEntity.Id, // ID теперь есть
+                        Name = newUserEntity.Name,
+                        Surname = newUserEntity.Surname,
+                        Patronymic = newUserEntity.Patronymic,
+                        Login = newUserEntity.Login,
+                        Password = newUserEntity.Password,
+                        Phone = newUserEntity.Phone,
+                        Email = newUserEntity.Email,
+                        Birthday = newUserEntity.Birthday,
+                        Adress = newClientEntity.Adress
+                    };
+
+                    _usersList.Add(createdUserUI);
+
+                    // 7. Уведомление и возврат назад.
+                    MessageBox.Show("Новый пользователь успешно создан!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                    Button_ClickBack(sender, e);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Непредвиденная ошибка при создании пользователя: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         // --------------------------------------------------------------------
@@ -171,11 +244,11 @@ namespace WpfApp1
                             clientEntityToUpdate.Adress = CurrentUser.Adress;
                             // db.Clients.Update(clientEntityToUpdate); // Необязательно, EF отследит
                         }
-                        else
-                        {
-                            // Если адрес очищен, удаляем запись клиента (потребует Id)
-                            db.Clients.Remove(clientEntityToUpdate);
-                        }
+                        //else
+                        //{
+                        //    // Если адрес очищен, удаляем запись клиента (потребует Id)
+                        //    db.Clients.Remove(clientEntityToUpdate);
+                        //}
                     }
                     else if (hasAdress)
                     {
@@ -191,6 +264,13 @@ namespace WpfApp1
 
                     // 4. Отправляем изменения в базу данных
                     db.SaveChanges();
+
+                    // 4. Обновляем исходную коллекцию (если она передана)
+                    UpdateLocalUserList(CurrentUser);
+
+                    // 5. УВЕДОМЛЕНИЕ И ВОЗВРАТ НАЗАД (ВАШЕ ТРЕБОВАНИЕ)
+                    MessageBox.Show("Данные пользователя успешно сохранены!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                    Button_ClickBack(sender, e); // Переходим на предыдущую страницу
 
                     // ... (Остальной код)
                 }
@@ -230,7 +310,77 @@ namespace WpfApp1
         // --------------------------------------------------------------------
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            // 1. Проверка на наличие текущего пользователя и его ID
+            if (CurrentUser == null || CurrentUser.Id == 0)
+            {
+                MessageBox.Show("Пользователь не выбран или не имеет ID для удаления.", "Ошибка удаления", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // 2. Запрос подтверждения
+            var result = MessageBox.Show(
+                $"Вы уверены, что хотите удалить пользователя {CurrentUser.Name} {CurrentUser.Surname} (ID: {CurrentUser.Id})?",
+                "Подтверждение удаления",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.No)
+            {
+                return; // Отмена удаления
+            }
+
+            try
+            {
+                using (var db = new ApplicationContext())
+                {
+                    // 3. Находим сущность пользователя, включая связанную запись клиента
+                    var userToDelete = db.Users
+                        .Include(u => u.ClientEntity) // Включаем связанные данные клиента
+                        .FirstOrDefault(u => u.Id == CurrentUser.Id);
+
+                    if (userToDelete != null)
+                    {
+                        // 4. Удаляем связанную сущность Client (если она существует)
+                        // Если у пользователя есть запись в таблице clients, удаляем её.
+                        if (userToDelete.ClientEntity != null)
+                        {
+                            db.Clients.Remove(userToDelete.ClientEntity);
+                        }
+
+                        // 5. Удаляем сущность User
+                        db.Users.Remove(userToDelete);
+
+                        // 6. Сохраняем изменения в базе данных
+                        db.SaveChanges();
+
+                        // 7. Обновляем коллекцию в родительском окне
+                        RemoveUserFromList(CurrentUser.Id);
+
+                        // 8. Уведомление и возврат назад
+                        MessageBox.Show("Пользователь успешно удален.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                        Button_ClickBack(sender, e); // Переходим на предыдущую страницу
+                    }
+                    else
+                    {
+                        MessageBox.Show("Пользователь не найден в базе данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Непредвиденная ошибка при удалении: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        // --- НОВЫЙ МЕТОД: для удаления из коллекции ---
+        // Добавьте этот метод в класс AdminConsoleUsersRedact
+        private void RemoveUserFromList(int userId)
+        {
+            var userToRemove = _usersList.FirstOrDefault(u => u.Id == userId);
+            if (userToRemove != null)
+            {
+                _usersList.Remove(userToRemove);
+            }
         }
 
         // Реализация INotifyPropertyChanged
