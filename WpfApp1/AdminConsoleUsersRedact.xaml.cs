@@ -16,6 +16,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1.Models;
 using WpfApp1.Utilities;
+// --- ДОБАВИТЬ ЭТИ using'и ---
+using WpfApp1.data;
+using Microsoft.EntityFrameworkCore;
+using WpfApp1.models;
+// ----------------------------
 
 namespace WpfApp1
 {
@@ -26,7 +31,6 @@ namespace WpfApp1
     public partial class AdminConsoleUsersRedact : Window, INotifyPropertyChanged
     {
         private ObservableCollection<Users> _usersList;
-
         // Буферный объект, который будет отображаться в TextBoxes
         private Users? _currentUser;
         public Users? CurrentUser
@@ -45,87 +49,77 @@ namespace WpfApp1
             InitializeComponent();
             _usersList = users;
             DataContext = this;
-            CurrentUser = new Users(); // Инициализируем пустой буфер
+
+            // Инициализируем пустым объектом, чтобы привязки не сломались
+            CurrentUser = new Users();
         }
 
         // Конструктор по умолчанию для XAML-дизайнера
-        public AdminConsoleUsersRedact() : this(new ObservableCollection<Users>()) { }
+        //public AdminConsoleUsersRedact() : this(new ObservableCollection<Users>()) { }
 
         // --------------------------------------------------------------------
-        // ЛОГИКА ПОИСКА
+        // НОВЫЙ МЕТОД: ПОИСК ПОЛЬЗОВАТЕЛЯ ПО ID
         // --------------------------------------------------------------------
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            // Находим поле поиска по ID (Предполагаем, что имя TextBox - SearchIdTextBox)
-            TextBox searchBox = (TextBox)FindName("SearchIdTextBox");
-            if (searchBox == null || !int.TryParse(searchBox.Text, out int searchId))
+            // Получаем ID для поиска из TextBox, который привязан к CurrentUser.Id
+            int searchId = CurrentUser?.Id ?? 0;
+
+            if (searchId <= 0)
             {
-                MessageBox.Show("Пожалуйста, введите корректный ID пользователя.", "Ошибка ввода");
+                MessageBox.Show("Введите корректный ID для поиска.", "Ошибка ввода");
                 return;
             }
 
-            Users? foundUser = _usersList.FirstOrDefault(u => u.Id == searchId);
-
-            if (foundUser != null)
+            try
             {
-                // Создаем КОПИЮ объекта (БУФЕР) для редактирования
-                CurrentUser = new Users
+                using (var db = new ApplicationContext())
                 {
-                    Id = foundUser.Id,
-                    Name = foundUser.Name,
-                    Surname = foundUser.Surname,
-                    Patronymic = foundUser.Patronymic,
-                    Login = foundUser.Login,
-                    Password = foundUser.Password,
-                    Phone = foundUser.Phone,
-                    Email = foundUser.Email,
-                    Birthday = foundUser.Birthday, // DateOnly - это структура, копируется по значению
-                    Adress = foundUser.Adress
-                };
+                    // 1. Ищем запись User в БД, включая связанные данные Client
+                    var userEntity = db.Users
+                        .Include(u => u.ClientEntity) // Загружаем Адрес
+                        .Where(u => u.IdRole == 2)
+                        .FirstOrDefault(u => u.Id == searchId);
 
-                MessageBox.Show($"Пользователь ID: {searchId} найден и загружен для редактирования.", "Успех");
+                    if (userEntity != null)
+                    {
+                        // 2. Если найден, проектируем его в отображаемую модель Users (UI Model)
+                        CurrentUser = new Users
+                        {
+                            Id = userEntity.Id,
+                            Name = userEntity.Name,
+                            Surname = userEntity.Surname,
+                            Patronymic = userEntity.Patronymic ?? string.Empty,
+                            Login = userEntity.Login,
+                            Password = userEntity.Password,
+                            Phone = userEntity.Phone,
+                            Email = userEntity.Email ?? string.Empty,
+                            Birthday = userEntity.Birthday,
+
+                            // Получаем Adress из связанной таблицы Client, используя безопасный доступ
+                            Adress = userEntity.ClientEntity?.Adress ?? string.Empty
+                        };
+
+                        MessageBox.Show($"Пользователь ID {searchId} ({CurrentUser.Surname}) найден.", "Успех");
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Пользователь с ID {searchId} не найден.", "Ошибка");
+                        // Сбрасываем все поля, кроме ID
+                        CurrentUser = new Users { Id = searchId };
+                    }
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show($"Пользователь с ID: {searchId} не найден.", "Ошибка");
-                CurrentUser = new Users(); // Очищаем форму
+                MessageBox.Show($"Ошибка при поиске в базе данных: {ex.Message}", "Ошибка БД");
             }
         }
 
         // --- ЛОГИКА СОЗДАНИЯ (CreateButton_Click) ---
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
-            if (CurrentUser == null) return;
-
-            if (!ValidateUserData(CurrentUser)) return;
-
-            // Создаем новый объект
-            Users newUser = new Users
-            {
-                // ID сформируем автоматически
-                Name = CurrentUser.Name,
-                Surname = CurrentUser.Surname,
-                Patronymic = CurrentUser.Patronymic,
-                Login = CurrentUser.Login,
-                Password = CurrentUser.Password,
-                Phone = CurrentUser.Phone,
-                Email = CurrentUser.Email,
-                Birthday = CurrentUser.Birthday,
-                Adress = CurrentUser.Adress
-            };
-
-            // Авто-генерация ID
-            int newId = _usersList.Any() ? _usersList.Max(u => u.Id) + 1 : 1;
-            newUser.Id = newId;
-
-            _usersList.Add(newUser);
-
-            MessageBox.Show($"Новый пользователь ID: {newId} успешно создан.", "Создано");
-
-            // Очистка
-            CurrentUser = new Users();
-            TextBox searchBox = (TextBox)FindName("SearchIdTextBox");
-            if (searchBox != null) searchBox.Text = "";
+            
         }
 
         // --------------------------------------------------------------------
@@ -133,50 +127,102 @@ namespace WpfApp1
         // --------------------------------------------------------------------
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
+            // 1. Проверка, был ли найден пользователь для редактирования
             if (CurrentUser == null || CurrentUser.Id == 0)
             {
-                MessageBox.Show("Сначала найдите пользователя для редактирования.", "Ошибка сохранения");
+                MessageBox.Show("Сначала найдите пользователя для редактирования.", "Ошибка сохранения", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            Users? originalUser = _usersList.FirstOrDefault(u => u.Id == CurrentUser.Id);
-
-            if (originalUser != null)
+            try
             {
-                // Копируем изменения из буфера (CurrentUser) обратно в оригинальный объект
-                originalUser.Name = CurrentUser.Name;
-                originalUser.Surname = CurrentUser.Surname;
-                originalUser.Patronymic = CurrentUser.Patronymic;
-                originalUser.Login = CurrentUser.Login;
-                originalUser.Password = CurrentUser.Password;
-                originalUser.Phone = CurrentUser.Phone;
-                originalUser.Email = CurrentUser.Email;
-                originalUser.Birthday = CurrentUser.Birthday;
-                originalUser.Adress = CurrentUser.Adress;
+                using (var db = new ApplicationContext())
+                {
+                    int userId = CurrentUser.Id;
 
-                MessageBox.Show($"Данные пользователя ID: {originalUser.Id} успешно сохранены (в памяти).", "Сохранение завершено");
+                    // 1. Ищем записи в БД
+                    var userToUpdate = db.Users.FirstOrDefault(u => u.Id == userId);
 
-                CurrentUser = new Users(); // Очистка формы после сохранения
+                    // Ищем связанную запись ClientEntity по ВНЕШНЕМУ КЛЮЧУ IdUser
+                    // Так как отношение 1:1, мы ищем ОДНУ запись.
+                    var clientEntityToUpdate = db.Clients.FirstOrDefault(c => c.IdUser == userId);
+
+                    if (userToUpdate == null) { /* ... ошибка ... */ return; }
+
+                    // 2. Обновляем данные в таблице 'users'
+                    userToUpdate.Name = CurrentUser.Name;
+                    userToUpdate.Surname = CurrentUser.Surname;
+                    userToUpdate.Patronymic = CurrentUser.Patronymic;
+                    userToUpdate.Login = CurrentUser.Login;
+                    userToUpdate.Password = CurrentUser.Password;
+                    userToUpdate.Phone = CurrentUser.Phone;
+                    userToUpdate.Email = CurrentUser.Email;
+                    userToUpdate.Birthday = CurrentUser.Birthday;
+
+                    // 3. Обработка данных в таблице 'clients' (Адрес)
+                    bool hasAdress = !string.IsNullOrWhiteSpace(CurrentUser.Adress);
+
+                    if (clientEntityToUpdate != null)
+                    {
+                        // СЛУЧАЙ 1: Запись клиента СУЩЕСТВУЕТ (Id будет использован для UPDATE)
+                        if (hasAdress)
+                        {
+                            // Обновляем существующий адрес
+                            clientEntityToUpdate.Adress = CurrentUser.Adress;
+                            // db.Clients.Update(clientEntityToUpdate); // Необязательно, EF отследит
+                        }
+                        else
+                        {
+                            // Если адрес очищен, удаляем запись клиента (потребует Id)
+                            db.Clients.Remove(clientEntityToUpdate);
+                        }
+                    }
+                    else if (hasAdress)
+                    {
+                        // СЛУЧАЙ 2: Записи клиента НЕТ, но адрес был введен. Создаем новую запись.
+                        var newClientEntity = new Client
+                        {
+                            // Id не указываем (Auto Increment)
+                            IdUser = userId, // Связываем с User
+                            Adress = CurrentUser.Adress
+                        };
+                        db.Clients.Add(newClientEntity); // Добавляем новую запись (INSERT)
+                    }
+
+                    // 4. Отправляем изменения в базу данных
+                    db.SaveChanges();
+
+                    // ... (Остальной код)
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при сохранении изменений: {ex.Message}", "Ошибка БД", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        // --- ВАЛИДАЦИЯ ---
-        private bool ValidateUserData(Users user)
+        // --- ДОБАВИТЬ ЭТОТ НОВЫЙ МЕТОД для обновления UI ---
+        private void UpdateLocalUserList(Users updatedUser)
         {
-            if (string.IsNullOrWhiteSpace(user.Name) ||
-                string.IsNullOrWhiteSpace(user.Surname) ||
-                string.IsNullOrWhiteSpace(user.Login) ||
-                string.IsNullOrWhiteSpace(user.Password))
+            if (_usersList != null)
             {
-                MessageBox.Show("Заполните обязательные поля: Имя, Фамилия, Логин, Пароль.", "Ошибка валидации");
-                return false;
+                // Ищем старый объект в коллекции
+                var oldUser = _usersList.FirstOrDefault(u => u.Id == updatedUser.Id);
+
+                if (oldUser != null)
+                {
+                    // Обновляем все свойства старого объекта
+                    oldUser.Name = updatedUser.Name;
+                    oldUser.Surname = updatedUser.Surname;
+                    oldUser.Patronymic = updatedUser.Patronymic;
+                    oldUser.Login = updatedUser.Login;
+                    oldUser.Password = updatedUser.Password;
+                    oldUser.Phone = updatedUser.Phone;
+                    oldUser.Email = updatedUser.Email;
+                    oldUser.Birthday = updatedUser.Birthday;
+                    oldUser.Adress = updatedUser.Adress; // Обновляем адрес
+                }
             }
-            if (user.Birthday == default(DateOnly))
-            {
-                MessageBox.Show("Введите корректную дату рождения.", "Ошибка валидации");
-                return false;
-            }
-            return true;
         }
 
         // --------------------------------------------------------------------
@@ -184,40 +230,7 @@ namespace WpfApp1
         // --------------------------------------------------------------------
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            // 1. Проверяем, загружен ли текущий пользователь
-            if (CurrentUser == null || CurrentUser.Id == 0)
-            {
-                MessageBox.Show("Сначала найдите пользователя для удаления.", "Ошибка удаления");
-                return;
-            }
-
-            // 2. Запрашиваем подтверждение
-            MessageBoxResult result = MessageBox.Show(
-                $"Вы уверены, что хотите удалить пользователя ID: {CurrentUser.Id} ({CurrentUser.Surname} {CurrentUser.Name})?",
-                "Подтверждение удаления",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Warning);
-
-            if (result == MessageBoxResult.Yes)
-            {
-                // 3. Находим оригинальный объект в коллекции (_usersList) по ID
-                Users? userToDelete = _usersList.FirstOrDefault(u => u.Id == CurrentUser.Id);
-
-                if (userToDelete != null)
-                {
-                    // 4. Удаляем объект из ObservableCollection
-                    _usersList.Remove(userToDelete);
-
-                    // 5. Очищаем форму редактирования после удаления
-                    CurrentUser = new Users();
-
-                    MessageBox.Show("Пользователь успешно удален (из буферного массива).", "Удалено");
-                }
-                else
-                {
-                    MessageBox.Show($"Ошибка: Пользователь ID: {CurrentUser.Id} не найден в списке.", "Ошибка");
-                }
-            }
+            
         }
 
         // Реализация INotifyPropertyChanged

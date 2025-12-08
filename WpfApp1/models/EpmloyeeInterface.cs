@@ -22,6 +22,7 @@ namespace WpfApp1.Models
         private string _phone = string.Empty;
         private string? _email; // Nullable
         private DateTime _birthday;
+        private int _idPost; // <-- ДОБАВИТЬ ЭТО ПОЛЕ
         private string _post = string.Empty;
         private decimal _salary;
 
@@ -72,6 +73,12 @@ namespace WpfApp1.Models
         {
             get => _birthday;
             set { _birthday = value; OnPropertyChanged(); }
+        }
+        // НОВОЕ СВОЙСТВО: Id должности
+        public int IdPost // <-- НОВОЕ СВОЙСТВО
+        {
+            get => _idPost;
+            set { _idPost = value; OnPropertyChanged(); }
         }
         public string PostName
         {

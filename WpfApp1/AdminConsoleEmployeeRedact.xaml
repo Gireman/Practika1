@@ -84,9 +84,17 @@ VerticalAlignment="Top" Style="{StaticResource ImageButtonStyleBack}" Click="But
                  Foreground="#100100" BorderBrush="Transparent" Padding="10"/>
 
         <TextBox HorizontalAlignment="Left" Margin="725,757,0,0" TextWrapping="Wrap" 
-                 Text="{Binding CurrentEmployee.PostName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding CurrentEmployee.IdPost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  VerticalAlignment="Top" Width="400" Height="60" FontSize="28" 
                  Foreground="#100100" BorderBrush="Transparent" Padding="10"/>
+
+        <ComboBox HorizontalAlignment="Left" Margin="1162,757,0,0" VerticalAlignment="Top" Width="175" Height="60"
+                  ItemsSource="{Binding AllPosts}" 
+                  DisplayMemberPath="PostName" 
+                  SelectedValuePath="Id" 
+                  SelectedValue="{Binding CurrentEmployee.IdPost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  Padding="10"
+                  FontSize="16"/>
 
         <TextBox HorizontalAlignment="Left" Margin="725,832,0,0" TextWrapping="Wrap" 
                  Text="{Binding CurrentEmployee.Salary, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:N2}}"
@@ -112,6 +120,6 @@ VerticalAlignment="Top" Style="{StaticResource ImageButtonStyleBack}" Click="But
             VerticalAlignment="Top" Style="{StaticResource ImageButtonStyleDelete}" Click="Button_ClickDelete" />
         <Button HorizontalAlignment="Left" Margin="773,943,0,0" 
     VerticalAlignment="Top" Style="{StaticResource ImageButtonStyleCreate}" Click="Button_ClickCreate" />
-        <ComboBox HorizontalAlignment="Left" Margin="1210,471,0,0" VerticalAlignment="Top" Width="120"/>
+        
     </Grid>
 </Window>

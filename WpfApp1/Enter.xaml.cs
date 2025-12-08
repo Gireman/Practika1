@@ -47,9 +47,9 @@ namespace WpfApp1
         // !!! ВАЖНО: Эти данные должны соответствовать логинам из _usersList
         private List<Users> _usersFullDataList = new List<Users>()
         {
-            new Users { Id = 1, Login = "admin", Name = "Администратор", Surname = "Системы", Password = "123", Birthday = new DateOnly(1999,10,2), },
-            new Users { Id = 2, Login = "seller", Name = "Продавец", Surname = "Магазина", Password = "123", Birthday = new DateOnly(1999,10,2), },
-            new Users { Id = 3, Login = "user", Name = "Обычный", Surname = "Пользователь", Password = "123", Birthday = new DateOnly(1999,10,2), Phone = "+79999999999" },
+            new Users { Id = 1, Login = "admin", Name = "Администратор", Surname = "Системы", Password = "123", Birthday = new DateTime(1999,10,2), },
+            new Users { Id = 2, Login = "seller", Name = "Продавец", Surname = "Магазина", Password = "123", Birthday = new DateTime(1999,10,2), },
+            new Users { Id = 3, Login = "user", Name = "Обычный", Surname = "Пользователь", Password = "123", Birthday = new DateTime(1999,10,2), Phone = "+79999999999" },
         };
 
         // --------------------------------------------------------------------

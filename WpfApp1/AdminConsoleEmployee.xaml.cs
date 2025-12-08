@@ -65,6 +65,8 @@ namespace WpfApp1
                         Phone = ee.User.Phone,
                         Email = ee.User.Email,
                         Birthday = ee.User.Birthday,
+                        // НОВОЕ: Загружаем IdPost 
+                        IdPost = ee.IdPost, // <-- ДОБАВЛЕНО
                         PostName = ee.Post.PostName, // Используем PostName из таблицы posts
                         Salary = ee.Salary
                     });

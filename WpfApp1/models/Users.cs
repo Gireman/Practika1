@@ -1,7 +1,10 @@
 ﻿// User.cs
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using WpfApp1.models;
+using WpfApp1.Models;
 
 namespace WpfApp1.Models
 {
@@ -39,7 +42,12 @@ namespace WpfApp1.Models
         [Column("Birthday")]
         public DateTime Birthday { get; set; }
 
+        //public string? Adress { get; set; } // <- ДОБАВИТЬ ЭТО
+
         // Навигационное свойство для связи "один к одному"
         public EmployeeEntity EmployeeEntity { get; set; }
+
+        // НОВОЕ: Навигационное свойство для связи \"один к одному\" с клиентом
+        public Client? ClientEntity { get; set; } // <- ДОБАВИТЬ ЭТО. Использую ClientEntity для ясности.
     }
 }

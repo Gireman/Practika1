@@ -14,6 +14,8 @@ namespace WpfApp1.data
         public DbSet<User> Users { get; set; }
         public DbSet<EmployeeEntity> EmployeeEntities { get; set; }
         public DbSet<Post> Posts { get; set; }
+        // НОВОЕ: DbSet для клиентов
+        public DbSet<Client> Clients { get; set; } // <- ДОБАВИТЬ ЭТО
 
         // Вы можете добавить DbSet<T> для каждой таблицы, 
         // но пока оставим его пустым, как вы и просили.
@@ -54,6 +56,13 @@ namespace WpfApp1.data
                 .HasOne(e => e.Post)
                 .WithMany(p => p.EmployeeEntities) // ТЕПЕРЬ ОШИБКИ НЕТ, Т.К. EmployeeEntities ЕСТЬ В Post.cs
                 .HasForeignKey(e => e.IdPost);
+
+            // НОВАЯ/ИСПРАВЛЕННАЯ СВЯЗЬ: User <-> Client (один к одному)
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.ClientEntity) // У User есть один ClientEntity
+                .WithOne(c => c.User)       // У ClientEntity есть один User
+                .HasForeignKey<Client>(c => c.IdUser) // Внешний ключ хранится в Client.IdUser
+                .IsRequired(false); // Делаем связь необязательной на уровне EF, если не все пользователи — клиенты
 
             base.OnModelCreating(modelBuilder);
         }

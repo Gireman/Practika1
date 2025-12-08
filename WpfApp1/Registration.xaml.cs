@@ -80,9 +80,9 @@ namespace WpfApp1
             }
 
             // 3. Дополнительная валидация (Дата рождения)
-            DateOnly birthday;
+            DateTime birthday;
             // !!! ИСПОЛЬЗУЕМ DateOnly.TryParse
-            if (!DateOnly.TryParse(birthdayText.Replace("*", "").Trim(), out birthday))
+            if (!DateTime.TryParse(birthdayText.Replace("*", "").Trim(), out birthday))
             {
                 MessageBox.Show("Некорректный формат даты рождения. Используйте формат ГГГГ-ММ-ДД (например, 1990-12-31).", "Ошибка формата");
                 return;
